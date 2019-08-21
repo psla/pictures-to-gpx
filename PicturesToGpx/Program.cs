@@ -1,5 +1,6 @@
 using MetadataExtractor;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -29,6 +30,15 @@ namespace PicturesToGpx
                 }
             }
 
+            List<Position> positions = FindLatLongsWithTime(folder);
+
+
+            positions.OrderBy(x => x.Time);
+        }
+
+        private static List<Position> FindLatLongsWithTime(string folder)
+        {
+            var positions = new List<Position>();
             foreach (var file in DirectoryUtilities.FindAllFiles(folder).Where(d => d.EndsWith(".jpg", System.StringComparison.InvariantCultureIgnoreCase)))
             {
                 Console.WriteLine(file);
@@ -43,35 +53,20 @@ namespace PicturesToGpx
                 var date = directories.SelectMany(x => x.Tags).FirstOrDefault(t => t.Name == "GPS Date Stamp");
                 var time = directories.SelectMany(x => x.Tags).FirstOrDefault(t => t.Name == "GPS Time-Stamp");
 
-                var dateTime = $"{date.Description} {time.Description}";
-                Console.WriteLine(dateTime);
-                Console.WriteLine(gpsFormat);
-                var dateTimeUtc = DateTimeOffset.ParseExact(dateTime, gpsFormat, null, System.Globalization.DateTimeStyles.AssumeUniversal);
 
                 if (latitude != null && longitude != null && date != null && time != null)
                 {
-                    Console.WriteLine("[{0}]: {1}, {2}", dateTimeUtc, latitude.Description, longitude.Description);
-                    return;
-                }
-                /*
-                foreach (var directory in directories)
-                {
-                    foreach (var tag in directory.Tags)
-                    {
-                        Console.WriteLine($"[{directory.Name}] {tag.Name} = {tag.Description}");
-                    }
+                    var dateTime = $"{date.Description} {time.Description}";
+                    Console.WriteLine(dateTime);
+                    Console.WriteLine(gpsFormat);
+                    var dateTimeUtc = DateTimeOffset.ParseExact(dateTime, gpsFormat, null, System.Globalization.DateTimeStyles.AssumeUniversal);
 
-                    if (directory.HasError)
-                    {
-                        foreach (var error in directory.Errors)
-                        {
-                            Console.WriteLine($"ERROR: {error}");
-                        }
-                    }
+                    Console.WriteLine("[{0}]: {1}, {2}", dateTimeUtc, latitude.Description, longitude.Description);
+                    positions.Add(new Position(dateTimeUtc, LatLongParser.ParseString(latitude.Description), LatLongParser.ParseString(longitude.Description)));
                 }
-                return;
-                */
             }
+
+            return positions;
         }
     }
 }
