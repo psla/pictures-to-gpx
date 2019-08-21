@@ -2,7 +2,7 @@ using System.IO;
 
 namespace PicturesToGpx
 {
-    internal class Program
+    internal static class Program
     {
         private static void Main(string[] args)
         {
@@ -24,7 +24,10 @@ namespace PicturesToGpx
                 }
             }
 
-
+            foreach (var file in DirectoryUtilities.FindAllFiles(directory))
+            {
+                System.Console.WriteLine(file);
+            }
         }
     }
 }
