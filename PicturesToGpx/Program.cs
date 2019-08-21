@@ -1,4 +1,5 @@
 using MetadataExtractor;
+using MKCoolsoft.GPXLib;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -30,10 +31,17 @@ namespace PicturesToGpx
                 }
             }
 
-            List<Position> positions = FindLatLongsWithTime(folder);
+            // TODO: Multiple tracks, group by day (in a timezone)
+            var points = FindLatLongsWithTime(folder).OrderBy(x => x.Time).Select(p => new Wpt((decimal)p.Latitude, (decimal)p.Longitude) { Time = p.Time.UtcDateTime, TimeSpecified = true }).ToList();
+            var gpx = new GPXLib();
+            foreach (var point in points)
+            {
+                gpx.AddTrackPoint("maintrack", 0, point);
+            }
 
 
-            positions.OrderBy(x => x.Time);
+            gpx.SaveToFile(@"F:\tmp\test-track.gpx");
+
         }
 
         private static List<Position> FindLatLongsWithTime(string folder)
