@@ -7,6 +7,8 @@ namespace PicturesToGpx
 {
     internal static class Program
     {
+        private const string gpsFormat = "yyyy:MM:dd HH:mm:ss.fff UTC";
+
         private static void Main(string[] args)
         {
             if (args.Length == 0)
@@ -41,9 +43,15 @@ namespace PicturesToGpx
                 var date = directories.SelectMany(x => x.Tags).FirstOrDefault(t => t.Name == "GPS Date Stamp");
                 var time = directories.SelectMany(x => x.Tags).FirstOrDefault(t => t.Name == "GPS Time-Stamp");
 
+                var dateTime = $"{date.Description} {time.Description}";
+                Console.WriteLine(dateTime);
+                Console.WriteLine(gpsFormat);
+                var dateTimeUtc = DateTimeOffset.ParseExact(dateTime, gpsFormat, null, System.Globalization.DateTimeStyles.AssumeUniversal);
+
                 if (latitude != null && longitude != null && date != null && time != null)
                 {
-                    Console.WriteLine("[{0} {1}]: {2}, {3}", date.Description, time.Description, latitude.Description, longitude.Description);
+                    Console.WriteLine("[{0}]: {1}, {2}", dateTimeUtc, latitude.Description, longitude.Description);
+                    return;
                 }
                 /*
                 foreach (var directory in directories)
