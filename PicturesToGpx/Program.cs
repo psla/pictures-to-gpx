@@ -33,14 +33,29 @@ namespace PicturesToGpx
 
             // TODO: Multiple tracks, group by day (in a timezone)
             var points = FindLatLongsWithTime(folder).OrderBy(x => x.Time).Select(p => new Wpt((decimal)p.Latitude, (decimal)p.Longitude) { Time = p.Time.UtcDateTime, TimeSpecified = true }).ToList();
+            if (!points.Any())
+            {
+                using (var se = new StreamWriter(System.Console.OpenStandardError()))
+                {
+                    se.WriteLine("Couldn't find any pictures with GPS coordinates");
+                    return;
+                }
+            }
             var gpx = new GPXLib();
+            int trackIndex = 0;
+            DateTime lastPointTime = points[trackIndex].Time;
             foreach (var point in points)
             {
-                gpx.AddTrackPoint("maintrack", 0, point);
+                if (point.Time.Subtract(lastPointTime).TotalHours > 5)
+                {
+                    trackIndex++;
+                }
+                lastPointTime = point.Time;
+                gpx.AddTrackPoint($"maintrack{trackIndex}", 0, point);
             }
 
 
-            gpx.SaveToFile(@"F:\tmp\test-track.gpx");
+            gpx.SaveToFile(@"F:\tmp\test-track2.gpx");
 
         }
 
