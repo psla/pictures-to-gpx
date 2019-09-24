@@ -1,5 +1,6 @@
 using MetadataExtractor;
 using MKCoolsoft.GPXLib;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -30,9 +31,15 @@ namespace PicturesToGpx
                     return;
                 }
             }
+            CreateGpxFromPicturesInFolder(folder);
+        }
+
+        private static void CreateGpxFromPicturesInFolder(string folder)
+        {
 
             // TODO: Multiple tracks, group by day (in a timezone)
-            var points = FindLatLongsWithTime(folder).OrderBy(x => x.Time).Select(p => new Wpt((decimal)p.Latitude, (decimal)p.Longitude) { Time = p.Time.UtcDateTime, TimeSpecified = true }).ToList();
+            List<Position> sortedPoints = FindLatLongsWithTime(folder).OrderBy(x => x.Time).ToList();
+            var points = sortedPoints.Select(p => new Wpt((decimal)p.Latitude, (decimal)p.Longitude) { Time = p.Time.UtcDateTime, TimeSpecified = true }).ToList();
             if (!points.Any())
             {
                 using (var se = new StreamWriter(System.Console.OpenStandardError()))
@@ -56,7 +63,7 @@ namespace PicturesToGpx
 
 
             gpx.SaveToFile(@"F:\tmp\test-track2.gpx");
-
+            File.WriteAllText(@"F:\tmp\test-track2.json", JsonConvert.SerializeObject(sortedPoints));
         }
 
         private static List<Position> FindLatLongsWithTime(string folder)
