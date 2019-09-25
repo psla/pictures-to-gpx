@@ -153,11 +153,11 @@ namespace PicturesToGpx
 
             mapper.Save(@"F:\tmp\map.png");
 
-            for (int i = 1; i < Math.Min(points.Count, 300); i++)
+            for (int i = 1; i < Math.Min(points.Count, 500); i++)
             {
                 mapper.DrawLine(points[i - 1], points[i]);
-                mapper.Save(@"F:\tmp\map2.png");
             }
+            mapper.Save(@"F:\tmp\map2.png");
         }
 
         private static void CreateGpxFromPicturesInFolder(string folder)
