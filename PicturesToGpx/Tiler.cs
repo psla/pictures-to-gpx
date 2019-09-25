@@ -20,7 +20,7 @@ namespace PicturesToGpx
 
         private static readonly Fetcher fetcher = new Fetcher();
 
-        internal static void RenderEmptyMap(BoundingBox boundingBox, string outgoingPicturePath, int widthPx, int heightPx)
+        internal static Mapper RenderMap(BoundingBox boundingBox, string outgoingPicturePath, int widthPx, int heightPx)
         {
             var zoomLevel = LocationUtils.GetZoomLevel(boundingBox);
             Console.WriteLine("Desired zoomlevel: {0}", zoomLevel);
@@ -59,7 +59,7 @@ namespace PicturesToGpx
                 }
             }
 
-            mapper.Save(@"F:\tmp\map.png");
+            return mapper;
         }
     }
 
@@ -85,16 +85,33 @@ namespace PicturesToGpx
             graphics = Graphics.FromImage(bitmap);
         }
 
+        private int GetX(double longitude)
+        {
+            return (int)((longitude - boundingBox.MinLongitude) / unitsPerPixelWidth);
+        }
+
+        private int GetY(double latitude)
+        {
+            return height - (int)((latitude - boundingBox.MinLatitude) / unitsPerPixelHeight);
+        }
+
         public void DrawTile(BoundingBox boundingBox, Bitmap b)
         {
-            int x = (int)((boundingBox.MinLongitude - this.boundingBox.MinLongitude) / unitsPerPixelWidth);
-            int y = (int)((boundingBox.MinLatitude - this.boundingBox.MinLatitude) / unitsPerPixelHeight);
-            graphics.DrawImage(b, x - b.Width, y - b.Height);
+            int x = GetX(boundingBox.MinLongitude);
+            int y = GetY(boundingBox.MinLatitude);
+            graphics.DrawImage(b, x, y);
         }
 
         public void Save(string path)
         {
             bitmap.Save(path);
+        }
+
+        internal void DrawLine(Position position1, Position position2)
+        {
+            graphics.DrawLine(Pens.Red,
+                new Point(GetX(position1.Longitude), GetY(position1.Latitude)),
+                new Point(GetX(position2.Longitude), GetY(position2.Latitude)));
         }
     }
 }

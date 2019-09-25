@@ -149,7 +149,15 @@ namespace PicturesToGpx
 
             var zoomLevel = LocationUtils.GetZoomLevel(boundingBox);
             Console.WriteLine("Desired zoomlevel: {0}", zoomLevel);
-            Tiler.RenderEmptyMap(boundingBox, outgoingPicturePath, 1920, 1080);
+            var mapper = Tiler.RenderMap(boundingBox, outgoingPicturePath, 1920, 1080);
+
+            mapper.Save(@"F:\tmp\map.png");
+
+            for (int i = 1; i < Math.Min(points.Count, 300); i++)
+            {
+                mapper.DrawLine(points[i - 1], points[i]);
+                mapper.Save(@"F:\tmp\map2.png");
+            }
         }
 
         private static void CreateGpxFromPicturesInFolder(string folder)
