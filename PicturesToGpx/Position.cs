@@ -2,7 +2,7 @@
 
 namespace PicturesToGpx
 {
-    internal class Position
+    public class Position
     {
         public Position(DateTimeOffset time, double latitude, double longitude)
         {
@@ -16,5 +16,10 @@ namespace PicturesToGpx
         public double Latitude { get; private set; }
 
         public double Longitude { get; private set; }
+
+        public override string ToString()
+        {
+            return $"{Time}: {Latitude} {Longitude}";
+        }
     }
 }

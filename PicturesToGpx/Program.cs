@@ -8,9 +8,100 @@ using System.Linq;
 
 namespace PicturesToGpx
 {
+    public static class LocationUtils
+    {
+        private const int TileWidth = 256;
+        private const int TileHeight = 256;
+
+        private const double RADIUS = 6378137.0; /* in meters on the equator */
+        private const double CIRCUMFERENCE = 2 * Math.PI * RADIUS; /* in meters on the equator */
+        private const int ScreenWidth = 1920;
+        private const int ScreenHeight = 1080;
+
+        private const double MetersPerTileAtZero = CIRCUMFERENCE;
+
+        public static Position ToMercator(Position position)
+        {
+            return new Position(position.Time, lat2y(position.Latitude), lon2x(position.Longitude));
+        }
+
+        // This should really be injectable, because this is Google specific ;)
+        //
+        // 0,0; 1,0; 2,0; 3,0
+        // 0,1; 1,1; 2,1; 3,1
+        //
+        //
+        internal static int GetX(int zoomLevel, double longitude)
+        {
+            return (int)((longitude + CIRCUMFERENCE / 2) / (CIRCUMFERENCE / Math.Pow(2, zoomLevel)));
+        }
+
+        internal static object TilesPerZoomlevel(int zoomLevel, int widthPx)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static int GetY(int zoomLevel, double latitude)
+        {
+            return (int)((CIRCUMFERENCE / 2 - latitude) / (CIRCUMFERENCE / Math.Pow(2, zoomLevel)));
+        }
+
+        public static double y2lat(double aY)
+        {
+            return ToDegrees(Math.Atan(Math.Exp(aY / RADIUS)) * 2 - Math.PI / 2);
+        }
+        public static double x2lon(double aX)
+        {
+            return ToDegrees(aX / RADIUS);
+        }
+
+        /* These functions take their angle parameter in degrees and return a length in meters */
+
+        public static double lat2y(double aLat)
+        {
+            return Math.Log(Math.Tan(Math.PI / 4 + ToRadians(aLat) / 2)) * RADIUS;
+        }
+        public static double lon2x(double aLong)
+        {
+            return ToRadians(aLong) * RADIUS;
+        }
+
+        private static double ToRadians(double degrees)
+        {
+            return (degrees / 180.0) * Math.PI;
+        }
+
+        private static double ToDegrees(double radians)
+        {
+            return radians * 180.0 / Math.PI;
+        }
+
+        internal static BoundingBox GetBoundingBox(List<Position> points)
+        {
+            return new BoundingBox(points.Min(x => x.Latitude), points.Min(x => x.Longitude),
+                points.Max(x => x.Latitude), points.Max(x => x.Longitude)
+                );
+        }
+
+        internal static int GetZoomLevel(BoundingBox boundingBox)
+        {
+            var noOfTilesWidth = Math.Ceiling((double)ScreenWidth / TileWidth);
+            var noOfTilesHeight = Math.Ceiling((double)ScreenHeight / TileHeight);
+
+
+            var width = (boundingBox.MaxLongitude - boundingBox.MinLongitude);
+            var widthZoomLevel = Math.Log(MetersPerTileAtZero / width * noOfTilesWidth);
+            var height = (boundingBox.MaxLatitude - boundingBox.MinLatitude);
+            var heightZoomLevel = Math.Log(MetersPerTileAtZero / height * noOfTilesHeight);
+
+            return (int)Math.Min(widthZoomLevel, heightZoomLevel);
+        }
+    }
+
     internal static class Program
     {
         private const string gpsFormat = "yyyy:MM:dd HH:mm:ss.fff UTC";
+        private const string TileCache = @"G:\tmp\tile-cache";
 
         private static void Main(string[] args)
         {
@@ -31,7 +122,20 @@ namespace PicturesToGpx
                     return;
                 }
             }
-            CreateGpxFromPicturesInFolder(folder);
+            // CreateGpxFromPicturesInFolder(folder);
+            CreateMapFromPoints(@"F:\tmp\test-track2.json", @"F:\tmp\test-track2.png");
+        }
+
+        private static void CreateMapFromPoints(string pointPath, string outgoingPicturePath)
+        {
+            var points = JsonConvert.DeserializeObject<List<Position>>(File.ReadAllText(pointPath));
+
+            points = points.Select(LocationUtils.ToMercator).ToList();
+            var boundingBox = LocationUtils.GetBoundingBox(points);
+
+            var zoomLevel = LocationUtils.GetZoomLevel(boundingBox);
+            Console.WriteLine("Desired zoomlevel: {0}", zoomLevel);
+            Tiler.RenderEmptyMap(boundingBox, outgoingPicturePath, 1920, 1080);
         }
 
         private static void CreateGpxFromPicturesInFolder(string folder)
