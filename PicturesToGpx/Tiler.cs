@@ -88,8 +88,8 @@ namespace PicturesToGpx
         public void DrawTile(BoundingBox boundingBox, Bitmap b)
         {
             int x = (int)((boundingBox.MinLongitude - this.boundingBox.MinLongitude) / unitsPerPixelWidth);
-            int y = (int)((boundingBox.MaxLatitude - this.boundingBox.MaxLatitude) / unitsPerPixelHeight);
-            graphics.DrawImage(b, x, y);
+            int y = (int)((boundingBox.MinLatitude - this.boundingBox.MinLatitude) / unitsPerPixelHeight);
+            graphics.DrawImage(b, x - b.Width, y - b.Height);
         }
 
         public void Save(string path)

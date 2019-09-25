@@ -28,7 +28,7 @@ namespace PicturesToGpx
 
             var normalizedFilename = AsciiRegex.Replace(url, "-");
             Console.WriteLine("Fetching {0} to {1}", url, normalizedFilename);
-            var targetPath = Path.Combine(cacheDir, normalizedFilename);
+            var targetPath = Path.Combine(cacheDir, normalizedFilename + ".png");
 
             if (File.Exists(targetPath))
             {
