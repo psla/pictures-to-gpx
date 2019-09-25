@@ -153,7 +153,7 @@ namespace PicturesToGpx
 
             mapper.Save(@"F:\tmp\map.png");
 
-            for (int i = 1; i < Math.Min(points.Count, 500); i++)
+            for (int i = 1; i < points.Count; i++)
             {
                 mapper.DrawLine(points[i - 1], points[i]);
             }
