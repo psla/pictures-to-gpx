@@ -28,8 +28,17 @@ namespace PicturesToGpx
             var midX = LocationUtils.GetX(zoomLevel, boundingBox.MiddleLatitude);
             var midY = LocationUtils.GetX(zoomLevel, boundingBox.MiddleLongitude);
 
+            var unitsPerPixel = LocationUtils.GetUnitsPerPixel(zoomLevel);
             var noOfTilesPerWidth = (widthPx - 1) / TileWidthHeight + 1;
             var noOfTilesPerHeight = (heightPx - 1) / TileWidthHeight + 1;
+
+            var mapper = new Mapper(widthPx, heightPx,
+                new BoundingBox(
+                    boundingBox.MiddleLatitude - unitsPerPixel * heightPx / 2,
+                    boundingBox.MiddleLongitude - unitsPerPixel * widthPx / 2,
+                    boundingBox.MiddleLatitude + unitsPerPixel * heightPx / 2,
+                    boundingBox.MiddleLongitude + unitsPerPixel * widthPx / 2
+                ));
             for (int y = midY - noOfTilesPerHeight / 2; y <= midY + noOfTilesPerHeight / 2; y++)
             {
                 for (int x = midX - noOfTilesPerWidth / 2; x <= midX + noOfTilesPerWidth / 2; x++)
@@ -44,11 +53,48 @@ namespace PicturesToGpx
                         Console.WriteLine(GoogleMapsUrl, x, y, zoomLevel);
                         using (Bitmap b = fetcher.Fetch(string.Format(CultureInfo.InvariantCulture, GoogleMapsUrl, x, y, zoomLevel)))
                         {
-
+                            mapper.DrawTile(LocationUtils.GetBoundingBox(x, y, zoomLevel), b);
                         }
                     }
                 }
             }
+
+            mapper.Save(@"F:\tmp\map.png");
+        }
+    }
+
+    internal class Mapper
+    {
+        private readonly int width;
+        private readonly int height;
+        private readonly BoundingBox boundingBox;
+        private readonly Bitmap bitmap;
+        private readonly double unitsPerPixelWidth;
+        private readonly double unitsPerPixelHeight;
+        private readonly Graphics graphics;
+
+        public Mapper(int width, int height, BoundingBox boundingBox)
+        {
+            this.width = width;
+            this.height = height;
+            this.boundingBox = boundingBox;
+
+            bitmap = new Bitmap(width, height);
+            unitsPerPixelWidth = (boundingBox.MaxLongitude - boundingBox.MinLongitude) / width;
+            unitsPerPixelHeight = (boundingBox.MaxLatitude - boundingBox.MinLatitude) / height;
+            graphics = Graphics.FromImage(bitmap);
+        }
+
+        public void DrawTile(BoundingBox boundingBox, Bitmap b)
+        {
+            int x = (int)((boundingBox.MinLongitude - this.boundingBox.MinLongitude) / unitsPerPixelWidth);
+            int y = (int)((boundingBox.MaxLatitude - this.boundingBox.MaxLatitude) / unitsPerPixelHeight);
+            graphics.DrawImage(b, x, y);
+        }
+
+        public void Save(string path)
+        {
+            bitmap.Save(path);
         }
     }
 }

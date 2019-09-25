@@ -92,6 +92,7 @@
   <ItemGroup>
     <Compile Include="BoundingBox.cs" />
     <Compile Include="DirectoryUtilities.cs" />
+    <Compile Include="Fetcher.cs" />
     <Compile Include="LatLongParser.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="Program.cs" />

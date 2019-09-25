@@ -36,6 +36,11 @@ namespace PicturesToGpx
             return (int)((longitude + CIRCUMFERENCE / 2) / (CIRCUMFERENCE / Math.Pow(2, zoomLevel)));
         }
 
+        internal static double GetUnitsPerPixel(int zoomLevel)
+        {
+            return CIRCUMFERENCE / Math.Pow(2, zoomLevel) / 256;
+        }
+
         internal static object TilesPerZoomlevel(int zoomLevel, int widthPx)
         {
             throw new NotImplementedException();
@@ -74,6 +79,15 @@ namespace PicturesToGpx
         private static double ToDegrees(double radians)
         {
             return radians * 180.0 / Math.PI;
+        }
+
+        internal static BoundingBox GetBoundingBox(int x, int y, int zoomLevel)
+        {
+            return new BoundingBox(
+                y * 256 * GetUnitsPerPixel(zoomLevel),
+                x * 256 * GetUnitsPerPixel(zoomLevel) - CIRCUMFERENCE / 2,
+                (y + 1) * 256 * GetUnitsPerPixel(zoomLevel),
+                (x + 1) * 256 * GetUnitsPerPixel(zoomLevel) - CIRCUMFERENCE / 2);
         }
 
         internal static BoundingBox GetBoundingBox(List<Position> points)
