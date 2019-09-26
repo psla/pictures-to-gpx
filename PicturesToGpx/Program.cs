@@ -8,6 +8,7 @@ using System.Linq;
 
 namespace PicturesToGpx
 {
+    [System.Runtime.InteropServices.Guid("40BA4066-2DB3-420F-B1AF-AB0ECD4BD625")]
     public static class LocationUtils
     {
         private const int TileWidth = 256;
@@ -18,7 +19,8 @@ namespace PicturesToGpx
         private const int ScreenWidth = 1920;
         private const int ScreenHeight = 1080;
 
-        private const double MetersPerTileAtZero = CIRCUMFERENCE;
+        private const double MetersPerTileAtZeroWidth = CIRCUMFERENCE;
+        private const double MetersPerTileAtZeroHeight = (85.05 / 90) * CIRCUMFERENCE;
 
         public static Position ToMercator(Position position)
         {
@@ -64,6 +66,7 @@ namespace PicturesToGpx
 
         public static double lat2y(double aLat)
         {
+            // https://wiki.openstreetmap.org/wiki/Mercator
             return Math.Log(Math.Tan(Math.PI / 4 + ToRadians(aLat) / 2)) * RADIUS;
         }
         public static double lon2x(double aLong)
@@ -103,11 +106,13 @@ namespace PicturesToGpx
             var noOfTilesHeight = (double)ScreenHeight / TileHeight;
 
             var width = (boundingBox.MaxLongitude - boundingBox.MinLongitude);
-            var widthZoomLevel = Math.Log(MetersPerTileAtZero / width * noOfTilesWidth);
+            double scaleFactorWidth = MetersPerTileAtZeroWidth / width * noOfTilesWidth;
+            var widthZoomLevel = Math.Log(scaleFactorWidth, 2);
             var height = (boundingBox.MaxLatitude - boundingBox.MinLatitude);
-            var heightZoomLevel = Math.Log(MetersPerTileAtZero / height * noOfTilesHeight);
+            double scaleFactorHeight = MetersPerTileAtZeroHeight / height * noOfTilesHeight;
+            var heightZoomLevel = Math.Log(scaleFactorHeight, 2);
 
-            Console.WriteLine("Desired zoomlevel x={0}, y={1}", widthZoomLevel, heightZoomLevel);
+            Console.WriteLine("Desired zoomlevel x={0} (sf={2}), y={1} (sf={3})", widthZoomLevel, heightZoomLevel, scaleFactorWidth, scaleFactorHeight);
 
             return (int)Math.Min(widthZoomLevel, heightZoomLevel);
         }
@@ -148,8 +153,6 @@ namespace PicturesToGpx
             points = points.Select(LocationUtils.ToMercator).ToList();
             var boundingBox = LocationUtils.GetBoundingBox(points);
 
-            var zoomLevel = LocationUtils.GetZoomLevel(boundingBox);
-            Console.WriteLine("Desired zoomlevel: {0}", zoomLevel);
             var mapper = Tiler.RenderMap(boundingBox, outgoingPicturePath, 1920, 1080);
 
             mapper.Save(@"F:\tmp\map.png");
@@ -159,7 +162,7 @@ namespace PicturesToGpx
                 mapper.DrawLine(points[i - 1], points[i]);
             }
 
-            // DrawBoundingBox(boundingBox, mapper);
+            DrawBoundingBox(boundingBox, mapper);
             mapper.Save(@"F:\tmp\map2.png");
         }
 
