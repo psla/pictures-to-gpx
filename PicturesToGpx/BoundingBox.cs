@@ -1,4 +1,7 @@
-﻿namespace PicturesToGpx
+﻿using System;
+using System.Diagnostics;
+
+namespace PicturesToGpx
 {
     internal class BoundingBox
     {
@@ -11,6 +14,8 @@
 
         public BoundingBox(double minLatitude, double minLongitude, double maxLatitude, double maxLongitude)
         {
+            Debug.Assert(minLatitude < maxLatitude);
+            Debug.Assert(minLongitude < maxLongitude);
             this.minLatitude = minLatitude;
             this.minLongitude = minLongitude;
             this.maxLatitude = maxLatitude;
@@ -24,5 +29,10 @@
         public double MaxLatitude => maxLatitude;
 
         public double MaxLongitude => maxLongitude;
+
+        public Position UpperLeft => new Position(DateTimeOffset.Now, MaxLatitude, MinLongitude);
+        public Position UpperRight => new Position(DateTimeOffset.Now, MaxLatitude, MaxLongitude);
+        public Position LowerLeft => new Position(DateTimeOffset.Now, MinLatitude, MinLongitude);
+        public Position LowerRight => new Position(DateTimeOffset.Now, MinLatitude, MaxLongitude);
     }
 }

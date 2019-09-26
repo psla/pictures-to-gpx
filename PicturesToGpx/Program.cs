@@ -84,9 +84,9 @@ namespace PicturesToGpx
         internal static BoundingBox GetBoundingBox(int x, int y, int zoomLevel)
         {
             return new BoundingBox(
-                CIRCUMFERENCE / 2 - y * 256 * GetUnitsPerPixel(zoomLevel),
+                CIRCUMFERENCE / 2 - (y) * 256 * GetUnitsPerPixel(zoomLevel),
                 x * 256 * GetUnitsPerPixel(zoomLevel) - CIRCUMFERENCE / 2,
-                CIRCUMFERENCE / 2 - (y + 1) * 256 * GetUnitsPerPixel(zoomLevel),
+                CIRCUMFERENCE / 2 - (y - 1) * 256 * GetUnitsPerPixel(zoomLevel),
                 (x + 1) * 256 * GetUnitsPerPixel(zoomLevel) - CIRCUMFERENCE / 2);
         }
 
@@ -99,14 +99,15 @@ namespace PicturesToGpx
 
         internal static int GetZoomLevel(BoundingBox boundingBox)
         {
-            var noOfTilesWidth = Math.Ceiling((double)ScreenWidth / TileWidth);
-            var noOfTilesHeight = Math.Ceiling((double)ScreenHeight / TileHeight);
-
+            var noOfTilesWidth = (double)ScreenWidth / TileWidth;
+            var noOfTilesHeight = (double)ScreenHeight / TileHeight;
 
             var width = (boundingBox.MaxLongitude - boundingBox.MinLongitude);
             var widthZoomLevel = Math.Log(MetersPerTileAtZero / width * noOfTilesWidth);
             var height = (boundingBox.MaxLatitude - boundingBox.MinLatitude);
             var heightZoomLevel = Math.Log(MetersPerTileAtZero / height * noOfTilesHeight);
+
+            Console.WriteLine("Desired zoomlevel x={0}, y={1}", widthZoomLevel, heightZoomLevel);
 
             return (int)Math.Min(widthZoomLevel, heightZoomLevel);
         }
@@ -157,7 +158,17 @@ namespace PicturesToGpx
             {
                 mapper.DrawLine(points[i - 1], points[i]);
             }
+
+            // DrawBoundingBox(boundingBox, mapper);
             mapper.Save(@"F:\tmp\map2.png");
+        }
+
+        private static void DrawBoundingBox(BoundingBox boundingBox, Mapper mapper)
+        {
+            mapper.DrawLine(boundingBox.LowerLeft, boundingBox.UpperLeft);
+            mapper.DrawLine(boundingBox.UpperLeft, boundingBox.UpperRight);
+            mapper.DrawLine(boundingBox.UpperRight, boundingBox.LowerRight);
+            mapper.DrawLine(boundingBox.LowerRight, boundingBox.LowerLeft);
         }
 
         private static void CreateGpxFromPicturesInFolder(string folder)
@@ -186,7 +197,6 @@ namespace PicturesToGpx
                 lastPointTime = point.Time;
                 gpx.AddTrackPoint($"maintrack{trackIndex}", 0, point);
             }
-
 
             gpx.SaveToFile(@"F:\tmp\test-track2.gpx");
             File.WriteAllText(@"F:\tmp\test-track2.json", JsonConvert.SerializeObject(sortedPoints));
