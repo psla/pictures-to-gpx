@@ -84,9 +84,9 @@ namespace PicturesToGpx
         internal static BoundingBox GetBoundingBox(int x, int y, int zoomLevel)
         {
             return new BoundingBox(
-                y * 256 * GetUnitsPerPixel(zoomLevel),
+                CIRCUMFERENCE / 2 - y * 256 * GetUnitsPerPixel(zoomLevel),
                 x * 256 * GetUnitsPerPixel(zoomLevel) - CIRCUMFERENCE / 2,
-                (y + 1) * 256 * GetUnitsPerPixel(zoomLevel),
+                CIRCUMFERENCE / 2 - (y + 1) * 256 * GetUnitsPerPixel(zoomLevel),
                 (x + 1) * 256 * GetUnitsPerPixel(zoomLevel) - CIRCUMFERENCE / 2);
         }
 
