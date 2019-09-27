@@ -1,6 +1,8 @@
 using MetadataExtractor;
 using MKCoolsoft.GPXLib;
 using Newtonsoft.Json;
+using SharpAvi;
+using SharpAvi.Output;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -38,7 +40,7 @@ namespace PicturesToGpx
 
         private static void CreateMapFromPoints(string pointPath, string outgoingPicturePath)
         {
-            var points = JsonConvert.DeserializeObject<List<Position>>(File.ReadAllText(pointPath)).Skip(240).Take(120).ToList();
+            var points = JsonConvert.DeserializeObject<List<Position>>(File.ReadAllText(pointPath)).Skip(240).Take(1200).ToList();
 
             points = points.Select(LocationUtils.ToMercator).ToList();
             var boundingBox = LocationUtils.GetBoundingBox(points);
@@ -51,11 +53,32 @@ namespace PicturesToGpx
 
             mapper.Save(@"F:\tmp\map.png");
 
+            var writer = new AviWriter(@"F:\tmp\map.avi")
+            {
+                FramesPerSecond = 30,
+                EmitIndex1 = true
+            };
+            var stream = writer.AddVideoStream();
+            stream.Width = 1920;
+            stream.Height = 1080;
+            stream.Codec = KnownFourCCs.Codecs.Uncompressed;
+            stream.BitsPerPixel = BitsPerPixel.Bpp32;
+
+            double lengthSeconds = 5.0;
+            int yieldFrame = (int)(points.Count / (lengthSeconds * 30));
+
             for (int i = 1; i < points.Count; i++)
             {
                 mapper.DrawLine(points[i - 1], points[i]);
+                if ((i - 1) % yieldFrame == 0)
+                {
+                    byte[] frameData = mapper.GetBitmap();
+                    stream.WriteFrame(true, frameData, 0, frameData.Length);
+                }
             }
-
+            byte[] lastFrameData = mapper.GetBitmap();
+            stream.WriteFrame(true, lastFrameData, 0, lastFrameData.Length);
+            writer.Close();
             // DrawBoundingBox(boundingBox, mapper);
             mapper.Save(@"F:\tmp\map2.png");
         }

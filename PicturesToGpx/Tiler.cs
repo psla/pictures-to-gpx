@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace PicturesToGpx
 {
@@ -177,6 +179,30 @@ namespace PicturesToGpx
         internal IEnumerable<Position> GetPixels(List<Position> points)
         {
             return points.Select(p => new Position(p.Time, GetY(p.Latitude), GetX(p.Longitude), PositionUnit.Pixel));
+        }
+
+        internal byte[] GetBitmap()
+        {
+            BitmapData bitmapData = null;
+
+            try
+            {
+                bitmapData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadOnly, bitmap.PixelFormat);
+                int numbytes = bitmapData.Stride * bitmap.Height;
+                byte[] bytedata = new byte[numbytes];
+                IntPtr ptr = bitmapData.Scan0;
+
+                Marshal.Copy(ptr, bytedata, 0, numbytes);
+
+                return bytedata;
+            }
+            finally
+            {
+                if (bitmapData != null)
+                {
+                    bitmap.UnlockBits(bitmapData);
+                }
+            }
         }
     }
 }
