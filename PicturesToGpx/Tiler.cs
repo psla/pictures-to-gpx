@@ -38,7 +38,7 @@ namespace PicturesToGpx
                     boundingBox.MiddleLongitude - unitsPerPixel * widthPx / 2,
                     boundingBox.MiddleLatitude + unitsPerPixel * heightPx / 2,
                     boundingBox.MiddleLongitude + unitsPerPixel * widthPx / 2
-                ));
+                ), new TilerConfig());
             for (int y = midY - noOfTilesPerHeight / 2; y <= midY + noOfTilesPerHeight / 2; y++)
             {
                 for (int x = midX - noOfTilesPerWidth / 2; x <= midX + noOfTilesPerWidth / 2; x++)
@@ -68,17 +68,18 @@ namespace PicturesToGpx
         private readonly int width;
         private readonly int height;
         private readonly BoundingBox boundingBox;
+        private readonly TilerConfig config;
         private readonly Bitmap bitmap;
         private readonly double unitsPerPixelWidth;
         private readonly double unitsPerPixelHeight;
         private readonly Graphics graphics;
 
-        public Mapper(int width, int height, BoundingBox boundingBox)
+        public Mapper(int width, int height, BoundingBox boundingBox, TilerConfig config)
         {
             this.width = width;
             this.height = height;
             this.boundingBox = boundingBox;
-
+            this.config = config;
             bitmap = new Bitmap(width, height);
             unitsPerPixelWidth = (boundingBox.MaxLongitude - boundingBox.MinLongitude) / width;
             unitsPerPixelHeight = (boundingBox.MaxLatitude - boundingBox.MinLatitude) / height;
@@ -99,6 +100,15 @@ namespace PicturesToGpx
         {
             int x = GetX(boundingBox.MinLongitude);
             int y = GetY(boundingBox.MinLatitude);
+
+            if (config.DrawTilesBoundingBox)
+            {
+                DrawLine(boundingBox.UpperLeft, boundingBox.UpperRight);
+                DrawLine(boundingBox.UpperRight, boundingBox.LowerRight);
+                DrawLine(boundingBox.LowerRight, boundingBox.LowerLeft);
+                DrawLine(boundingBox.LowerLeft, boundingBox.UpperLeft);
+            }
+
             graphics.DrawImage(b, x, y);
         }
 
