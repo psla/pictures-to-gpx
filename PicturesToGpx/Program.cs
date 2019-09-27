@@ -148,7 +148,7 @@ namespace PicturesToGpx
 
         private static void CreateMapFromPoints(string pointPath, string outgoingPicturePath)
         {
-            var points = JsonConvert.DeserializeObject<List<Position>>(File.ReadAllText(pointPath)).Skip(100).ToList();
+            var points = JsonConvert.DeserializeObject<List<Position>>(File.ReadAllText(pointPath)).Skip(300).Take(50).ToList();
 
             points = points.Select(LocationUtils.ToMercator).ToList();
             var boundingBox = LocationUtils.GetBoundingBox(points);
@@ -162,7 +162,7 @@ namespace PicturesToGpx
                 mapper.DrawLine(points[i - 1], points[i]);
             }
 
-            DrawBoundingBox(boundingBox, mapper);
+            // DrawBoundingBox(boundingBox, mapper);
             mapper.Save(@"F:\tmp\map2.png");
         }
 

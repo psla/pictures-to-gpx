@@ -2,6 +2,6 @@
 {
     internal class TilerConfig
     {
-        public bool DrawTilesBoundingBox { get; set; } = true;
+        public bool DrawTilesBoundingBox { get; set; } = false;
     }
 }
