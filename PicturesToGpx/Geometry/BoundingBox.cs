@@ -7,28 +7,24 @@ namespace PicturesToGpx
     {
         internal double MiddleLatitude => (MaxLatitude - MinLatitude) / 2 + MinLatitude;
         internal double MiddleLongitude => (MaxLongitude - MinLongitude) / 2 + MinLongitude;
-        private readonly double minLatitude;
-        private readonly double minLongitude;
-        private readonly double maxLatitude;
-        private readonly double maxLongitude;
 
         public BoundingBox(double minLatitude, double minLongitude, double maxLatitude, double maxLongitude)
         {
             Debug.Assert(minLatitude < maxLatitude);
             Debug.Assert(minLongitude < maxLongitude);
-            this.minLatitude = minLatitude;
-            this.minLongitude = minLongitude;
-            this.maxLatitude = maxLatitude;
-            this.maxLongitude = maxLongitude;
+            MinLatitude = minLatitude;
+            MinLongitude = minLongitude;
+            MaxLatitude = maxLatitude;
+            MaxLongitude = maxLongitude;
         }
 
-        public double MinLatitude => minLatitude;
+        public double MinLatitude { get; }
 
-        public double MinLongitude => minLongitude;
+        public double MinLongitude { get; }
 
-        public double MaxLatitude => maxLatitude;
+        public double MaxLatitude { get; }
 
-        public double MaxLongitude => maxLongitude;
+        public double MaxLongitude { get; }
 
         public Position UpperLeft => new Position(DateTimeOffset.Now, MaxLatitude, MinLongitude);
         public Position UpperRight => new Position(DateTimeOffset.Now, MaxLatitude, MaxLongitude);
