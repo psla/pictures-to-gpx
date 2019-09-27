@@ -12,7 +12,9 @@ namespace PicturesToGpx
 
         public class ChaikinSettings
         {
-            public double WhereToRound { get; set; } = 0.9;
+            public double WhereToRound { get; set; } = 0.75;
+
+            public int MaxIterationCount { get; set; } = 10;
         }
 
         public static List<Position> SmoothLineChaikin(this List<Position> input, ChaikinSettings settings)
@@ -45,7 +47,7 @@ namespace PicturesToGpx
                 }
                 output.Add(input[input.Count - 1]);
                 iterationCount++;
-            } while (output.Count != input.Count && iterationCount < 10);
+            } while (output.Count != input.Count && iterationCount < settings.MaxIterationCount);
             return output;
         }
     }
