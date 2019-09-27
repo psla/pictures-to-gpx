@@ -64,9 +64,10 @@ namespace PicturesToGpx
             stream.Codec = KnownFourCCs.Codecs.Uncompressed;
             stream.BitsPerPixel = BitsPerPixel.Bpp32;
 
-            double lengthSeconds = 5.0;
+            double lengthSeconds = 4.0;
             int yieldFrame = (int)(points.Count / (lengthSeconds * 30));
 
+            int wroteFrames = 0;
             for (int i = 1; i < points.Count; i++)
             {
                 mapper.DrawLine(points[i - 1], points[i]);
@@ -74,6 +75,7 @@ namespace PicturesToGpx
                 {
                     byte[] frameData = mapper.GetBitmap();
                     stream.WriteFrame(true, frameData, 0, frameData.Length);
+                    wroteFrames++;
                 }
             }
             byte[] lastFrameData = mapper.GetBitmap();
@@ -81,6 +83,7 @@ namespace PicturesToGpx
             writer.Close();
             // DrawBoundingBox(boundingBox, mapper);
             mapper.Save(@"F:\tmp\map2.png");
+            Console.WriteLine("Wrote frames: {0}, points.Count={1}, yieldFrame={2}", wroteFrames, points.Count, yieldFrame);
         }
 
         private static void DrawBoundingBox(BoundingBox boundingBox, Mapper mapper)
