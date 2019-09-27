@@ -40,7 +40,7 @@ namespace PicturesToGpx
 
         private static void CreateMapFromPoints(string pointPath, string outgoingPicturePath)
         {
-            var points = JsonConvert.DeserializeObject<List<Position>>(File.ReadAllText(pointPath)).Skip(15).Take(1500).ToList();
+            var points = JsonConvert.DeserializeObject<List<Position>>(File.ReadAllText(pointPath)).Skip(1).Take(2000).ToList();
 
             points = points.Select(LocationUtils.ToMercator).ToList();
             var boundingBox = LocationUtils.GetBoundingBox(points);
@@ -48,7 +48,7 @@ namespace PicturesToGpx
             var mapper = Tiler.RenderMap(boundingBox, outgoingPicturePath, 1920, 1080);
 
             points = mapper.GetPixels(points).ToList();
-            points = points.SkipTooClose(7).ToList();
+            points = points.SkipTooClose(15).ToList();
             points = points.SmoothLineChaikin(new GeometryUtils.ChaikinSettings());
 
             mapper.Save(@"F:\tmp\map.png");
@@ -66,7 +66,7 @@ namespace PicturesToGpx
             stream.Height = 1080;
 
             double lengthSeconds = 4.0;
-            int yieldFrame = (int)(points.Count / (lengthSeconds * 30));
+            int yieldFrame = Math.Max(1, (int)(points.Count / (lengthSeconds * 30)));
 
             int wroteFrames = 0;
             for (int i = 1; i < points.Count; i++)
