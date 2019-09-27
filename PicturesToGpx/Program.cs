@@ -59,7 +59,8 @@ namespace PicturesToGpx
                 EmitIndex1 = true
             };
 
-            var encoder = new UncompressedVideoEncoder(1920, 1080);
+            // var encoder = new UncompressedVideoEncoder(1920, 1080);
+            var encoder = new MotionJpegVideoEncoderWpf(1920, 1080, 70);
             var stream = writer.AddEncodingVideoStream(encoder, true, 1920, 1080);
             stream.Width = 1920;
             stream.Height = 1080;
