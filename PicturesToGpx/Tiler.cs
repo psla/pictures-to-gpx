@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
+using System.Linq;
 
 namespace PicturesToGpx
 {
@@ -94,6 +96,27 @@ namespace PicturesToGpx
             return (int)((longitude - boundingBox.MinLongitude) / unitsPerPixelWidth);
         }
 
+        private int GetX(Position position)
+        {
+            if (position.Unit == PositionUnit.Pixel)
+            {
+                return (int)position.Longitude;
+            }
+
+            return GetX(position.Longitude);
+        }
+
+        private int GetY(Position position)
+        {
+            if (position.Unit == PositionUnit.Pixel)
+            {
+                return (int)position.Latitude;
+            }
+
+            return GetY(position.Latitude);
+        }
+
+
         private int GetY(double latitude)
         {
             return height - (int)((latitude - boundingBox.MinLatitude) / unitsPerPixelHeight);
@@ -123,8 +146,8 @@ namespace PicturesToGpx
         internal void DrawLine(Position position1, Position position2)
         {
             graphics.DrawLine(pen,
-                new Point(GetX(position1.Longitude), GetY(position1.Latitude)),
-                new Point(GetX(position2.Longitude), GetY(position2.Latitude)));
+                new Point(GetX(position1), GetY(position1)),
+                new Point(GetX(position2), GetY(position2)));
         }
 
         // Public implementation of Dispose pattern callable by consumers.
@@ -148,6 +171,12 @@ namespace PicturesToGpx
             }
 
             disposed = true;
+        }
+
+        // Converts positions from mercator to pixels in the map
+        internal IEnumerable<Position> GetPixels(List<Position> points)
+        {
+            return points.Select(p => new Position(p.Time, GetY(p.Latitude), GetX(p.Longitude), PositionUnit.Pixel));
         }
     }
 }

@@ -5,16 +5,33 @@ namespace PicturesToGpx
     public static class GeometryUtils
     {
         // TODO: List of (x,y) in pixels instead of positions!
-        public static List<Position> SkipTooClose(List<Position> input)
+        public static IEnumerable<Position> SkipTooClose(this IEnumerable<Position> input, int distanceToSkip = 10)
         {
-            return input;
+            long distanceToSkipSquared = distanceToSkip * distanceToSkip;
+            Position lastPoint = null;
+            foreach (var element in input)
+            {
+                if (lastPoint == null)
+                {
+                    yield return element;
+                    lastPoint = element;
+                }
+                else
+                {
+                    if (lastPoint.DistanceSquare(element) > distanceToSkipSquared)
+                    {
+                        yield return element;
+                        lastPoint = element;
+                    }
+                }
+            }
         }
 
         public class ChaikinSettings
         {
             public double WhereToRound { get; set; } = 0.75;
 
-            public int MaxIterationCount { get; set; } = 10;
+            public int MaxIterationCount { get; set; } = 2;
         }
 
         public static List<Position> SmoothLineChaikin(this List<Position> input, ChaikinSettings settings)
@@ -50,5 +67,6 @@ namespace PicturesToGpx
             } while (output.Count != input.Count && iterationCount < settings.MaxIterationCount);
             return output;
         }
+
     }
 }

@@ -95,6 +95,7 @@
     <Compile Include="Fetcher.cs" />
     <Compile Include="GeometryUtils.cs" />
     <Compile Include="LatLongParser.cs" />
+    <Compile Include="LocationUtils.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
