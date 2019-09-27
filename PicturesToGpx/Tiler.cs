@@ -25,8 +25,8 @@ namespace PicturesToGpx
             var zoomLevel = LocationUtils.GetZoomLevel(boundingBox);
             Console.WriteLine("Desired zoomlevel: {0}", zoomLevel);
 
-            var midX = LocationUtils.GetX(zoomLevel, boundingBox.MiddleLatitude);
-            var midY = LocationUtils.GetX(zoomLevel, boundingBox.MiddleLongitude);
+            var midX = LocationUtils.GetX(zoomLevel, boundingBox.MiddleLongitude);
+            var midY = LocationUtils.GetY(zoomLevel, boundingBox.MiddleLatitude);
 
             var unitsPerPixel = LocationUtils.GetUnitsPerPixel(zoomLevel);
             var noOfTilesPerWidth = (widthPx - 1) / TileWidthHeight + 1;
@@ -39,9 +39,9 @@ namespace PicturesToGpx
                     boundingBox.MiddleLatitude + unitsPerPixel * heightPx / 2,
                     boundingBox.MiddleLongitude + unitsPerPixel * widthPx / 2
                 ));
-            for (int y = midY - noOfTilesPerHeight / 2 - 5; y <= midY + noOfTilesPerHeight / 2; y++)
+            for (int y = midY - noOfTilesPerHeight / 2; y <= midY + noOfTilesPerHeight / 2; y++)
             {
-                for (int x = midX - noOfTilesPerWidth / 2 - 5; x <= midX + noOfTilesPerWidth / 2; x++)
+                for (int x = midX - noOfTilesPerWidth / 2; x <= midX + noOfTilesPerWidth / 2; x++)
                 {
                     // or too far right. TODO
                     if (y < 0 || x < 0 || x >= Math.Pow(2, zoomLevel) || y >= Math.Pow(2, zoomLevel))
