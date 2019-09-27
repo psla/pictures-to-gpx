@@ -63,7 +63,7 @@ namespace PicturesToGpx
         }
     }
 
-    internal class Mapper
+    internal class Mapper : IDisposable
     {
         private readonly int width;
         private readonly int height;
@@ -73,6 +73,8 @@ namespace PicturesToGpx
         private readonly double unitsPerPixelWidth;
         private readonly double unitsPerPixelHeight;
         private readonly Graphics graphics;
+        private readonly Pen pen = new Pen(Color.Red, 5);
+        private bool disposed;
 
         public Mapper(int width, int height, BoundingBox boundingBox, TilerConfig config)
         {
@@ -120,9 +122,32 @@ namespace PicturesToGpx
 
         internal void DrawLine(Position position1, Position position2)
         {
-            graphics.DrawLine(Pens.Red,
+            graphics.DrawLine(pen,
                 new Point(GetX(position1.Longitude), GetY(position1.Latitude)),
                 new Point(GetX(position2.Longitude), GetY(position2.Latitude)));
+        }
+
+        // Public implementation of Dispose pattern callable by consumers.
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        // Protected implementation of Dispose pattern.
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                pen.Dispose();
+            }
+
+            disposed = true;
         }
     }
 }

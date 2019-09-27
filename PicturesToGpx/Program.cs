@@ -148,7 +148,7 @@ namespace PicturesToGpx
 
         private static void CreateMapFromPoints(string pointPath, string outgoingPicturePath)
         {
-            var points = JsonConvert.DeserializeObject<List<Position>>(File.ReadAllText(pointPath)).Skip(300).Take(50).ToList();
+            var points = JsonConvert.DeserializeObject<List<Position>>(File.ReadAllText(pointPath)).Skip(300).Take(150).ToList();
 
             points = points.Select(LocationUtils.ToMercator).ToList();
             var boundingBox = LocationUtils.GetBoundingBox(points);
