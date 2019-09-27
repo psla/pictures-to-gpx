@@ -1,7 +1,7 @@
 using MetadataExtractor;
 using MKCoolsoft.GPXLib;
 using Newtonsoft.Json;
-using SharpAvi;
+using SharpAvi.Codecs;
 using SharpAvi.Output;
 using System;
 using System.Collections.Generic;
@@ -58,11 +58,11 @@ namespace PicturesToGpx
                 FramesPerSecond = 30,
                 EmitIndex1 = true
             };
-            var stream = writer.AddVideoStream();
+
+            var encoder = new UncompressedVideoEncoder(1920, 1080);
+            var stream = writer.AddEncodingVideoStream(encoder, true, 1920, 1080);
             stream.Width = 1920;
             stream.Height = 1080;
-            stream.Codec = KnownFourCCs.Codecs.Uncompressed;
-            stream.BitsPerPixel = BitsPerPixel.Bpp32;
 
             double lengthSeconds = 4.0;
             int yieldFrame = (int)(points.Count / (lengthSeconds * 30));

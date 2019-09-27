@@ -189,12 +189,12 @@ namespace PicturesToGpx
             {
                 bitmapData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadOnly, bitmap.PixelFormat);
                 int numbytes = bitmapData.Stride * bitmap.Height;
-                byte[] bytedata = new byte[numbytes];
-                IntPtr ptr = bitmapData.Scan0;
+                var buffer = new byte[numbytes];
+                // byte[] bytedata = new byte[numbytes];
 
-                Marshal.Copy(ptr, bytedata, 0, numbytes);
+                Marshal.Copy(bitmapData.Scan0, buffer, 0, buffer.Length);
 
-                return bytedata;
+                return buffer;
             }
             finally
             {
