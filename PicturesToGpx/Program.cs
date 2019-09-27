@@ -48,8 +48,8 @@ namespace PicturesToGpx
             var mapper = Tiler.RenderMap(boundingBox, outgoingPicturePath, 1920, 1080);
 
             points = mapper.GetPixels(points).ToList();
-            points = points.SkipTooClose().ToList();
-            // points = points.SmoothLineChaikin(new GeometryUtils.ChaikinSettings());
+            points = points.SkipTooClose(15).ToList();
+            points = points.SmoothLineChaikin(new GeometryUtils.ChaikinSettings());
 
             mapper.Save(@"F:\tmp\map.png");
 
