@@ -84,6 +84,7 @@ namespace PicturesToGpx
             unitsPerPixelWidth = (boundingBox.MaxLongitude - boundingBox.MinLongitude) / width;
             unitsPerPixelHeight = (boundingBox.MaxLatitude - boundingBox.MinLatitude) / height;
             graphics = Graphics.FromImage(bitmap);
+            graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
         }
 
         private int GetX(double longitude)
