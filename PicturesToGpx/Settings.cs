@@ -65,12 +65,12 @@ namespace PicturesToGpx
         /// <summary>
         /// If provided, this is a minimum date time for all points -- points found before this date will be ignored.
         /// </summary>
-        public DateTime? StartTime { get; set; } = new DateTime(2019, 07, 07);
+        public DateTimeOffset? StartTime { get; set; } = new DateTime(2019, 07, 07);
 
         /// <summary>
         /// If provided, this is a maximum date time for all points -- points found after this date (and time) will be ignored.
         /// </summary>
-        public DateTime? EndTime { get; set; } = new DateTime(2019, 07, 14, 14, 00, 00);
+        public DateTimeOffset? EndTime { get; set; } = new DateTime(2019, 07, 14, 14, 00, 00);
 
         /// <summary>
         ///  A directory in which intermediate files will be stored. E.g. cached location points.

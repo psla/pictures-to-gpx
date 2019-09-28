@@ -30,7 +30,12 @@ namespace PicturesToGpx
                 return;
             }
 
-            Settings settings = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(args[0]), new JsonSerializerSettings { Culture = CultureInfo.InvariantCulture, });
+            Settings settings = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(args[0]), new JsonSerializerSettings
+            {
+                Culture = CultureInfo.InvariantCulture,
+                DateParseHandling = DateParseHandling.DateTimeOffset,
+                DateFormatHandling = DateFormatHandling.IsoDateFormat,
+            });
             CreateDirectoryIfNotExists(settings.WorkingDirectory);
             CreateDirectoryIfNotExists(settings.OutputDirectory);
 
@@ -43,8 +48,10 @@ namespace PicturesToGpx
                     return;
                 }
             }
-            CreateGpxFromPicturesInFolder(folder, settings.WorkingDirectory);
-            CreateMapFromPoints(Path.Combine(settings.WorkingDirectory, "cached-positions.json"), settings);
+            var allPoints = FindOrCacheAllPositionsFromPictures(folder, settings.WorkingDirectory);
+            allPoints = allPoints.Where(p => p.Time > settings.StartTime && p.Time < settings.EndTime).ToList();
+            WritePointsAsGpx(settings.OutputDirectory, allPoints);
+            CreateMapFromPoints(allPoints, settings);
         }
 
         private static void CreateDirectoryIfNotExists(string path)
@@ -55,10 +62,8 @@ namespace PicturesToGpx
             }
         }
 
-        private static void CreateMapFromPoints(string pointPath, Settings settings)
+        private static void CreateMapFromPoints(List<Position> points, Settings settings)
         {
-            var points = JsonConvert.DeserializeObject<List<Position>>(File.ReadAllText(pointPath)).Skip(1).Take(2000).ToList();
-
             points = points.Select(LocationUtils.ToMercator).ToList();
             var boundingBox = LocationUtils.GetBoundingBox(points);
 
@@ -108,7 +113,7 @@ namespace PicturesToGpx
             Console.WriteLine("Wrote frames: {0}, points.Count={1}, yieldFrame={2}", wroteFrames, points.Count, yieldFrame);
         }
 
-        private static void CreateGpxFromPicturesInFolder(string folder, string workingDir)
+        private static List<Position> FindOrCacheAllPositionsFromPictures(string folder, string workingDir)
         {
             // TODO: Multiple tracks, group by day (in a timezone)
             var cachedPoints = Path.Combine(workingDir, "cached-positions.json");
@@ -122,7 +127,11 @@ namespace PicturesToGpx
                 File.WriteAllText(cachedPoints, JsonConvert.SerializeObject(sortedPoints));
             }
 
+            return sortedPoints;
+        }
 
+        private static void WritePointsAsGpx(string outputPath, List<Position> sortedPoints)
+        {
             var points = sortedPoints.Select(p => new Wpt((decimal)p.Latitude, (decimal)p.Longitude) { Time = p.Time.UtcDateTime, TimeSpecified = true }).ToList();
             if (!points.Any())
             {
@@ -145,10 +154,9 @@ namespace PicturesToGpx
                 gpx.AddTrackPoint($"maintrack{trackIndex}", 0, point);
             }
 
-            gpx.SaveToFile(@"F:\tmp\test-track2.gpx");
-            File.WriteAllText(@"F:\tmp\test-track2.json", JsonConvert.SerializeObject(sortedPoints));
+            gpx.SaveToFile(Path.Combine(outputPath, "track.gpx"));
+            File.WriteAllText(Path.Combine(outputPath, "track.json"), JsonConvert.SerializeObject(sortedPoints));
         }
-
     }
 
     internal class NullVideoStream : IAviVideoStream
