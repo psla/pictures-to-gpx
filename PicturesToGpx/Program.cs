@@ -91,7 +91,7 @@ namespace PicturesToGpx
                 stream.Height = settings.VideoConfig.Height;
             }
 
-            double lengthSeconds = 4.0;
+            double lengthSeconds = settings.VideoConfig.VideoDuration.TotalSeconds;
             int yieldFrame = Math.Max(1, (int)(points.Count / (lengthSeconds * 30)));
 
             int wroteFrames = 0;
