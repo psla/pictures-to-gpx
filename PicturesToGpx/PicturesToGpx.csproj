@@ -93,15 +93,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BoundingBox.cs" />
+    <Compile Include="Geometry\BoundingBox.cs" />
     <Compile Include="DirectoryUtilities.cs" />
     <Compile Include="Fetcher.cs" />
-    <Compile Include="GeometryUtils.cs" />
-    <Compile Include="LatLongParser.cs" />
-    <Compile Include="LocationUtils.cs" />
-    <Compile Include="Position.cs" />
+    <Compile Include="Geometry\GeometryUtils.cs" />
+    <Compile Include="Geometry\LatLongParser.cs" />
+    <Compile Include="Geometry\LocationUtils.cs" />
+    <Compile Include="Geometry\Position.cs" />
+    <Compile Include="ImageUtility.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="Tiler.cs" />
     <Compile Include="TilerConfig.cs" />
   </ItemGroup>
@@ -109,8 +111,6 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Geometry\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

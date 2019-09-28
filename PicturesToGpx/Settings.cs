@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace PicturesToGpx
 {
@@ -39,6 +41,7 @@ namespace PicturesToGpx
         }
 
         // Alphanumeric project name
+        [JsonProperty(Required = Required.Always)]
         public string ProjectName { get; set; } = "project_name";
 
         /// <summary>
@@ -54,6 +57,7 @@ namespace PicturesToGpx
         /// <summary>
         ///  Where to store images & videos.
         /// </summary>
+        [JsonProperty(Required = Required.Always)]
         public string OutputDirectory { get; set; } = @"G:\tmp\PicturesToGpx-Morocco\out";
 
         /// <summary>
@@ -71,6 +75,11 @@ namespace PicturesToGpx
         /// </summary>
         public string WorkingDirectory { get; set; }
 
+        /// <summary>
+        ///  Directory in which tiles are cached. This path can be reused by multiple projects.
+        /// </summary>
+        public string TileCacheDirectory { get; set; } = @"G:\tmp\tile-cache";
+
         public TilerConfig TilerConfig { get; set; } = new TilerConfig();
 
         public VideoSettings VideoConfig { get; set; } = new VideoSettings();
@@ -79,6 +88,14 @@ namespace PicturesToGpx
         public Settings()
         {
             WorkingDirectory = Path.Combine(Path.GetTempPath(), ProjectName);
+        }
+
+        private void Validate()
+        {
+            if (!Regex.IsMatch(ProjectName, "^[a-zA-Z0-9_]+$"))
+            {
+                throw new ArgumentException($"Invalid project name {ProjectName}");
+            }
         }
     }
 }
