@@ -1,5 +1,6 @@
 using MKCoolsoft.GPXLib;
 using Newtonsoft.Json;
+using SharpAvi;
 using SharpAvi.Codecs;
 using SharpAvi.Output;
 using System;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace PicturesToGpx
 {
@@ -74,10 +76,15 @@ namespace PicturesToGpx
                 EmitIndex1 = true
             };
 
-            var encoder = new MotionJpegVideoEncoderWpf(settings.VideoConfig.Width, settings.VideoConfig.Height, 70);
-            var stream = writer.AddEncodingVideoStream(encoder, true, settings.VideoConfig.Width, settings.VideoConfig.Height);
-            stream.Width = settings.VideoConfig.Width;
-            stream.Height = settings.VideoConfig.Height;
+            IAviVideoStream stream = new NullVideoStream(settings.VideoConfig.Width, settings.VideoConfig.Height);
+
+            if (settings.VideoConfig.ProduceVideo)
+            {
+                var encoder = new MotionJpegVideoEncoderWpf(settings.VideoConfig.Width, settings.VideoConfig.Height, 70);
+                stream = writer.AddEncodingVideoStream(encoder, true, settings.VideoConfig.Width, settings.VideoConfig.Height);
+                stream.Width = settings.VideoConfig.Width;
+                stream.Height = settings.VideoConfig.Height;
+            }
 
             double lengthSeconds = 4.0;
             int yieldFrame = Math.Max(1, (int)(points.Count / (lengthSeconds * 30)));
@@ -99,14 +106,6 @@ namespace PicturesToGpx
             // DrawBoundingBox(boundingBox, mapper);
             mapper.Save(Path.Combine(settings.OutputDirectory, "complete-map.png"));
             Console.WriteLine("Wrote frames: {0}, points.Count={1}, yieldFrame={2}", wroteFrames, points.Count, yieldFrame);
-        }
-
-        private static void DrawBoundingBox(BoundingBox boundingBox, Mapper mapper)
-        {
-            mapper.DrawLine(boundingBox.LowerLeft, boundingBox.UpperLeft);
-            mapper.DrawLine(boundingBox.UpperLeft, boundingBox.UpperRight);
-            mapper.DrawLine(boundingBox.UpperRight, boundingBox.LowerRight);
-            mapper.DrawLine(boundingBox.LowerRight, boundingBox.LowerLeft);
         }
 
         private static void CreateGpxFromPicturesInFolder(string folder, string workingDir)
@@ -150,5 +149,34 @@ namespace PicturesToGpx
             File.WriteAllText(@"F:\tmp\test-track2.json", JsonConvert.SerializeObject(sortedPoints));
         }
 
+    }
+
+    internal class NullVideoStream : IAviVideoStream
+    {
+        public NullVideoStream(int width, int height)
+        {
+            Width = width;
+            Height = height;
+        }
+
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public BitsPerPixel BitsPerPixel { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public FourCC Codec { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public int FramesWritten => throw new NotImplementedException();
+
+        public int Index => throw new NotImplementedException();
+
+        public string Name { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public void WriteFrame(bool isKeyFrame, byte[] frameData, int startIndex, int length)
+        {
+        }
+
+        public Task WriteFrameAsync(bool isKeyFrame, byte[] frameData, int startIndex, int length)
+        {
+            return Task.CompletedTask;
+        }
     }
 }
