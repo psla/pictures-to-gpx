@@ -12,7 +12,17 @@ namespace PicturesToGpx
         internal static Position TryExtractPositionFromFile(string file)
         {
             Console.WriteLine(file);
-            var directories = ImageMetadataReader.ReadMetadata(file);
+
+            IReadOnlyList<Directory> directories;
+            try
+            {
+                directories = ImageMetadataReader.ReadMetadata(file);
+            }
+            catch (ImageProcessingException)
+            {
+                Console.WriteLine("Unable to process {0}", file);
+                return null;
+            }
             if (!directories.Any())
             {
                 return null;

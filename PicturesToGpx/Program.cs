@@ -49,7 +49,7 @@ namespace PicturesToGpx
                 }
             }
             var allPoints = FindOrCacheAllPositionsFromPictures(folder, settings.WorkingDirectory);
-            allPoints = allPoints.Where(p => p.Time > settings.StartTime && p.Time < settings.EndTime).ToList();
+            allPoints = allPoints.Where(p => (settings.StartTime == null || p.Time > settings.StartTime) && (settings.EndTime == null || p.Time < settings.EndTime)).ToList();
             WritePointsAsGpx(settings.OutputDirectory, allPoints);
             CreateMapFromPoints(allPoints, settings);
         }
