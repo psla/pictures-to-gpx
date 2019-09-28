@@ -24,9 +24,9 @@ namespace PicturesToGpx
 
         private static readonly Fetcher fetcher = new Fetcher();
 
-        internal static Mapper RenderMap(BoundingBox boundingBox, string outgoingPicturePath, int widthPx, int heightPx)
+        internal static Mapper RenderMap(BoundingBox boundingBox, int widthPx, int heightPx)
         {
-            var zoomLevel = LocationUtils.GetZoomLevel(boundingBox);
+            var zoomLevel = LocationUtils.GetZoomLevel(boundingBox, widthPx, heightPx);
             Console.WriteLine("Desired zoomlevel: {0}", zoomLevel);
 
             var midX = LocationUtils.GetX(zoomLevel, boundingBox.MiddleLongitude);

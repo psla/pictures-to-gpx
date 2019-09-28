@@ -12,8 +12,6 @@ namespace PicturesToGpx
 
         private const double RADIUS = 6378137.0; /* in meters on the equator */
         private const double CIRCUMFERENCE = 2 * Math.PI * RADIUS; /* in meters on the equator */
-        private const int ScreenWidth = 1920;
-        private const int ScreenHeight = 1080;
 
         private const double MetersPerTileAtZeroWidth = CIRCUMFERENCE;
         private const double MetersPerTileAtZeroHeight = (85.05 / 90) * CIRCUMFERENCE;
@@ -96,10 +94,13 @@ namespace PicturesToGpx
                 );
         }
 
-        internal static int GetZoomLevel(BoundingBox boundingBox)
+        /// <summary>
+        /// Gets the optimal zoomelevel for the given width and height of the frame. Optimal means the largest zoomlevel in which the <paramref name="boundingBox"/> still fits.
+        /// </summary>
+        internal static int GetZoomLevel(BoundingBox boundingBox, int widthPx, int heightPx)
         {
-            var noOfTilesWidth = (double)ScreenWidth / TileWidth;
-            var noOfTilesHeight = (double)ScreenHeight / TileHeight;
+            var noOfTilesWidth = (double)widthPx / TileWidth;
+            var noOfTilesHeight = (double)heightPx / TileHeight;
 
             var width = (boundingBox.MaxLongitude - boundingBox.MinLongitude);
             double scaleFactorWidth = MetersPerTileAtZeroWidth / width * noOfTilesWidth;

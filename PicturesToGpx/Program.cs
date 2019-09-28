@@ -29,9 +29,11 @@ namespace PicturesToGpx
             }
 
             Settings settings = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(args[0]), new JsonSerializerSettings { Culture = CultureInfo.InvariantCulture, });
+            CreateDirectoryIfNotExists(settings.WorkingDirectory);
+            CreateDirectoryIfNotExists(settings.OutputDirectory);
 
             var folder = settings.PicturesInputDirectory;
-            if (!System.IO.Directory.Exists(folder))
+            if (!Directory.Exists(folder))
             {
                 using (var se = new StreamWriter(System.Console.OpenStandardError()))
                 {
@@ -39,36 +41,43 @@ namespace PicturesToGpx
                     return;
                 }
             }
-            CreateGpxFromPicturesInFolder(folder);
-            CreateMapFromPoints(@"F:\tmp\test-track2.json", @"F:\tmp\test-track2.png");
+            CreateGpxFromPicturesInFolder(folder, settings.WorkingDirectory);
+            CreateMapFromPoints(Path.Combine(settings.WorkingDirectory, "cached-positions.json"), settings);
         }
 
-        private static void CreateMapFromPoints(string pointPath, string outgoingPicturePath)
+        private static void CreateDirectoryIfNotExists(string path)
+        {
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+        }
+
+        private static void CreateMapFromPoints(string pointPath, Settings settings)
         {
             var points = JsonConvert.DeserializeObject<List<Position>>(File.ReadAllText(pointPath)).Skip(1).Take(2000).ToList();
 
             points = points.Select(LocationUtils.ToMercator).ToList();
             var boundingBox = LocationUtils.GetBoundingBox(points);
 
-            var mapper = Tiler.RenderMap(boundingBox, outgoingPicturePath, 1920, 1080);
+            var mapper = Tiler.RenderMap(boundingBox, settings.VideoConfig.Width, settings.VideoConfig.Height);
 
             points = mapper.GetPixels(points).ToList();
             points = points.SkipTooClose(15).ToList();
             points = points.SmoothLineChaikin(new GeometryUtils.ChaikinSettings());
 
-            mapper.Save(@"F:\tmp\map.png");
+            mapper.Save(Path.Combine(settings.OutputDirectory, "empty-map.png"));
 
-            var writer = new AviWriter(@"F:\tmp\map.avi")
+            var writer = new AviWriter(Path.Combine(settings.OutputDirectory, "map.avi"))
             {
-                FramesPerSecond = 30,
+                FramesPerSecond = settings.VideoConfig.Framerate,
                 EmitIndex1 = true
             };
 
-            // var encoder = new UncompressedVideoEncoder(1920, 1080);
-            var encoder = new MotionJpegVideoEncoderWpf(1920, 1080, 70);
-            var stream = writer.AddEncodingVideoStream(encoder, true, 1920, 1080);
-            stream.Width = 1920;
-            stream.Height = 1080;
+            var encoder = new MotionJpegVideoEncoderWpf(settings.VideoConfig.Width, settings.VideoConfig.Height, 70);
+            var stream = writer.AddEncodingVideoStream(encoder, true, settings.VideoConfig.Width, settings.VideoConfig.Height);
+            stream.Width = settings.VideoConfig.Width;
+            stream.Height = settings.VideoConfig.Height;
 
             double lengthSeconds = 4.0;
             int yieldFrame = Math.Max(1, (int)(points.Count / (lengthSeconds * 30)));
@@ -88,7 +97,7 @@ namespace PicturesToGpx
             stream.WriteFrame(true, lastFrameData, 0, lastFrameData.Length);
             writer.Close();
             // DrawBoundingBox(boundingBox, mapper);
-            mapper.Save(@"F:\tmp\map2.png");
+            mapper.Save(Path.Combine(settings.OutputDirectory, "complete-map.png"));
             Console.WriteLine("Wrote frames: {0}, points.Count={1}, yieldFrame={2}", wroteFrames, points.Count, yieldFrame);
         }
 
@@ -100,11 +109,21 @@ namespace PicturesToGpx
             mapper.DrawLine(boundingBox.LowerRight, boundingBox.LowerLeft);
         }
 
-        private static void CreateGpxFromPicturesInFolder(string folder)
+        private static void CreateGpxFromPicturesInFolder(string folder, string workingDir)
         {
-
             // TODO: Multiple tracks, group by day (in a timezone)
-            List<Position> sortedPoints = ImageUtility.FindLatLongsWithTime(folder).OrderBy(x => x.Time).ToList();
+            var cachedPoints = Path.Combine(workingDir, "cached-positions.json");
+
+            List<Position> sortedPoints = File.Exists(cachedPoints)
+                ? JsonConvert.DeserializeObject<List<Position>>(File.ReadAllText(cachedPoints))
+                : ImageUtility.FindLatLongsWithTime(folder).OrderBy(x => x.Time).ToList();
+
+            if (!File.Exists(cachedPoints))
+            {
+                File.WriteAllText(cachedPoints, JsonConvert.SerializeObject(sortedPoints));
+            }
+
+
             var points = sortedPoints.Select(p => new Wpt((decimal)p.Latitude, (decimal)p.Longitude) { Time = p.Time.UtcDateTime, TimeSpecified = true }).ToList();
             if (!points.Any())
             {

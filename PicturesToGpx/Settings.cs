@@ -19,6 +19,8 @@ namespace PicturesToGpx
             public int Width { get; set; } = 1920;
 
             public int Height { get; set; } = 1080;
+
+            public int Framerate { get; set; } = 30;
         }
 
         public class GpsSoftenerSettings
