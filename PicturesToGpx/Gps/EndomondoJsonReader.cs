@@ -124,7 +124,11 @@ namespace PicturesToGpx.Gps
             //var entries = JsonConvert.DeserializeObject<List<JsonEntry>>(File.ReadAllText(filename));
             //Trace.Assert(entries.Count == 1);
             var file = JArray.Parse(File.ReadAllText(filename));
-            var entry = file.First(f => f["points"] != null);
+            var entry = file.FirstOrDefault(f => f["points"] != null);
+            if(entry == null)
+            {
+                return Enumerable.Empty<Position>();
+            }
             var entries = entry.ToObject<JsonEntry>(); // JsonConvert.DeserializeObject<List<JsonEntry>>();
 
             return entries.Points.Where(p => p != null).Select(p => p.ToPosition());
