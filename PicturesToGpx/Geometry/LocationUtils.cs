@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace PicturesToGpx
@@ -18,9 +19,10 @@ namespace PicturesToGpx
 
         public static Position ToMercator(Position position)
         {
-            return new Position(position.Time, lat2y(position.Latitude), lon2x(position.Longitude));
+            Trace.Assert(position.Unit == PositionUnit.WGS84);
+            return new Position(position.Time, lat2y(position.Latitude), lon2x(position.Longitude), PositionUnit.Mercator, position);
         }
-
+        
         // This should really be injectable, because this is Google specific ;)
         //
         // 0,0; 1,0; 2,0; 3,0
@@ -68,9 +70,9 @@ namespace PicturesToGpx
             return ToRadians(aLong) * RADIUS;
         }
 
-        private static double ToRadians(double degrees)
+        public static double ToRadians(double degrees)
         {
-            return (degrees / 180.0) * Math.PI;
+            return Math.PI * degrees / 180.0;
         }
 
         private static double ToDegrees(double radians)

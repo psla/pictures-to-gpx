@@ -19,6 +19,8 @@ namespace PicturesToGpx
         private readonly Graphics graphics;
         private readonly Pen pen = new Pen(Color.Red, 5);
         private bool disposed;
+        private Font drawFont;
+        private SolidBrush drawBrush;
 
         public Mapper(int width, int height, BoundingBox boundingBox, TilerConfig config)
         {
@@ -31,6 +33,8 @@ namespace PicturesToGpx
             unitsPerPixelHeight = (boundingBox.MaxLatitude - boundingBox.MinLatitude) / height;
             graphics = Graphics.FromImage(bitmap);
             graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            drawFont = new Font("Arial", height / 70);
+            drawBrush = new SolidBrush(Color.Black);
         }
 
         private int GetX(double longitude)
@@ -115,6 +119,8 @@ namespace PicturesToGpx
             if (disposing)
             {
                 pen.Dispose();
+                drawFont.Dispose();
+                drawBrush.Dispose();
             }
 
             disposed = true;
@@ -123,7 +129,7 @@ namespace PicturesToGpx
         // Converts positions from mercator to pixels in the map
         internal IEnumerable<Position> GetPixels(List<Position> points)
         {
-            return points.Select(p => new Position(p.Time, GetY(p.Latitude), GetX(p.Longitude), PositionUnit.Pixel));
+            return points.Select(p => new Position(p.Time, GetY(p.Latitude), GetX(p.Longitude), PositionUnit.Pixel, p));
         }
 
         internal byte[] GetBitmap()
@@ -148,6 +154,11 @@ namespace PicturesToGpx
                     bitmap.UnlockBits(bitmapData);
                 }
             }
+        }
+
+        internal void WriteText(string text)
+        {
+            graphics.DrawString(text, drawFont, drawBrush, 0, 0);
         }
     }
 }
