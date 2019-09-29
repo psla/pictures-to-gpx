@@ -1,0 +1,2337 @@
+[
+    {"sport": "CYCLING_SPORT"},
+    {"source": "TRACK_MOBILE"},
+    {"created_date": "2010-07-18 18:11:37.0"},
+    {"start_time": "2010-07-18 16:54:28.0"},
+    {"end_time": "2010-07-18 17:21:39.0"},
+    {"duration_s": 1631},
+    {"distance_km": 5.7789998054504395},
+    {"altitude_min_m": 148.8},
+    {"altitude_max_m": 229.1},
+    {"speed_avg_kmh": 12.755609625764304},
+    {"speed_max_kmh": 32.287},
+    {"ascend_m": 110.6},
+    {"descend_m": 128.1},
+    {"points": [
+        [
+            {"location": [[
+                {"latitude": 53.908485},
+                {"longitude": 17.526583}
+            ]]},
+            {"timestamp": "Sun Jul 18 16:54:28 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.908592},
+                {"longitude": 17.526607}
+            ]]},
+            {"altitude": 198.7},
+            {"speed_kmh": 19.867},
+            {"timestamp": "Sun Jul 18 16:54:32 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.90863},
+                {"longitude": 17.526542}
+            ]]},
+            {"altitude": 196.8},
+            {"distance_km": 0.016},
+            {"speed_kmh": 3.385},
+            {"timestamp": "Sun Jul 18 16:55:04 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.908688},
+                {"longitude": 17.526545}
+            ]]},
+            {"altitude": 197.6},
+            {"speed_kmh": 4.368},
+            {"timestamp": "Sun Jul 18 16:55:08 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.908883},
+                {"longitude": 17.526623}
+            ]]},
+            {"altitude": 197.9},
+            {"speed_kmh": 8.63},
+            {"timestamp": "Sun Jul 18 16:55:16 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.909143},
+                {"longitude": 17.52664}
+            ]]},
+            {"altitude": 198.4},
+            {"distance_km": 0.074},
+            {"speed_kmh": 11.755},
+            {"timestamp": "Sun Jul 18 16:55:24 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.909325},
+                {"longitude": 17.526603}
+            ]]},
+            {"altitude": 194.6},
+            {"distance_km": 0.094},
+            {"speed_kmh": 14.784},
+            {"timestamp": "Sun Jul 18 16:55:28 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.909708},
+                {"longitude": 17.526472}
+            ]]},
+            {"altitude": 190.3},
+            {"distance_km": 0.138},
+            {"speed_kmh": 18.713},
+            {"timestamp": "Sun Jul 18 16:55:36 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.909847},
+                {"longitude": 17.526433}
+            ]]},
+            {"altitude": 192.2},
+            {"distance_km": 0.153},
+            {"speed_kmh": 18.88},
+            {"timestamp": "Sun Jul 18 16:55:39 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.910175},
+                {"longitude": 17.526342}
+            ]]},
+            {"altitude": 197.8},
+            {"distance_km": 0.19},
+            {"speed_kmh": 21.032},
+            {"timestamp": "Sun Jul 18 16:55:44 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.91045},
+                {"longitude": 17.526298}
+            ]]},
+            {"altitude": 198.5},
+            {"distance_km": 0.221},
+            {"speed_kmh": 24.342},
+            {"timestamp": "Sun Jul 18 16:55:48 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.910647},
+                {"longitude": 17.5263}
+            ]]},
+            {"altitude": 194.6},
+            {"distance_km": 0.243},
+            {"speed_kmh": 24.654},
+            {"timestamp": "Sun Jul 18 16:55:52 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.91121},
+                {"longitude": 17.526232}
+            ]]},
+            {"altitude": 191.9},
+            {"distance_km": 0.306},
+            {"speed_kmh": 24.45},
+            {"timestamp": "Sun Jul 18 16:56:00 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.911475},
+                {"longitude": 17.526197}
+            ]]},
+            {"altitude": 185.4},
+            {"distance_km": 0.335},
+            {"speed_kmh": 27.916},
+            {"timestamp": "Sun Jul 18 16:56:04 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.911705},
+                {"longitude": 17.52621}
+            ]]},
+            {"altitude": 181.6},
+            {"distance_km": 0.361},
+            {"speed_kmh": 25.841},
+            {"timestamp": "Sun Jul 18 16:56:08 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.91188},
+                {"longitude": 17.526282}
+            ]]},
+            {"altitude": 177},
+            {"distance_km": 0.381},
+            {"speed_kmh": 23.729},
+            {"timestamp": "Sun Jul 18 16:56:12 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.911972},
+                {"longitude": 17.52634}
+            ]]},
+            {"altitude": 175},
+            {"speed_kmh": 16.959},
+            {"timestamp": "Sun Jul 18 16:56:16 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.912105},
+                {"longitude": 17.526468}
+            ]]},
+            {"altitude": 181.9},
+            {"speed_kmh": 8.518},
+            {"timestamp": "Sun Jul 18 16:56:24 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.91231},
+                {"longitude": 17.526592}
+            ]]},
+            {"altitude": 188.5},
+            {"distance_km": 0.433},
+            {"speed_kmh": 12.538},
+            {"timestamp": "Sun Jul 18 16:56:28 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.912923},
+                {"longitude": 17.526842}
+            ]]},
+            {"altitude": 192.2},
+            {"distance_km": 0.503},
+            {"speed_kmh": 29.203},
+            {"timestamp": "Sun Jul 18 16:56:36 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.913218},
+                {"longitude": 17.526962}
+            ]]},
+            {"altitude": 185.3},
+            {"distance_km": 0.537},
+            {"speed_kmh": 32.063},
+            {"timestamp": "Sun Jul 18 16:56:40 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.913488},
+                {"longitude": 17.527042}
+            ]]},
+            {"altitude": 181.3},
+            {"distance_km": 0.567},
+            {"speed_kmh": 32.287},
+            {"timestamp": "Sun Jul 18 16:56:44 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.913498},
+                {"longitude": 17.52684}
+            ]]},
+            {"altitude": 179.4},
+            {"speed_kmh": 23.283},
+            {"timestamp": "Sun Jul 18 16:56:48 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.91389},
+                {"longitude": 17.52615}
+            ]]},
+            {"altitude": 172.1},
+            {"distance_km": 0.641},
+            {"speed_kmh": 18.844},
+            {"timestamp": "Sun Jul 18 16:57:00 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.914037},
+                {"longitude": 17.526037}
+            ]]},
+            {"altitude": 173.3},
+            {"distance_km": 0.659},
+            {"speed_kmh": 19.431},
+            {"timestamp": "Sun Jul 18 16:57:04 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.914108},
+                {"longitude": 17.526048}
+            ]]},
+            {"altitude": 171.9},
+            {"speed_kmh": 7.65},
+            {"timestamp": "Sun Jul 18 16:57:12 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.91415},
+                {"longitude": 17.526062}
+            ]]},
+            {"altitude": 178.3},
+            {"speed_kmh": 1.431},
+            {"timestamp": "Sun Jul 18 16:57:25 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.914202},
+                {"longitude": 17.525978}
+            ]]},
+            {"altitude": 180.9},
+            {"distance_km": 0.678},
+            {"speed_kmh": 3.204},
+            {"timestamp": "Sun Jul 18 16:57:32 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.914293},
+                {"longitude": 17.52565}
+            ]]},
+            {"altitude": 180.3},
+            {"distance_km": 0.702},
+            {"speed_kmh": 8.592},
+            {"timestamp": "Sun Jul 18 16:57:37 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.914363},
+                {"longitude": 17.525402}
+            ]]},
+            {"altitude": 178.5},
+            {"distance_km": 0.72},
+            {"speed_kmh": 14.699},
+            {"timestamp": "Sun Jul 18 16:57:40 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.91448},
+                {"longitude": 17.525053}
+            ]]},
+            {"altitude": 176},
+            {"distance_km": 0.746},
+            {"speed_kmh": 20.802},
+            {"timestamp": "Sun Jul 18 16:57:44 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.914543},
+                {"longitude": 17.524662}
+            ]]},
+            {"altitude": 173.5},
+            {"distance_km": 0.773},
+            {"speed_kmh": 23.103},
+            {"timestamp": "Sun Jul 18 16:57:48 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.914418},
+                {"longitude": 17.523653}
+            ]]},
+            {"altitude": 170.2},
+            {"distance_km": 0.84},
+            {"speed_kmh": 26.097},
+            {"timestamp": "Sun Jul 18 16:57:57 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.914332},
+                {"longitude": 17.522903}
+            ]]},
+            {"altitude": 166.5},
+            {"distance_km": 0.89},
+            {"speed_kmh": 26.01},
+            {"timestamp": "Sun Jul 18 16:58:04 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.914272},
+                {"longitude": 17.522528}
+            ]]},
+            {"altitude": 165.1},
+            {"distance_km": 0.916},
+            {"speed_kmh": 24.769},
+            {"timestamp": "Sun Jul 18 16:58:08 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.914197},
+                {"longitude": 17.521598}
+            ]]},
+            {"altitude": 159.5},
+            {"distance_km": 0.977},
+            {"speed_kmh": 23.991},
+            {"timestamp": "Sun Jul 18 16:58:17 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.914142},
+                {"longitude": 17.521287}
+            ]]},
+            {"altitude": 157.7},
+            {"distance_km": 0.999},
+            {"speed_kmh": 23.759},
+            {"timestamp": "Sun Jul 18 16:58:20 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.914113},
+                {"longitude": 17.520933}
+            ]]},
+            {"altitude": 156.5},
+            {"distance_km": 1.022},
+            {"speed_kmh": 23.516},
+            {"timestamp": "Sun Jul 18 16:58:24 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.914047},
+                {"longitude": 17.52048}
+            ]]},
+            {"altitude": 155.5},
+            {"distance_km": 1.053},
+            {"speed_kmh": 22.645},
+            {"timestamp": "Sun Jul 18 16:58:29 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.913993},
+                {"longitude": 17.520248}
+            ]]},
+            {"altitude": 154},
+            {"distance_km": 1.069},
+            {"speed_kmh": 20.121},
+            {"timestamp": "Sun Jul 18 16:58:33 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.913953},
+                {"longitude": 17.52022}
+            ]]},
+            {"altitude": 156.3},
+            {"speed_kmh": 1.603},
+            {"timestamp": "Sun Jul 18 16:58:45 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.913922},
+                {"longitude": 17.520183}
+            ]]},
+            {"altitude": 155.5},
+            {"speed_kmh": 1.399},
+            {"timestamp": "Sun Jul 18 16:58:57 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.913873},
+                {"longitude": 17.520132}
+            ]]},
+            {"altitude": 155.9},
+            {"distance_km": 1.084},
+            {"speed_kmh": 2.508},
+            {"timestamp": "Sun Jul 18 16:59:05 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.913912},
+                {"longitude": 17.52013}
+            ]]},
+            {"altitude": 158.1},
+            {"speed_kmh": 2.891},
+            {"timestamp": "Sun Jul 18 16:59:10 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.913933},
+                {"longitude": 17.52005}
+            ]]},
+            {"altitude": 161.6},
+            {"speed_kmh": 2.862},
+            {"timestamp": "Sun Jul 18 16:59:18 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.913882},
+                {"longitude": 17.520007}
+            ]]},
+            {"altitude": 148.8},
+            {"speed_kmh": 3.298},
+            {"timestamp": "Sun Jul 18 16:59:25 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.913933},
+                {"longitude": 17.520103}
+            ]]},
+            {"altitude": 157.8},
+            {"speed_kmh": 3.934},
+            {"timestamp": "Sun Jul 18 16:59:34 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.913965},
+                {"longitude": 17.520187}
+            ]]},
+            {"altitude": 167.3},
+            {"speed_kmh": 4.601},
+            {"timestamp": "Sun Jul 18 16:59:38 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.913792},
+                {"longitude": 17.520075}
+            ]]},
+            {"altitude": 178.3},
+            {"speed_kmh": 8.737},
+            {"timestamp": "Sun Jul 18 16:59:45 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.913535},
+                {"longitude": 17.519965}
+            ]]},
+            {"altitude": 186.8},
+            {"distance_km": 1.123},
+            {"speed_kmh": 13.843},
+            {"timestamp": "Sun Jul 18 16:59:50 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.913323},
+                {"longitude": 17.51985}
+            ]]},
+            {"altitude": 192.8},
+            {"distance_km": 1.148},
+            {"speed_kmh": 19.978},
+            {"timestamp": "Sun Jul 18 16:59:54 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.913165},
+                {"longitude": 17.519668}
+            ]]},
+            {"altitude": 200.6},
+            {"distance_km": 1.169},
+            {"speed_kmh": 21.838},
+            {"timestamp": "Sun Jul 18 16:59:58 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.913018},
+                {"longitude": 17.519325}
+            ]]},
+            {"altitude": 197.9},
+            {"distance_km": 1.197},
+            {"speed_kmh": 23.123},
+            {"timestamp": "Sun Jul 18 17:00:02 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.912938},
+                {"longitude": 17.519057}
+            ]]},
+            {"altitude": 196.8},
+            {"distance_km": 1.217},
+            {"speed_kmh": 21.517},
+            {"timestamp": "Sun Jul 18 17:00:05 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.912788},
+                {"longitude": 17.518158}
+            ]]},
+            {"altitude": 189.2},
+            {"distance_km": 1.278},
+            {"speed_kmh": 23.93},
+            {"timestamp": "Sun Jul 18 17:00:14 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.912695},
+                {"longitude": 17.517785}
+            ]]},
+            {"altitude": 187.9},
+            {"distance_km": 1.305},
+            {"speed_kmh": 25.119},
+            {"timestamp": "Sun Jul 18 17:00:18 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.912582},
+                {"longitude": 17.51743}
+            ]]},
+            {"altitude": 186.1},
+            {"distance_km": 1.331},
+            {"speed_kmh": 24.262},
+            {"timestamp": "Sun Jul 18 17:00:22 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.912475},
+                {"longitude": 17.517155}
+            ]]},
+            {"altitude": 184.4},
+            {"distance_km": 1.353},
+            {"speed_kmh": 23.372},
+            {"timestamp": "Sun Jul 18 17:00:25 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.912157},
+                {"longitude": 17.516405}
+            ]]},
+            {"altitude": 190.1},
+            {"distance_km": 1.413},
+            {"speed_kmh": 24.989},
+            {"timestamp": "Sun Jul 18 17:00:34 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.911857},
+                {"longitude": 17.515707}
+            ]]},
+            {"altitude": 185.8},
+            {"distance_km": 1.47},
+            {"speed_kmh": 27.125},
+            {"timestamp": "Sun Jul 18 17:00:42 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.911768},
+                {"longitude": 17.515558}
+            ]]},
+            {"altitude": 188.7},
+            {"speed_kmh": 21.782},
+            {"timestamp": "Sun Jul 18 17:00:45 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.9116},
+                {"longitude": 17.515145}
+            ]]},
+            {"altitude": 187.2},
+            {"distance_km": 1.516},
+            {"speed_kmh": 20.508},
+            {"timestamp": "Sun Jul 18 17:00:50 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.911493},
+                {"longitude": 17.514843}
+            ]]},
+            {"altitude": 186.2},
+            {"distance_km": 1.539},
+            {"speed_kmh": 20.539},
+            {"timestamp": "Sun Jul 18 17:00:54 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.911458},
+                {"longitude": 17.514675}
+            ]]},
+            {"altitude": 175.1},
+            {"speed_kmh": 1.405},
+            {"timestamp": "Sun Jul 18 17:01:18 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.911375},
+                {"longitude": 17.514478}
+            ]]},
+            {"altitude": 182.1},
+            {"distance_km": 1.567},
+            {"speed_kmh": 6.049},
+            {"timestamp": "Sun Jul 18 17:01:26 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.911335},
+                {"longitude": 17.514248}
+            ]]},
+            {"altitude": 181.1},
+            {"distance_km": 1.582},
+            {"speed_kmh": 9.173},
+            {"timestamp": "Sun Jul 18 17:01:30 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.911227},
+                {"longitude": 17.513563}
+            ]]},
+            {"altitude": 174.6},
+            {"distance_km": 1.629},
+            {"speed_kmh": 17.408},
+            {"timestamp": "Sun Jul 18 17:01:39 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.91113},
+                {"longitude": 17.5125}
+            ]]},
+            {"altitude": 165.1},
+            {"distance_km": 1.699},
+            {"speed_kmh": 23.167},
+            {"timestamp": "Sun Jul 18 17:01:50 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.911003},
+                {"longitude": 17.511758}
+            ]]},
+            {"altitude": 169.1},
+            {"distance_km": 1.75},
+            {"speed_kmh": 22.667},
+            {"timestamp": "Sun Jul 18 17:01:58 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.9109},
+                {"longitude": 17.51153}
+            ]]},
+            {"altitude": 180.1},
+            {"distance_km": 1.769},
+            {"speed_kmh": 20.827},
+            {"timestamp": "Sun Jul 18 17:02:02 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.910772},
+                {"longitude": 17.51129}
+            ]]},
+            {"altitude": 189.1},
+            {"distance_km": 1.79},
+            {"speed_kmh": 19.837},
+            {"timestamp": "Sun Jul 18 17:02:06 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.910643},
+                {"longitude": 17.5109}
+            ]]},
+            {"altitude": 189.3},
+            {"distance_km": 1.819},
+            {"speed_kmh": 20.83},
+            {"timestamp": "Sun Jul 18 17:02:10 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.910558},
+                {"longitude": 17.510463}
+            ]]},
+            {"altitude": 186.1},
+            {"distance_km": 1.849},
+            {"speed_kmh": 24.212},
+            {"timestamp": "Sun Jul 18 17:02:14 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.910498},
+                {"longitude": 17.510073}
+            ]]},
+            {"altitude": 187.9},
+            {"distance_km": 1.876},
+            {"speed_kmh": 25.806},
+            {"timestamp": "Sun Jul 18 17:02:18 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.91046},
+                {"longitude": 17.509683}
+            ]]},
+            {"altitude": 190.2},
+            {"distance_km": 1.902},
+            {"speed_kmh": 24.721},
+            {"timestamp": "Sun Jul 18 17:02:22 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.910418},
+                {"longitude": 17.509182}
+            ]]},
+            {"altitude": 179.9},
+            {"distance_km": 1.935},
+            {"speed_kmh": 25.578},
+            {"timestamp": "Sun Jul 18 17:02:26 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.910348},
+                {"longitude": 17.508278}
+            ]]},
+            {"altitude": 169.7},
+            {"speed_kmh": 17.816},
+            {"timestamp": "Sun Jul 18 17:02:38 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.910358},
+                {"longitude": 17.508217}
+            ]]},
+            {"altitude": 166.9},
+            {"speed_kmh": 0.75},
+            {"timestamp": "Sun Jul 18 17:02:59 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.910352},
+                {"longitude": 17.508278}
+            ]]},
+            {"altitude": 170.4},
+            {"speed_kmh": 1.609},
+            {"timestamp": "Sun Jul 18 17:03:35 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.910317},
+                {"longitude": 17.507813}
+            ]]},
+            {"altitude": 167.5},
+            {"distance_km": 2.025},
+            {"speed_kmh": 9.741},
+            {"timestamp": "Sun Jul 18 17:03:44 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.910245},
+                {"longitude": 17.507425}
+            ]]},
+            {"altitude": 167},
+            {"distance_km": 2.052},
+            {"speed_kmh": 17.254},
+            {"timestamp": "Sun Jul 18 17:03:48 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.91},
+                {"longitude": 17.506688}
+            ]]},
+            {"altitude": 172},
+            {"distance_km": 2.107},
+            {"speed_kmh": 25.685},
+            {"timestamp": "Sun Jul 18 17:03:55 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.909832},
+                {"longitude": 17.506188}
+            ]]},
+            {"altitude": 173.3},
+            {"distance_km": 2.145},
+            {"speed_kmh": 26.748},
+            {"timestamp": "Sun Jul 18 17:04:00 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.909752},
+                {"longitude": 17.505887}
+            ]]},
+            {"altitude": 178.1},
+            {"distance_km": 2.167},
+            {"speed_kmh": 24.21},
+            {"timestamp": "Sun Jul 18 17:04:04 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.909602},
+                {"longitude": 17.505338}
+            ]]},
+            {"altitude": 190.4},
+            {"speed_kmh": 12.414},
+            {"timestamp": "Sun Jul 18 17:04:15 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.90954},
+                {"longitude": 17.505112}
+            ]]},
+            {"altitude": 191.4},
+            {"distance_km": 2.223},
+            {"speed_kmh": 13.108},
+            {"timestamp": "Sun Jul 18 17:04:20 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.909492},
+                {"longitude": 17.504977}
+            ]]},
+            {"altitude": 192.7},
+            {"speed_kmh": 11.721},
+            {"timestamp": "Sun Jul 18 17:04:24 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.909393},
+                {"longitude": 17.504688}
+            ]]},
+            {"altitude": 193.8},
+            {"speed_kmh": 10.073},
+            {"timestamp": "Sun Jul 18 17:04:32 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.909337},
+                {"longitude": 17.504595}
+            ]]},
+            {"altitude": 195},
+            {"distance_km": 2.264},
+            {"speed_kmh": 9.18},
+            {"timestamp": "Sun Jul 18 17:04:36 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.909278},
+                {"longitude": 17.504507}
+            ]]},
+            {"altitude": 196.4},
+            {"speed_kmh": 8.156},
+            {"timestamp": "Sun Jul 18 17:04:40 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.909138},
+                {"longitude": 17.504387}
+            ]]},
+            {"altitude": 198.6},
+            {"speed_kmh": 7.933},
+            {"timestamp": "Sun Jul 18 17:04:48 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.909073},
+                {"longitude": 17.504332}
+            ]]},
+            {"altitude": 199.9},
+            {"distance_km": 2.298},
+            {"speed_kmh": 8.008},
+            {"timestamp": "Sun Jul 18 17:04:52 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.908905},
+                {"longitude": 17.504275}
+            ]]},
+            {"altitude": 206.8},
+            {"distance_km": 2.317},
+            {"speed_kmh": 7.828},
+            {"timestamp": "Sun Jul 18 17:05:00 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.908822},
+                {"longitude": 17.50422}
+            ]]},
+            {"altitude": 208.3},
+            {"speed_kmh": 8.775},
+            {"timestamp": "Sun Jul 18 17:05:04 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.90864},
+                {"longitude": 17.504158}
+            ]]},
+            {"altitude": 213},
+            {"speed_kmh": 9.563},
+            {"timestamp": "Sun Jul 18 17:05:12 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.908543},
+                {"longitude": 17.50409}
+            ]]},
+            {"altitude": 215.3},
+            {"distance_km": 2.359},
+            {"speed_kmh": 9.666},
+            {"timestamp": "Sun Jul 18 17:05:16 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.908343},
+                {"longitude": 17.503903}
+            ]]},
+            {"altitude": 217.1},
+            {"distance_km": 2.384},
+            {"speed_kmh": 11.181},
+            {"timestamp": "Sun Jul 18 17:05:24 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.908098},
+                {"longitude": 17.503538}
+            ]]},
+            {"altitude": 222.1},
+            {"speed_kmh": 10.856},
+            {"timestamp": "Sun Jul 18 17:05:36 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.907837},
+                {"longitude": 17.503153}
+            ]]},
+            {"altitude": 223.7},
+            {"distance_km": 2.459},
+            {"speed_kmh": 11.72},
+            {"timestamp": "Sun Jul 18 17:05:48 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.90766},
+                {"longitude": 17.502938}
+            ]]},
+            {"altitude": 220.7},
+            {"distance_km": 2.483},
+            {"speed_kmh": 10.983},
+            {"timestamp": "Sun Jul 18 17:05:56 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.907563},
+                {"longitude": 17.502927}
+            ]]},
+            {"altitude": 222},
+            {"speed_kmh": 10.16},
+            {"timestamp": "Sun Jul 18 17:06:00 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.907437},
+                {"longitude": 17.502905}
+            ]]},
+            {"altitude": 222.6},
+            {"distance_km": 2.508},
+            {"speed_kmh": 11.334},
+            {"timestamp": "Sun Jul 18 17:06:04 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.907137},
+                {"longitude": 17.502958}
+            ]]},
+            {"altitude": 227.2},
+            {"distance_km": 2.541},
+            {"speed_kmh": 14.877},
+            {"timestamp": "Sun Jul 18 17:06:12 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.906858},
+                {"longitude": 17.502952}
+            ]]},
+            {"altitude": 229.1},
+            {"speed_kmh": 14.196},
+            {"timestamp": "Sun Jul 18 17:06:20 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.906717},
+                {"longitude": 17.502917}
+            ]]},
+            {"altitude": 227.6},
+            {"distance_km": 2.588},
+            {"speed_kmh": 14.234},
+            {"timestamp": "Sun Jul 18 17:06:24 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.906557},
+                {"longitude": 17.50278}
+            ]]},
+            {"altitude": 217.7},
+            {"distance_km": 2.608},
+            {"speed_kmh": 15.205},
+            {"timestamp": "Sun Jul 18 17:06:28 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.906463},
+                {"longitude": 17.502787}
+            ]]},
+            {"altitude": 216.2},
+            {"speed_kmh": 14.459},
+            {"timestamp": "Sun Jul 18 17:06:32 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.906463},
+                {"longitude": 17.502912}
+            ]]},
+            {"altitude": 227},
+            {"speed_kmh": 5.494},
+            {"timestamp": "Sun Jul 18 17:06:40 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.906442},
+                {"longitude": 17.502857}
+            ]]},
+            {"altitude": 217},
+            {"speed_kmh": 1.696},
+            {"timestamp": "Sun Jul 18 17:07:00 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.906377},
+                {"longitude": 17.502847}
+            ]]},
+            {"altitude": 215.6},
+            {"distance_km": 2.629},
+            {"speed_kmh": 3.184},
+            {"timestamp": "Sun Jul 18 17:07:04 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.90627},
+                {"longitude": 17.502768}
+            ]]},
+            {"altitude": 212.4},
+            {"speed_kmh": 6.48},
+            {"timestamp": "Sun Jul 18 17:07:08 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.906097},
+                {"longitude": 17.502683}
+            ]]},
+            {"altitude": 205.2},
+            {"distance_km": 2.662},
+            {"speed_kmh": 12.061},
+            {"timestamp": "Sun Jul 18 17:07:12 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.905915},
+                {"longitude": 17.502743}
+            ]]},
+            {"altitude": 197.9},
+            {"distance_km": 2.682},
+            {"speed_kmh": 16.068},
+            {"timestamp": "Sun Jul 18 17:07:16 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.905648},
+                {"longitude": 17.502875}
+            ]]},
+            {"altitude": 200.8},
+            {"distance_km": 2.713},
+            {"speed_kmh": 19.624},
+            {"timestamp": "Sun Jul 18 17:07:21 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.903152},
+                {"longitude": 17.503125}
+            ]]},
+            {"altitude": 197.7},
+            {"distance_km": 2.991},
+            {"speed_kmh": 0},
+            {"timestamp": "Sun Jul 18 17:08:03 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.9027},
+                {"longitude": 17.50323}
+            ]]},
+            {"altitude": 200},
+            {"distance_km": 3.042},
+            {"speed_kmh": 21.409},
+            {"timestamp": "Sun Jul 18 17:08:12 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.902592},
+                {"longitude": 17.503083}
+            ]]},
+            {"altitude": 187.1},
+            {"distance_km": 3.057},
+            {"speed_kmh": 17.467},
+            {"timestamp": "Sun Jul 18 17:08:16 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.902517},
+                {"longitude": 17.502947}
+            ]]},
+            {"altitude": 176.4},
+            {"speed_kmh": 12.721},
+            {"timestamp": "Sun Jul 18 17:08:21 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.902442},
+                {"longitude": 17.502973}
+            ]]},
+            {"altitude": 176.2},
+            {"distance_km": 3.075},
+            {"speed_kmh": 10.957},
+            {"timestamp": "Sun Jul 18 17:08:24 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.902103},
+                {"longitude": 17.50318}
+            ]]},
+            {"altitude": 169.6},
+            {"distance_km": 3.115},
+            {"speed_kmh": 15.42},
+            {"timestamp": "Sun Jul 18 17:08:32 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.901963},
+                {"longitude": 17.503395}
+            ]]},
+            {"altitude": 179.6},
+            {"distance_km": 3.136},
+            {"speed_kmh": 18.254},
+            {"timestamp": "Sun Jul 18 17:08:36 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.901898},
+                {"longitude": 17.503413}
+            ]]},
+            {"altitude": 181.6},
+            {"speed_kmh": 15.144},
+            {"timestamp": "Sun Jul 18 17:08:40 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.901915},
+                {"longitude": 17.503288}
+            ]]},
+            {"altitude": 176.1},
+            {"speed_kmh": 10.986},
+            {"timestamp": "Sun Jul 18 17:08:44 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.901863},
+                {"longitude": 17.503398}
+            ]]},
+            {"altitude": 183.4},
+            {"speed_kmh": 3.948},
+            {"timestamp": "Sun Jul 18 17:08:56 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.901803},
+                {"longitude": 17.503438}
+            ]]},
+            {"altitude": 181.5},
+            {"distance_km": 3.154},
+            {"speed_kmh": 5.399},
+            {"timestamp": "Sun Jul 18 17:09:00 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.90172},
+                {"longitude": 17.503528}
+            ]]},
+            {"altitude": 182.5},
+            {"speed_kmh": 6.946},
+            {"timestamp": "Sun Jul 18 17:09:04 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.901632},
+                {"longitude": 17.503645}
+            ]]},
+            {"altitude": 184.8},
+            {"distance_km": 3.178},
+            {"speed_kmh": 9.19},
+            {"timestamp": "Sun Jul 18 17:09:08 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.901355},
+                {"longitude": 17.503965}
+            ]]},
+            {"altitude": 193.7},
+            {"distance_km": 3.215},
+            {"speed_kmh": 14.859},
+            {"timestamp": "Sun Jul 18 17:09:16 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.901187},
+                {"longitude": 17.504087}
+            ]]},
+            {"altitude": 194.8},
+            {"distance_km": 3.235},
+            {"speed_kmh": 17.281},
+            {"timestamp": "Sun Jul 18 17:09:20 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.901025},
+                {"longitude": 17.504158}
+            ]]},
+            {"altitude": 191},
+            {"distance_km": 3.254},
+            {"speed_kmh": 17.883},
+            {"timestamp": "Sun Jul 18 17:09:24 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.900692},
+                {"longitude": 17.50443}
+            ]]},
+            {"altitude": 195.4},
+            {"distance_km": 3.295},
+            {"speed_kmh": 17.909},
+            {"timestamp": "Sun Jul 18 17:09:32 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.900185},
+                {"longitude": 17.504758}
+            ]]},
+            {"altitude": 195.4},
+            {"distance_km": 3.355},
+            {"speed_kmh": 18.088},
+            {"timestamp": "Sun Jul 18 17:09:44 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.899998},
+                {"longitude": 17.504893}
+            ]]},
+            {"altitude": 196.6},
+            {"distance_km": 3.378},
+            {"speed_kmh": 19},
+            {"timestamp": "Sun Jul 18 17:09:48 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.89972},
+                {"longitude": 17.505163}
+            ]]},
+            {"altitude": 202.5},
+            {"distance_km": 3.414},
+            {"speed_kmh": 17.445},
+            {"timestamp": "Sun Jul 18 17:09:56 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.899648},
+                {"longitude": 17.505078}
+            ]]},
+            {"altitude": 192.1},
+            {"speed_kmh": 13.608},
+            {"timestamp": "Sun Jul 18 17:10:00 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.89959},
+                {"longitude": 17.505095}
+            ]]},
+            {"altitude": 189.8},
+            {"distance_km": 3.429},
+            {"speed_kmh": 9.593},
+            {"timestamp": "Sun Jul 18 17:10:04 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.899498},
+                {"longitude": 17.505088}
+            ]]},
+            {"altitude": 186.9},
+            {"speed_kmh": 7.962},
+            {"timestamp": "Sun Jul 18 17:10:08 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.89935},
+                {"longitude": 17.505102}
+            ]]},
+            {"altitude": 184.4},
+            {"distance_km": 3.455},
+            {"speed_kmh": 9.988},
+            {"timestamp": "Sun Jul 18 17:10:12 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.89921},
+                {"longitude": 17.505233}
+            ]]},
+            {"altitude": 192.3},
+            {"distance_km": 3.473},
+            {"speed_kmh": 13.321},
+            {"timestamp": "Sun Jul 18 17:10:16 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.899053},
+                {"longitude": 17.505307}
+            ]]},
+            {"altitude": 195.5},
+            {"distance_km": 3.491},
+            {"speed_kmh": 15.721},
+            {"timestamp": "Sun Jul 18 17:10:20 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.89858},
+                {"longitude": 17.5055}
+            ]]},
+            {"altitude": 193.1},
+            {"distance_km": 3.546},
+            {"speed_kmh": 16.253},
+            {"timestamp": "Sun Jul 18 17:10:32 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.898342},
+                {"longitude": 17.505563}
+            ]]},
+            {"altitude": 194.9},
+            {"distance_km": 3.572},
+            {"speed_kmh": 12.508},
+            {"timestamp": "Sun Jul 18 17:10:40 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.89815},
+                {"longitude": 17.505648}
+            ]]},
+            {"altitude": 196.2},
+            {"distance_km": 3.594},
+            {"speed_kmh": 14.838},
+            {"timestamp": "Sun Jul 18 17:10:44 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.897937},
+                {"longitude": 17.505735}
+            ]]},
+            {"altitude": 196.5},
+            {"distance_km": 3.619},
+            {"speed_kmh": 18.621},
+            {"timestamp": "Sun Jul 18 17:10:48 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.897757},
+                {"longitude": 17.505863}
+            ]]},
+            {"altitude": 200.7},
+            {"distance_km": 3.64},
+            {"speed_kmh": 21.339},
+            {"timestamp": "Sun Jul 18 17:10:52 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.897527},
+                {"longitude": 17.50594}
+            ]]},
+            {"altitude": 198},
+            {"distance_km": 3.667},
+            {"speed_kmh": 21.605},
+            {"timestamp": "Sun Jul 18 17:10:56 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.897133},
+                {"longitude": 17.505925}
+            ]]},
+            {"altitude": 198.9},
+            {"distance_km": 3.71},
+            {"speed_kmh": 13.089},
+            {"timestamp": "Sun Jul 18 17:11:08 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.896988},
+                {"longitude": 17.505923}
+            ]]},
+            {"altitude": 200},
+            {"distance_km": 3.726},
+            {"speed_kmh": 13.171},
+            {"timestamp": "Sun Jul 18 17:11:12 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.896655},
+                {"longitude": 17.505878}
+            ]]},
+            {"altitude": 200},
+            {"distance_km": 3.764},
+            {"speed_kmh": 15.385},
+            {"timestamp": "Sun Jul 18 17:11:20 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.896462},
+                {"longitude": 17.505865}
+            ]]},
+            {"altitude": 197.3},
+            {"distance_km": 3.785},
+            {"speed_kmh": 17.881},
+            {"timestamp": "Sun Jul 18 17:11:24 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.896067},
+                {"longitude": 17.505958}
+            ]]},
+            {"altitude": 200.1},
+            {"distance_km": 3.829},
+            {"speed_kmh": 20.647},
+            {"timestamp": "Sun Jul 18 17:11:32 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.895903},
+                {"longitude": 17.505948}
+            ]]},
+            {"altitude": 197.6},
+            {"distance_km": 3.848},
+            {"speed_kmh": 18.71},
+            {"timestamp": "Sun Jul 18 17:11:36 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.895738},
+                {"longitude": 17.505883}
+            ]]},
+            {"altitude": 194.9},
+            {"distance_km": 3.866},
+            {"speed_kmh": 17.061},
+            {"timestamp": "Sun Jul 18 17:11:40 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.895563},
+                {"longitude": 17.505837}
+            ]]},
+            {"altitude": 192.2},
+            {"distance_km": 3.886},
+            {"speed_kmh": 17.18},
+            {"timestamp": "Sun Jul 18 17:11:44 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.895363},
+                {"longitude": 17.505638}
+            ]]},
+            {"altitude": 175},
+            {"distance_km": 3.912},
+            {"speed_kmh": 19.514},
+            {"timestamp": "Sun Jul 18 17:11:48 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.89518},
+                {"longitude": 17.505662}
+            ]]},
+            {"altitude": 173.9},
+            {"distance_km": 3.932},
+            {"speed_kmh": 20.543},
+            {"timestamp": "Sun Jul 18 17:11:52 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.894987},
+                {"longitude": 17.505675}
+            ]]},
+            {"altitude": 173.2},
+            {"distance_km": 3.954},
+            {"speed_kmh": 20.256},
+            {"timestamp": "Sun Jul 18 17:11:56 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.89461},
+                {"longitude": 17.505695}
+            ]]},
+            {"altitude": 172},
+            {"distance_km": 3.996},
+            {"speed_kmh": 19.091},
+            {"timestamp": "Sun Jul 18 17:12:04 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.894498},
+                {"longitude": 17.505655}
+            ]]},
+            {"altitude": 167.4},
+            {"speed_kmh": 16.544},
+            {"timestamp": "Sun Jul 18 17:12:08 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.89432},
+                {"longitude": 17.5058}
+            ]]},
+            {"altitude": 166.1},
+            {"speed_kmh": 6.411},
+            {"timestamp": "Sun Jul 18 17:12:20 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.89418},
+                {"longitude": 17.505883}
+            ]]},
+            {"altitude": 165.4},
+            {"speed_kmh": 7.008},
+            {"timestamp": "Sun Jul 18 17:12:28 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.894122},
+                {"longitude": 17.505967}
+            ]]},
+            {"altitude": 167.5},
+            {"distance_km": 4.054},
+            {"speed_kmh": 7.863},
+            {"timestamp": "Sun Jul 18 17:12:32 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.893942},
+                {"longitude": 17.506087}
+            ]]},
+            {"altitude": 170.2},
+            {"distance_km": 4.075},
+            {"speed_kmh": 8.627},
+            {"timestamp": "Sun Jul 18 17:12:40 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.893848},
+                {"longitude": 17.506172}
+            ]]},
+            {"altitude": 172.4},
+            {"speed_kmh": 10.101},
+            {"timestamp": "Sun Jul 18 17:12:44 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.893665},
+                {"longitude": 17.506355}
+            ]]},
+            {"altitude": 177},
+            {"speed_kmh": 11.118},
+            {"timestamp": "Sun Jul 18 17:12:52 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.893597},
+                {"longitude": 17.50639}
+            ]]},
+            {"altitude": 177.4},
+            {"distance_km": 4.119},
+            {"speed_kmh": 9.471},
+            {"timestamp": "Sun Jul 18 17:12:56 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.893522},
+                {"longitude": 17.506427}
+            ]]},
+            {"altitude": 179.1},
+            {"speed_kmh": 8.159},
+            {"timestamp": "Sun Jul 18 17:13:00 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.89332},
+                {"longitude": 17.506517}
+            ]]},
+            {"altitude": 181.6},
+            {"speed_kmh": 9.742},
+            {"timestamp": "Sun Jul 18 17:13:08 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.892908},
+                {"longitude": 17.506677}
+            ]]},
+            {"altitude": 179.4},
+            {"distance_km": 4.198},
+            {"speed_kmh": 13.557},
+            {"timestamp": "Sun Jul 18 17:13:20 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.892767},
+                {"longitude": 17.50674}
+            ]]},
+            {"altitude": 179.6},
+            {"distance_km": 4.214},
+            {"speed_kmh": 14.66},
+            {"timestamp": "Sun Jul 18 17:13:24 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.892573},
+                {"longitude": 17.506793}
+            ]]},
+            {"altitude": 179.6},
+            {"distance_km": 4.236},
+            {"speed_kmh": 12.074},
+            {"timestamp": "Sun Jul 18 17:13:32 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.892302},
+                {"longitude": 17.506868}
+            ]]},
+            {"altitude": 180.1},
+            {"speed_kmh": 9.362},
+            {"timestamp": "Sun Jul 18 17:13:44 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.891878},
+                {"longitude": 17.506947}
+            ]]},
+            {"altitude": 180.2},
+            {"speed_kmh": 14.188},
+            {"timestamp": "Sun Jul 18 17:13:56 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.891775},
+                {"longitude": 17.506888}
+            ]]},
+            {"altitude": 175.6},
+            {"speed_kmh": 3.631},
+            {"timestamp": "Sun Jul 18 17:14:08 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.891738},
+                {"longitude": 17.506907}
+            ]]},
+            {"altitude": 178.5},
+            {"speed_kmh": 2.513},
+            {"timestamp": "Sun Jul 18 17:14:16 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.891688},
+                {"longitude": 17.506882}
+            ]]},
+            {"altitude": 176.2},
+            {"speed_kmh": 3.477},
+            {"timestamp": "Sun Jul 18 17:14:20 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.89156},
+                {"longitude": 17.506915}
+            ]]},
+            {"altitude": 177.4},
+            {"speed_kmh": 4.338},
+            {"timestamp": "Sun Jul 18 17:14:33 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.891527},
+                {"longitude": 17.506888}
+            ]]},
+            {"altitude": 173.8},
+            {"speed_kmh": 1.072},
+            {"timestamp": "Sun Jul 18 17:14:48 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.891502},
+                {"longitude": 17.506833}
+            ]]},
+            {"altitude": 169.9},
+            {"speed_kmh": 1.829},
+            {"timestamp": "Sun Jul 18 17:15:04 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.891415},
+                {"longitude": 17.506863}
+            ]]},
+            {"altitude": 171.2},
+            {"distance_km": 4.365},
+            {"speed_kmh": 3.709},
+            {"timestamp": "Sun Jul 18 17:15:12 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.891302},
+                {"longitude": 17.506923}
+            ]]},
+            {"altitude": 171.4},
+            {"speed_kmh": 6.752},
+            {"timestamp": "Sun Jul 18 17:15:16 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.891145},
+                {"longitude": 17.507058}
+            ]]},
+            {"altitude": 177.4},
+            {"distance_km": 4.398},
+            {"speed_kmh": 11.337},
+            {"timestamp": "Sun Jul 18 17:15:20 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.890972},
+                {"longitude": 17.507172}
+            ]]},
+            {"altitude": 182.5},
+            {"distance_km": 4.418},
+            {"speed_kmh": 16.333},
+            {"timestamp": "Sun Jul 18 17:15:24 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.890792},
+                {"longitude": 17.50734}
+            ]]},
+            {"altitude": 188.2},
+            {"distance_km": 4.441},
+            {"speed_kmh": 19.432},
+            {"timestamp": "Sun Jul 18 17:15:28 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.89043},
+                {"longitude": 17.507597}
+            ]]},
+            {"altitude": 193.1},
+            {"distance_km": 4.485},
+            {"speed_kmh": 20.257},
+            {"timestamp": "Sun Jul 18 17:15:36 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.89025},
+                {"longitude": 17.507633}
+            ]]},
+            {"altitude": 188.8},
+            {"distance_km": 4.505},
+            {"speed_kmh": 18.721},
+            {"timestamp": "Sun Jul 18 17:15:40 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.89004},
+                {"longitude": 17.507695}
+            ]]},
+            {"altitude": 186.8},
+            {"distance_km": 4.529},
+            {"speed_kmh": 18.286},
+            {"timestamp": "Sun Jul 18 17:15:45 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.889937},
+                {"longitude": 17.507717}
+            ]]},
+            {"altitude": 185.5},
+            {"speed_kmh": 16.645},
+            {"timestamp": "Sun Jul 18 17:15:48 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.889765},
+                {"longitude": 17.50769}
+            ]]},
+            {"altitude": 179.6},
+            {"distance_km": 4.559},
+            {"speed_kmh": 15.778},
+            {"timestamp": "Sun Jul 18 17:15:53 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.889622},
+                {"longitude": 17.507675}
+            ]]},
+            {"altitude": 175.6},
+            {"distance_km": 4.575},
+            {"speed_kmh": 14.805},
+            {"timestamp": "Sun Jul 18 17:15:57 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.889355},
+                {"longitude": 17.507715}
+            ]]},
+            {"altitude": 172.9},
+            {"distance_km": 4.605},
+            {"speed_kmh": 14.972},
+            {"timestamp": "Sun Jul 18 17:16:04 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.889043},
+                {"longitude": 17.507712}
+            ]]},
+            {"altitude": 167.1},
+            {"distance_km": 4.64},
+            {"speed_kmh": 16.183},
+            {"timestamp": "Sun Jul 18 17:16:12 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.88884},
+                {"longitude": 17.507737}
+            ]]},
+            {"altitude": 165.5},
+            {"distance_km": 4.662},
+            {"speed_kmh": 15.861},
+            {"timestamp": "Sun Jul 18 17:16:17 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.88847},
+                {"longitude": 17.507775}
+            ]]},
+            {"altitude": 163.5},
+            {"speed_kmh": 12.768},
+            {"timestamp": "Sun Jul 18 17:16:29 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.888223},
+                {"longitude": 17.507813}
+            ]]},
+            {"altitude": 162.7},
+            {"distance_km": 4.731},
+            {"speed_kmh": 11.22},
+            {"timestamp": "Sun Jul 18 17:16:37 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.88812},
+                {"longitude": 17.50784}
+            ]]},
+            {"altitude": 162.5},
+            {"speed_kmh": 12.239},
+            {"timestamp": "Sun Jul 18 17:16:40 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.887997},
+                {"longitude": 17.507895}
+            ]]},
+            {"altitude": 165},
+            {"distance_km": 4.757},
+            {"speed_kmh": 12.68},
+            {"timestamp": "Sun Jul 18 17:16:44 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.887808},
+                {"longitude": 17.507988}
+            ]]},
+            {"altitude": 164.6},
+            {"distance_km": 4.779},
+            {"speed_kmh": 14.022},
+            {"timestamp": "Sun Jul 18 17:16:49 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.887517},
+                {"longitude": 17.508158}
+            ]]},
+            {"altitude": 163.1},
+            {"distance_km": 4.813},
+            {"speed_kmh": 15.942},
+            {"timestamp": "Sun Jul 18 17:16:57 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.887412},
+                {"longitude": 17.508207}
+            ]]},
+            {"altitude": 162},
+            {"speed_kmh": 14.588},
+            {"timestamp": "Sun Jul 18 17:17:00 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.887278},
+                {"longitude": 17.508265}
+            ]]},
+            {"altitude": 160.9},
+            {"distance_km": 4.841},
+            {"speed_kmh": 14.456},
+            {"timestamp": "Sun Jul 18 17:17:04 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.886973},
+                {"longitude": 17.508352}
+            ]]},
+            {"altitude": 159.5},
+            {"distance_km": 4.875},
+            {"speed_kmh": 15.529},
+            {"timestamp": "Sun Jul 18 17:17:12 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.886763},
+                {"longitude": 17.50837}
+            ]]},
+            {"altitude": 160.4},
+            {"distance_km": 4.898},
+            {"speed_kmh": 15.931},
+            {"timestamp": "Sun Jul 18 17:17:17 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.886457},
+                {"longitude": 17.508347}
+            ]]},
+            {"altitude": 162.1},
+            {"distance_km": 4.932},
+            {"speed_kmh": 17.312},
+            {"timestamp": "Sun Jul 18 17:17:24 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.886273},
+                {"longitude": 17.508342}
+            ]]},
+            {"altitude": 161.3},
+            {"distance_km": 4.953},
+            {"speed_kmh": 17.817},
+            {"timestamp": "Sun Jul 18 17:17:28 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.885815},
+                {"longitude": 17.508457}
+            ]]},
+            {"altitude": 162.1},
+            {"distance_km": 5.004},
+            {"speed_kmh": 19.774},
+            {"timestamp": "Sun Jul 18 17:17:37 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.885463},
+                {"longitude": 17.50851}
+            ]]},
+            {"altitude": 162.2},
+            {"distance_km": 5.044},
+            {"speed_kmh": 20.542},
+            {"timestamp": "Sun Jul 18 17:17:44 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.88523},
+                {"longitude": 17.508493}
+            ]]},
+            {"altitude": 162.9},
+            {"distance_km": 5.07},
+            {"speed_kmh": 20.072},
+            {"timestamp": "Sun Jul 18 17:17:48 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.884892},
+                {"longitude": 17.508412}
+            ]]},
+            {"altitude": 163.7},
+            {"distance_km": 5.108},
+            {"speed_kmh": 18.026},
+            {"timestamp": "Sun Jul 18 17:17:56 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.884642},
+                {"longitude": 17.508378}
+            ]]},
+            {"altitude": 164.1},
+            {"distance_km": 5.135},
+            {"speed_kmh": 16.981},
+            {"timestamp": "Sun Jul 18 17:18:02 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.88455},
+                {"longitude": 17.508365}
+            ]]},
+            {"altitude": 164.2},
+            {"speed_kmh": 15.574},
+            {"timestamp": "Sun Jul 18 17:18:05 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.884243},
+                {"longitude": 17.508372}
+            ]]},
+            {"altitude": 164.3},
+            {"distance_km": 5.18},
+            {"speed_kmh": 17.413},
+            {"timestamp": "Sun Jul 18 17:18:12 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.883827},
+                {"longitude": 17.50837}
+            ]]},
+            {"altitude": 165.8},
+            {"distance_km": 5.226},
+            {"speed_kmh": 14.224},
+            {"timestamp": "Sun Jul 18 17:18:23 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.883708},
+                {"longitude": 17.508478}
+            ]]},
+            {"altitude": 171.9},
+            {"speed_kmh": 14.296},
+            {"timestamp": "Sun Jul 18 17:18:27 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.883535},
+                {"longitude": 17.508503}
+            ]]},
+            {"altitude": 172.5},
+            {"distance_km": 5.26},
+            {"speed_kmh": 15.131},
+            {"timestamp": "Sun Jul 18 17:18:31 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.883415},
+                {"longitude": 17.50849}
+            ]]},
+            {"altitude": 170.3},
+            {"speed_kmh": 14.275},
+            {"timestamp": "Sun Jul 18 17:18:36 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.883323},
+                {"longitude": 17.50856}
+            ]]},
+            {"altitude": 172.7},
+            {"distance_km": 5.284},
+            {"speed_kmh": 6.906},
+            {"timestamp": "Sun Jul 18 17:18:44 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.883258},
+                {"longitude": 17.508567}
+            ]]},
+            {"altitude": 172.9},
+            {"speed_kmh": 5.815},
+            {"timestamp": "Sun Jul 18 17:18:47 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.883025},
+                {"longitude": 17.50858}
+            ]]},
+            {"altitude": 172.6},
+            {"speed_kmh": 10.647},
+            {"timestamp": "Sun Jul 18 17:18:56 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.882707},
+                {"longitude": 17.5086}
+            ]]},
+            {"altitude": 169.9},
+            {"speed_kmh": 13.848},
+            {"timestamp": "Sun Jul 18 17:19:04 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.882555},
+                {"longitude": 17.50863}
+            ]]},
+            {"altitude": 168.4},
+            {"distance_km": 5.369},
+            {"speed_kmh": 14.814},
+            {"timestamp": "Sun Jul 18 17:19:08 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.882183},
+                {"longitude": 17.5088}
+            ]]},
+            {"altitude": 165.3},
+            {"distance_km": 5.412},
+            {"speed_kmh": 10.295},
+            {"timestamp": "Sun Jul 18 17:19:23 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.881947},
+                {"longitude": 17.508898}
+            ]]},
+            {"altitude": 162.5},
+            {"speed_kmh": 12.088},
+            {"timestamp": "Sun Jul 18 17:19:32 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.881787},
+                {"longitude": 17.508972}
+            ]]},
+            {"altitude": 161.9},
+            {"distance_km": 5.457},
+            {"speed_kmh": 12.647},
+            {"timestamp": "Sun Jul 18 17:19:36 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.881515},
+                {"longitude": 17.509067}
+            ]]},
+            {"altitude": 161.2},
+            {"distance_km": 5.488},
+            {"speed_kmh": 13.637},
+            {"timestamp": "Sun Jul 18 17:19:44 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.881383},
+                {"longitude": 17.509088}
+            ]]},
+            {"altitude": 160.7},
+            {"speed_kmh": 13.58},
+            {"timestamp": "Sun Jul 18 17:19:48 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.881252},
+                {"longitude": 17.509097}
+            ]]},
+            {"altitude": 160.4},
+            {"distance_km": 5.518},
+            {"speed_kmh": 13.607},
+            {"timestamp": "Sun Jul 18 17:19:52 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.881133},
+                {"longitude": 17.509093}
+            ]]},
+            {"altitude": 160},
+            {"speed_kmh": 12.756},
+            {"timestamp": "Sun Jul 18 17:19:56 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.88094},
+                {"longitude": 17.509077}
+            ]]},
+            {"altitude": 160.3},
+            {"speed_kmh": 10.408},
+            {"timestamp": "Sun Jul 18 17:20:04 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.88082},
+                {"longitude": 17.50906}
+            ]]},
+            {"altitude": 160},
+            {"distance_km": 5.566},
+            {"speed_kmh": 10.484},
+            {"timestamp": "Sun Jul 18 17:20:08 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.880537},
+                {"longitude": 17.509017}
+            ]]},
+            {"altitude": 159.3},
+            {"distance_km": 5.597},
+            {"speed_kmh": 13.453},
+            {"timestamp": "Sun Jul 18 17:20:17 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.880392},
+                {"longitude": 17.508992}
+            ]]},
+            {"altitude": 157.8},
+            {"distance_km": 5.614},
+            {"speed_kmh": 14.353},
+            {"timestamp": "Sun Jul 18 17:20:20 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.88011},
+                {"longitude": 17.508935}
+            ]]},
+            {"altitude": 156},
+            {"distance_km": 5.645},
+            {"speed_kmh": 14.344},
+            {"timestamp": "Sun Jul 18 17:20:29 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.879707},
+                {"longitude": 17.508843}
+            ]]},
+            {"altitude": 155.4},
+            {"distance_km": 5.69},
+            {"speed_kmh": 13.578},
+            {"timestamp": "Sun Jul 18 17:20:40 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.879432},
+                {"longitude": 17.508783}
+            ]]},
+            {"altitude": 153.1},
+            {"distance_km": 5.721},
+            {"speed_kmh": 13.919},
+            {"timestamp": "Sun Jul 18 17:20:48 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.879323},
+                {"longitude": 17.50875}
+            ]]},
+            {"altitude": 152.5},
+            {"speed_kmh": 12.922},
+            {"timestamp": "Sun Jul 18 17:20:52 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.879147},
+                {"longitude": 17.508697}
+            ]]},
+            {"altitude": 153.9},
+            {"speed_kmh": 9.65},
+            {"timestamp": "Sun Jul 18 17:21:00 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.879067},
+                {"longitude": 17.508708}
+            ]]},
+            {"altitude": 155.2},
+            {"distance_km": 5.762},
+            {"speed_kmh": 8.662},
+            {"timestamp": "Sun Jul 18 17:21:04 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.879065},
+                {"longitude": 17.508962}
+            ]]},
+            {"altitude": 156.2},
+            {"distance_km": 5.779},
+            {"speed_kmh": 6.499},
+            {"timestamp": "Sun Jul 18 17:21:14 UTC 2010"}
+        ],
+        [
+            {"location": [[
+                {"latitude": 53.879045},
+                {"longitude": 17.509037}
+            ]]},
+            {"timestamp": "Sun Jul 18 17:21:39 UTC 2010"}
+        ]
+    ]}
+]

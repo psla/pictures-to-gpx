@@ -49,9 +49,18 @@ namespace PicturesToGpx
                 }
             }
             var allPoints = FindOrCacheAllPositionsFromPictures(folder, settings.WorkingDirectory);
+            var gpsPoints = FindAllPointsFromGpx(settings.GpsInputDirectory);
             allPoints = allPoints.Where(p => (settings.StartTime == null || p.Time > settings.StartTime) && (settings.EndTime == null || p.Time < settings.EndTime)).ToList();
             WritePointsAsGpx(settings.OutputDirectory, allPoints);
             CreateMapFromPoints(allPoints, settings);
+        }
+
+        private static List<Position> FindAllPointsFromGpx(string folder)
+        {
+            foreach (var file in DirectoryUtilities.FindAllFiles(folder).Where(d => d.EndsWith(".tcx", System.StringComparison.InvariantCultureIgnoreCase)))
+            {
+            }
+            return null;
         }
 
         private static void CreateDirectoryIfNotExists(string path)
