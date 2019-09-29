@@ -22,7 +22,13 @@ namespace PicturesToGpx
             Trace.Assert(position.Unit == PositionUnit.WGS84);
             return new Position(position.Time, lat2y(position.Latitude), lon2x(position.Longitude), PositionUnit.Mercator, position);
         }
-        
+
+        public static Position FromMercatorToWgs84(Position position)
+        {
+            Trace.Assert(position.Unit == PositionUnit.Mercator);
+            return new Position(position.Time, y2lat(position.Latitude), x2lon(position.Longitude), PositionUnit.WGS84, position);
+        }
+
         // This should really be injectable, because this is Google specific ;)
         //
         // 0,0; 1,0; 2,0; 3,0
