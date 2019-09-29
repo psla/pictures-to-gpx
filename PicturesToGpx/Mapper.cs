@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
@@ -159,6 +160,20 @@ namespace PicturesToGpx
         internal void WriteText(string text)
         {
             graphics.DrawString(text, drawFont, drawBrush, 0, 0);
+        }
+
+        /// <summary>
+        ///  Once the point is converted to pixels, and then interpolated based on pixels (instead of interpolated based on mercator),
+        ///  we need to be able to get real lat longs back. This is far from ideal, but an approx measurement like that will have to do.
+        /// </summary>
+        internal Position FromPixelsToMercator(Position position)
+        {
+            Trace.Assert(position.Unit == PositionUnit.Pixel);
+            return new Position(position.Time,
+                unitsPerPixelHeight * position.Latitude + this.boundingBox.MinLatitude,
+                unitsPerPixelWidth * position.Longitude + this.boundingBox.MinLongitude,
+                PositionUnit.Mercator,
+                position);
         }
     }
 }

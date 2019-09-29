@@ -71,18 +71,32 @@ namespace PicturesToGpx
 
         public Position GetMercator()
         {
-            if(this.Unit == PositionUnit.Mercator) { return this; }
-            if(this.derivedFrom != null) { return this.derivedFrom.GetMercator();  }
+            if (this.Unit == PositionUnit.Mercator) { return this; }
+            if (this.derivedFrom != null) { return this.derivedFrom.GetMercator(); }
 
             throw new InvalidOperationException("Can't derive mercator position");
         }
 
+        internal Position TryGetWgs84()
+        {
+            Position result = null;
+            if (this.Unit == PositionUnit.WGS84) { return this; }
+            if (this.derivedFrom != null) { result = this.derivedFrom.TryGetWgs84(); }
+            if (result == null && this.Unit == PositionUnit.Mercator)
+            {
+                return LocationUtils.FromMercatorToWgs84(this);
+            }
+            return null;
+        }
         public Position GetWgs84()
         {
-            if (this.Unit == PositionUnit.WGS84) { return this; }
-            if (this.derivedFrom != null) { return this.derivedFrom.GetWgs84(); }
+            var result = TryGetWgs84();
+            if (result == null)
+            {
+                throw new InvalidOperationException("Can't derive WGS84 position");
+            }
 
-            throw new InvalidOperationException("Can't derive mercator position");
+            return result;
         }
     }
 }

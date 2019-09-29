@@ -118,9 +118,10 @@ namespace PicturesToGpx
             int wroteFrames = 0;
             for (int i = 1; i < points.Count; i++)
             {
-                // totalDistanceMeters += points[i - 1].DistanceMeters(points[i]);
+                var previousPoint = mapper.FromPixelsToMercator(points[i - 1]);
+                var currentPoint = mapper.FromPixelsToMercator(points[i]);
+                totalDistanceMeters += previousPoint.DistanceMeters(currentPoint);
                 mapper.DrawLine(points[i - 1], points[i]);
-
                 mapper.WriteText(string.Format("{0:0}km", totalDistanceMeters/1000));
 
                 if ((i - 1) % yieldFrame == 0)
