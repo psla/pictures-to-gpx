@@ -22,5 +22,15 @@ namespace PicturesToGpx.Test.Gps
             // UTC
             Assert.AreEqual(new DateTimeOffset(2010, 07, 18, 16, 54, 28, TimeSpan.Zero), points[0].Time);
         }
+
+        [TestMethod]
+        public void TestReadingBetterTimeFormatJson()
+        {
+            var reader = new EndomondoJsonReader();
+            // 2019-03-02 21:06:23.0
+            var points = reader.Read("gps\\endomondo2.json").ToList();
+
+            Assert.AreEqual(new DateTimeOffset(2019, 03, 02, 21, 04, 31, TimeSpan.Zero), points[0].Time);
+        }
     }
 }

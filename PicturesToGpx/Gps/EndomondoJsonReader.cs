@@ -33,8 +33,19 @@ namespace PicturesToGpx.Gps
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             JArray array = JArray.Load(reader);
-            var timestamp = array.First(e => e["timestamp"] != null)["timestamp"].Value<string>();
-            var latitude = array.First(e => e["location"] != null)["location"][0][0]["latitude"].Value<double>();
+            JToken timestampToken = array.FirstOrDefault(e => e["timestamp"] != null);
+            if (timestampToken == null)
+            {
+                return null;
+            }
+            var timestamp = timestampToken["timestamp"].Value<string>();
+            JToken locationToken = array.FirstOrDefault(e => e["location"] != null);
+            if (locationToken == null)
+            {
+                return null;
+            }
+
+            var latitude = locationToken["location"][0][0]["latitude"].Value<double>();
             var longitude = array.First(e => e["location"] != null)["location"][0][1]["longitude"].Value<double>();
             return new EndomondoJsonReader.Point(
                 new EndomondoJsonReader.Location(latitude, longitude),
@@ -66,7 +77,7 @@ namespace PicturesToGpx.Gps
             [JsonProperty(PropertyName = "longitude")]
             public double Longitude { get; private set; }
         }
-        
+
         // [JsonConverter(typeof(EndomondoPointConverter))]
         internal class Point
         {
@@ -88,6 +99,11 @@ namespace PicturesToGpx.Gps
 
             public DateTimeOffset TimeOffset()
             {
+                if(char.IsDigit(Timestamp[0]))
+                {
+                    return DateTimeOffset.ParseExact(Timestamp, "yyyy-MM-dd H:mm:ss.0", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
+                }
+
                 // "Sun Jul 18 16:54:28 UTC 2010"
                 return DateTimeOffset.ParseExact(Timestamp, "ddd MMM dd H:mm:ss UTC yyyy", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
             }
@@ -111,7 +127,7 @@ namespace PicturesToGpx.Gps
             var entry = file.First(f => f["points"] != null);
             var entries = entry.ToObject<JsonEntry>(); // JsonConvert.DeserializeObject<List<JsonEntry>>();
 
-            return entries.Points.Select(p => p.ToPosition());
+            return entries.Points.Where(p => p != null).Select(p => p.ToPosition());
         }
     }
 }

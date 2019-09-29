@@ -1,5 +1,6 @@
 using MKCoolsoft.GPXLib;
 using Newtonsoft.Json;
+using PicturesToGpx.Gps;
 using SharpAvi;
 using SharpAvi.Codecs;
 using SharpAvi.Output;
@@ -57,10 +58,18 @@ namespace PicturesToGpx
 
         private static List<Position> FindAllPointsFromGpx(string folder)
         {
-            foreach (var file in DirectoryUtilities.FindAllFiles(folder).Where(d => d.EndsWith(".tcx", System.StringComparison.InvariantCultureIgnoreCase)))
+            var points = new List<Position>();
+            var endomondoReader = new EndomondoJsonReader();
+            foreach (var file in DirectoryUtilities.FindAllFiles(folder))
             {
+                if (file.EndsWith(".json", System.StringComparison.InvariantCultureIgnoreCase))
+                {
+                    Console.WriteLine("Parsing {0}", file);
+                    points.AddRange(endomondoReader.Read(file));
+                }
             }
-            return null;
+
+            return points;
         }
 
         private static void CreateDirectoryIfNotExists(string path)
