@@ -49,8 +49,8 @@ namespace PicturesToGpx
                     return;
                 }
             }
-            var allPoints = FindOrCacheAllPositionsFromPictures(folder, settings.WorkingDirectory);
-            var gpsPoints = FindAllPointsFromGpx(settings.GpsInputDirectory);
+            var allPoints = CacheOrExecute(Path.Combine(settings.WorkingDirectory, "cached-positions.json"), () => ImageUtility.FindLatLongsWithTime(folder));
+            var gpsPoints = CacheOrExecute(Path.Combine(settings.WorkingDirectory, "endomondo-positions.json"), () => FindAllPointsFromGpx(settings.GpsInputDirectory));
             allPoints = allPoints.Where(p => (settings.StartTime == null || p.Time > settings.StartTime) && (settings.EndTime == null || p.Time < settings.EndTime)).ToList();
             WritePointsAsGpx(settings.OutputDirectory, allPoints);
             CreateMapFromPoints(allPoints, settings);
@@ -131,18 +131,15 @@ namespace PicturesToGpx
             Console.WriteLine("Wrote frames: {0}, points.Count={1}, yieldFrame={2}", wroteFrames, points.Count, yieldFrame);
         }
 
-        private static List<Position> FindOrCacheAllPositionsFromPictures(string folder, string workingDir)
+        private static List<Position> CacheOrExecute(string cacheFile, Func<List<Position>> extractPositions)
         {
-            // TODO: Multiple tracks, group by day (in a timezone)
-            var cachedPoints = Path.Combine(workingDir, "cached-positions.json");
+            List<Position> sortedPoints = File.Exists(cacheFile)
+                ? JsonConvert.DeserializeObject<List<Position>>(File.ReadAllText(cacheFile))
+                : extractPositions().OrderBy(x => x.Time).ToList();
 
-            List<Position> sortedPoints = File.Exists(cachedPoints)
-                ? JsonConvert.DeserializeObject<List<Position>>(File.ReadAllText(cachedPoints))
-                : ImageUtility.FindLatLongsWithTime(folder).OrderBy(x => x.Time).ToList();
-
-            if (!File.Exists(cachedPoints))
+            if (!File.Exists(cacheFile))
             {
-                File.WriteAllText(cachedPoints, JsonConvert.SerializeObject(sortedPoints));
+                File.WriteAllText(cacheFile, JsonConvert.SerializeObject(sortedPoints));
             }
 
             return sortedPoints;
