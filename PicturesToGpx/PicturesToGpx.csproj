@@ -96,6 +96,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EnumerableUtils.cs" />
     <Compile Include="Geometry\BoundingBox.cs" />
     <Compile Include="DirectoryUtilities.cs" />
     <Compile Include="Fetcher.cs" />
