@@ -57,6 +57,7 @@
     <Compile Include="LatLongConverterTest.cs" />
     <Compile Include="EnumerableUtilsTest.cs" />
     <Compile Include="LatLongParserTest.cs" />
+    <Compile Include="MetadataReaderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +74,11 @@
       <Project>{4ce7307f-4e64-4136-98f0-cf054391ac8e}</Project>
       <Name>PicturesToGpx</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="WP_20150701_007.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

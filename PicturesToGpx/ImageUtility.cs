@@ -5,11 +5,11 @@ using System.Linq;
 
 namespace PicturesToGpx
 {
-    internal class ImageUtility
+    public class ImageUtility
     {
         private const string gpsFormat = "yyyy:MM:dd HH:mm:ss.fff UTC";
 
-        internal static Position TryExtractPositionFromFile(string file)
+        public static Position TryExtractPositionFromFile(string file)
         {
             Console.WriteLine(file);
 
@@ -33,7 +33,6 @@ namespace PicturesToGpx
             var date = directories.SelectMany(x => x.Tags).FirstOrDefault(t => t.Name == "GPS Date Stamp");
             var time = directories.SelectMany(x => x.Tags).FirstOrDefault(t => t.Name == "GPS Time-Stamp");
 
-
             if (latitude != null && longitude != null && date != null && time != null)
             {
                 var dateTime = $"{date.Description} {time.Description}";
@@ -44,6 +43,7 @@ namespace PicturesToGpx
                 Console.WriteLine("[{0}]: {1}, {2}", dateTimeUtc, latitude.Description, longitude.Description);
                 return new Position(dateTimeUtc, LatLongParser.ParseString(latitude.Description), LatLongParser.ParseString(longitude.Description));
             }
+
 
             return null;
         }
