@@ -121,7 +121,14 @@ namespace PicturesToGpx
                 var previousPoint = mapper.FromPixelsToMercator(points[i - 1]);
                 var currentPoint = mapper.FromPixelsToMercator(points[i]);
                 totalDistanceMeters += previousPoint.DistanceMeters(currentPoint);
+
+                if(mapper.IsStashed)
+                {
+                    mapper.StashPop();
+                }
+
                 mapper.DrawLine(points[i - 1], points[i]);
+                mapper.Stash();
                 mapper.WriteText(string.Format("{0:0}km", totalDistanceMeters/1000));
 
                 if ((i - 1) % yieldFrame == 0)

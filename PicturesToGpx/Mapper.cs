@@ -22,6 +22,7 @@ namespace PicturesToGpx
         private bool disposed;
         private Font drawFont;
         private SolidBrush drawBrush;
+        private byte[] stash = null;
 
         public Mapper(int width, int height, BoundingBox boundingBox, TilerConfig config)
         {
@@ -162,6 +163,39 @@ namespace PicturesToGpx
             graphics.DrawString(text, drawFont, drawBrush, 0, 0);
         }
 
+        /// <summary>
+        /// Stashes the current bitmap so that it can be restored.
+        /// E.g. one can draw text (e.g. distance) and render the frame, and then restore the frame to the previous status.
+        /// </summary>
+        /// <remarks>
+        /// Stash, as implemented today, overrides any existing stash.
+        /// </remarks>
+        internal void Stash()
+        {
+            stash = GetBitmap();
+        }
+
+        internal bool IsStashed => stash != null;
+
+        /// <summary>
+        ///  If stash is present, it pops the stash
+        /// </summary>
+        internal void StashPop()
+        {
+            BitmapData bitmapData = null;
+            try
+            {
+                bitmapData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.WriteOnly, bitmap.PixelFormat);
+                Marshal.Copy(stash, 0, bitmapData.Scan0, stash.Length);
+            }
+            finally
+            {
+                if (bitmapData != null)
+                {
+                    bitmap.UnlockBits(bitmapData);
+                }
+            }
+        }
         /// <summary>
         ///  Once the point is converted to pixels, and then interpolated based on pixels (instead of interpolated based on mercator),
         ///  we need to be able to get real lat longs back. This is far from ideal, but an approx measurement like that will have to do.

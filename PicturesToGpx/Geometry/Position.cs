@@ -66,7 +66,7 @@ namespace PicturesToGpx
                 + 1 / Math.Cos(LocationUtils.ToRadians(p2wgs.Latitude))
                 + 4 / Math.Cos(LocationUtils.ToRadians(p1wgs.Latitude + p2wgs.Latitude / 2.0))) / 6.0;
 
-            return p1.DistanceSquare(p2) * simpsonRule;
+            return Math.Sqrt(p1.DistanceSquare(p2)) * simpsonRule;
         }
 
         public Position GetMercator()
