@@ -28,14 +28,7 @@ namespace PicturesToGpx
             }
         }
 
-        public class ChaikinSettings
-        {
-            public double WhereToRound { get; set; } = 0.75;
-
-            public int MaxIterationCount { get; set; } = 3;
-        }
-
-        public static List<Position> SmoothLineChaikin(this List<Position> input, ChaikinSettings settings)
+        public static List<Position> SmoothLineChaikin(this List<Position> input, Settings.ChaikinSettings settings)
         {
             if (input.Count < 2)
             {

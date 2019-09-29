@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace PicturesToGpx
 {
-    internal class Settings
+    public class Settings
     {
         public class VideoSettings
         {
@@ -40,6 +40,13 @@ namespace PicturesToGpx
             /// This is important for softening results.
             /// </summary>
             public int ClusterSizePx { get; set; } = 7;
+        }
+
+        public class ChaikinSettings
+        {
+            public double WhereToRound { get; set; } = 0.75;
+
+            public int MaxIterationCount { get; set; } = 3;
         }
 
         // Alphanumeric project name
@@ -86,7 +93,7 @@ namespace PicturesToGpx
 
         public VideoSettings VideoConfig { get; set; } = new VideoSettings();
 
-
+        public ChaikinSettings SofteningSettings { get; set; } = new ChaikinSettings();
         public Settings()
         {
             WorkingDirectory = Path.Combine(Path.GetTempPath(), ProjectName);

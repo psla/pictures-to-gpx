@@ -90,7 +90,7 @@ namespace PicturesToGpx
 
             points = mapper.GetPixels(points).ToList();
             points = points.SkipTooClose(15).ToList();
-            points = points.SmoothLineChaikin(new GeometryUtils.ChaikinSettings());
+            points = points.SmoothLineChaikin(settings.SofteningSettings);
 
             mapper.Save(Path.Combine(settings.OutputDirectory, "empty-map.png"));
 

@@ -4,8 +4,16 @@ namespace PicturesToGpx
 {
     public enum PositionUnit
     {
+        /// <summary>
+        /// EPSG:4326 WGS 84
+        /// </summary>
         WGS84,
+
+        /// <summary>
+        /// EPSG:3857 WGS 84 / Pseudo-Mercator
+        /// </summary>
         Mercator,
+
         Pixel
     }
 
