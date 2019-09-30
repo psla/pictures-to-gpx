@@ -1,3 +1,4 @@
+using GeoTimeZone;
 using MKCoolsoft.GPXLib;
 using Newtonsoft.Json;
 using PicturesToGpx.Gps;
@@ -91,7 +92,7 @@ namespace PicturesToGpx
             points = mapper.GetPixels(points).ToList();
             points = points.SkipTooClose(15).ToList();
             points = points.SmoothLineChaikin(settings.SofteningSettings);
-
+            
             mapper.Save(Path.Combine(settings.OutputDirectory, "empty-map.png"));
 
             var writer = new AviWriter(Path.Combine(settings.OutputDirectory, "map.avi"))
@@ -129,10 +130,21 @@ namespace PicturesToGpx
                 }
 
                 mapper.DrawLine(points[i - 1], points[i]);
-                if (settings.DisplayDistance)
+                if (settings.DisplayDistance || settings.DisplayDateTime)
                 {
                     mapper.Stash();
+                }
+                if(settings.DisplayDistance) { 
                     mapper.WriteText(string.Format("{0:0}km", totalDistanceMeters / 1000));
+                }
+
+                if(settings.DisplayDateTime)
+                {
+                    // mapper.WriteText(points[i].Time.ToString(), settings.VideoConfig.Height - 200);
+                    Position positionWgs84 = currentPoint.GetWgs84();
+                    var ianaTz = TimeZoneLookup.GetTimeZone(positionWgs84.Latitude, positionWgs84.Longitude).Result;
+                    TimeSpan offset = TimeZoneConverter.TZConvert.GetTimeZoneInfo(ianaTz).GetUtcOffset(points[i].Time);
+                    mapper.WriteText(points[i].Time.ToUniversalTime().Add(offset).ToString(), settings.VideoConfig.Height - 100);
                 }
 
                 if (i >= nextFrame)

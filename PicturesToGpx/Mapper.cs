@@ -158,9 +158,9 @@ namespace PicturesToGpx
             }
         }
 
-        internal void WriteText(string text)
+        internal void WriteText(string text, int y = 0)
         {
-            graphics.DrawString(text, drawFont, drawBrush, 0, 0);
+            graphics.DrawString(text, drawFont, drawBrush, 0, y);
         }
 
         /// <summary>

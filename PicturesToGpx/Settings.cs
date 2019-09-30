@@ -97,6 +97,11 @@ namespace PicturesToGpx
 
         public bool DisplayDistance { get; set; } = true;
 
+        /// <summary>
+        /// Whether or not the date & time should be displayed.
+        /// </summary>
+        public bool DisplayDateTime { get; set; } = true;
+
         public Settings()
         {
             WorkingDirectory = Path.Combine(Path.GetTempPath(), ProjectName);
