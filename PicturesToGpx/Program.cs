@@ -113,8 +113,9 @@ namespace PicturesToGpx
             double lengthSeconds = settings.VideoConfig.VideoDuration.TotalSeconds;
             double totalDistanceMeters = 0;
 
-            int yieldFrame = Math.Max(1, (int)(points.Count / (lengthSeconds * 30)));
+            double yieldFrame = Math.Max(1, (points.Count / (lengthSeconds * settings.VideoConfig.Framerate)));
 
+            double nextFrame = 1;
             int wroteFrames = 0;
             for (int i = 1; i < points.Count; i++)
             {
@@ -131,11 +132,13 @@ namespace PicturesToGpx
                 mapper.Stash();
                 mapper.WriteText(string.Format("{0:0}km", totalDistanceMeters/1000));
 
-                if ((i - 1) % yieldFrame == 0)
+                if (i >= nextFrame)
                 {
                     byte[] frameData = mapper.GetBitmap();
                     stream.WriteFrame(true, frameData, 0, frameData.Length);
                     wroteFrames++;
+
+                    nextFrame += yieldFrame;
                 }
             }
             byte[] lastFrameData = mapper.GetBitmap();
