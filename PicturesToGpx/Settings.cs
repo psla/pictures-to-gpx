@@ -94,6 +94,9 @@ namespace PicturesToGpx
         public VideoSettings VideoConfig { get; set; } = new VideoSettings();
 
         public ChaikinSettings SofteningSettings { get; set; } = new ChaikinSettings();
+
+        public bool DisplayDistance { get; set; } = true;
+
         public Settings()
         {
             WorkingDirectory = Path.Combine(Path.GetTempPath(), ProjectName);

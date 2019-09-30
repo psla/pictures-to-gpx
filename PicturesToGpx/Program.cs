@@ -129,8 +129,11 @@ namespace PicturesToGpx
                 }
 
                 mapper.DrawLine(points[i - 1], points[i]);
-                mapper.Stash();
-                mapper.WriteText(string.Format("{0:0}km", totalDistanceMeters/1000));
+                if (settings.DisplayDistance)
+                {
+                    mapper.Stash();
+                    mapper.WriteText(string.Format("{0:0}km", totalDistanceMeters / 1000));
+                }
 
                 if (i >= nextFrame)
                 {
