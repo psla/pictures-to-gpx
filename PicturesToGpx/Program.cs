@@ -144,7 +144,7 @@ namespace PicturesToGpx
                     Position positionWgs84 = currentPoint.GetWgs84();
                     var ianaTz = TimeZoneLookup.GetTimeZone(positionWgs84.Latitude, positionWgs84.Longitude).Result;
                     TimeSpan offset = TimeZoneConverter.TZConvert.GetTimeZoneInfo(ianaTz).GetUtcOffset(points[i].Time);
-                    mapper.WriteText(points[i].Time.ToUniversalTime().Add(offset).ToString(), settings.VideoConfig.Height - 100);
+                    mapper.WriteText(points[i].Time.ToUniversalTime().Add(offset).ToString("MM/dd hh tt"), settings.VideoConfig.Height - 100);
                 }
 
                 if (i >= nextFrame)
@@ -155,6 +155,10 @@ namespace PicturesToGpx
 
                     nextFrame += yieldFrame;
                 }
+            }
+            if(mapper.IsStashed)
+            {
+                mapper.StashPop();
             }
             byte[] lastFrameData = mapper.GetBitmap();
             stream.WriteFrame(true, lastFrameData, 0, lastFrameData.Length);
