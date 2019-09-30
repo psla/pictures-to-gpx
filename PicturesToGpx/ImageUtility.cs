@@ -53,6 +53,7 @@ namespace PicturesToGpx
                 if(filesystemTime != null)
                 {
                     var dateTime = DateTimeOffset.ParseExact(filesystemTime.Description, fileModifiedDateFormat, CultureInfo.InvariantCulture);
+                    Console.WriteLine("[{0}]: {1}, {2}", dateTime, latitude.Description, longitude.Description);
                     return new Position(dateTime, LatLongParser.ParseString(latitude.Description), LatLongParser.ParseString(longitude.Description), PositionUnit.WGS84);
                 }
             }
