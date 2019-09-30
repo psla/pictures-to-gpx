@@ -13,10 +13,10 @@ namespace PicturesToGpx.Test
         [TestMethod]
         public void ReadMetadataFromLumia()
         {
-            var position = ImageUtility.TryExtractPositionFromFile("WP_20150701_007.jpg");
+            var position = ImageUtility.TryExtractPositionFromFile("WP_20141211_001.jpg");
             Assert.IsNotNull(position);
-            Assertions.AreApproximatelyEqual(36.7630839, position.Latitude);
-            Assertions.AreApproximatelyEqual(-111.6267836, position.Longitude);
+            Assertions.AreApproximatelyEqual(47.6044703, position.Latitude);
+            Assertions.AreApproximatelyEqual(-122.1496161, position.Longitude);
         }
     }
 }

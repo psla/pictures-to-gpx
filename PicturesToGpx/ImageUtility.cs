@@ -1,6 +1,7 @@
 ﻿using MetadataExtractor;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace PicturesToGpx
@@ -8,6 +9,8 @@ namespace PicturesToGpx
     public class ImageUtility
     {
         private const string gpsFormat = "yyyy:MM:dd HH:mm:ss.fff UTC";
+        // Thu Dec 11 16:42:12 -08:00 2014
+        private const string fileModifiedDateFormat = "ddd MMM dd H:mm:ss zzz yyyy";
 
         public static Position TryExtractPositionFromFile(string file)
         {
@@ -42,6 +45,16 @@ namespace PicturesToGpx
 
                 Console.WriteLine("[{0}]: {1}, {2}", dateTimeUtc, latitude.Description, longitude.Description);
                 return new Position(dateTimeUtc, LatLongParser.ParseString(latitude.Description), LatLongParser.ParseString(longitude.Description));
+            }
+
+            if (latitude != null && longitude != null)
+            {
+                var filesystemTime = directories.SelectMany(x => x.Tags).FirstOrDefault(t => t.Name == "File Modified Date");
+                if(filesystemTime != null)
+                {
+                    var dateTime = DateTimeOffset.ParseExact(filesystemTime.Description, fileModifiedDateFormat, CultureInfo.InvariantCulture);
+                    return new Position(dateTime, LatLongParser.ParseString(latitude.Description), LatLongParser.ParseString(longitude.Description), PositionUnit.WGS84);
+                }
             }
 
 
