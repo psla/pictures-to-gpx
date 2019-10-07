@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="Assertions.cs" />
     <Compile Include="Gps\EndomondoReaderTest.cs" />
+    <Compile Include="Gps\GoogleTimelineKmlReaderTest.cs" />
     <Compile Include="LatLongConverterTest.cs" />
     <Compile Include="EnumerableUtilsTest.cs" />
     <Compile Include="LatLongParserTest.cs" />
@@ -65,6 +66,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Gps\endomondo2.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Gps\GoogleTimeline.kml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />

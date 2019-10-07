@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace PicturesToGpx
@@ -97,6 +98,16 @@ namespace PicturesToGpx
             }
 
             return result;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Position position &&
+                   EqualityComparer<Position>.Default.Equals(derivedFrom, position.derivedFrom) &&
+                   Time.Equals(position.Time) &&
+                   Latitude == position.Latitude &&
+                   Longitude == position.Longitude &&
+                   Unit == position.Unit;
         }
     }
 }

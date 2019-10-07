@@ -14,3 +14,8 @@
  - [P2] Use fixed time interval.
 + Single setting describing the project & maybe generate empty project file.
 - 
+
+= Download Google Timeline
+1. Go to https://www.google.com/maps/timeline
+1. click settings -> Download a copy of your data
+1. "Location History Your location data collected while opted-in to Location History.". Download KML file. (though json is also interesting!)
