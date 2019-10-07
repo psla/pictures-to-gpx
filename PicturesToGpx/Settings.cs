@@ -64,6 +64,11 @@ namespace PicturesToGpx
         public string GpsInputDirectory { get; set; }
 
         /// <summary>
+        /// A KML file from Google timeline.
+        /// </summary>
+        public string GoogleTimelineKmlFile { get; set; } = @"C:\somepath\to\file.kml";
+
+        /// <summary>
         ///  Where to store images & videos.
         /// </summary>
         [JsonProperty(Required = Required.Always)]

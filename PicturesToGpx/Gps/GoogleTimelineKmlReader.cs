@@ -9,7 +9,7 @@ namespace PicturesToGpx.Gps
 {
     public class GoogleTimelineKmlReader : IGpsReader
     {
-        Regex parseCoords = new Regex(@"^(-?\d+\.?\d*) (-?\d+\.?\d*) \d+$", RegexOptions.Compiled | RegexOptions.CultureInvariant);
+        Regex parseCoords = new Regex(@"^(-?\d+\.?\d*) (-?\d+\.?\d*) -?\d+$", RegexOptions.Compiled | RegexOptions.CultureInvariant);
         public IEnumerable<Position> Read(string filename)
         {
             var doc = new XmlDocument();
@@ -30,7 +30,7 @@ namespace PicturesToGpx.Gps
                 Match match = parseCoords.Match(coordNodes[i].FirstChild.Value);
                 if (!match.Success)
                 {
-                    throw new InvalidOperationException("Can't parse: " + coordNodes[i].Value);
+                    throw new InvalidOperationException("Can't parse: " + coordNodes[i].FirstChild.Value);
                 }
                 var position = new Position(offset, 
                     double.Parse(match.Groups[2].Value, CultureInfo.InvariantCulture), 

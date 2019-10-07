@@ -109,5 +109,16 @@ namespace PicturesToGpx
                    Longitude == position.Longitude &&
                    Unit == position.Unit;
         }
+
+        public override int GetHashCode()
+        {
+            var hashCode = -189829872;
+            hashCode = hashCode * -1521134295 + EqualityComparer<Position>.Default.GetHashCode(derivedFrom);
+            hashCode = hashCode * -1521134295 + EqualityComparer<DateTimeOffset>.Default.GetHashCode(Time);
+            hashCode = hashCode * -1521134295 + Latitude.GetHashCode();
+            hashCode = hashCode * -1521134295 + Longitude.GetHashCode();
+            hashCode = hashCode * -1521134295 + Unit.GetHashCode();
+            return hashCode;
+        }
     }
 }
