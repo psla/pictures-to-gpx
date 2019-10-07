@@ -51,9 +51,13 @@ namespace PicturesToGpx
                 }
             }
             var allPoints = CacheOrExecute(Path.Combine(settings.WorkingDirectory, "cached-positions.json"), () => ImageUtility.FindLatLongsWithTime(folder));
-            var gpsPoints = CacheOrExecute(Path.Combine(settings.WorkingDirectory, "endomondo-positions.json"), () => FindAllPointsFromGpx(settings.GpsInputDirectory));
-            
-            allPoints = EnumerableUtils.Merge(allPoints, gpsPoints, (x, y) => x.Time < y.Time).ToList();
+            if (!string.IsNullOrEmpty(settings.GpsInputDirectory))
+            {
+                Console.WriteLine("Adding points from Endomondo");
+                var gpsPoints = CacheOrExecute(Path.Combine(settings.WorkingDirectory, "endomondo-positions.json"), () => FindAllPointsFromGpx(settings.GpsInputDirectory));
+                allPoints = EnumerableUtils.Merge(allPoints, gpsPoints, (x, y) => x.Time < y.Time).ToList();
+            }
+
             if (!string.IsNullOrEmpty(settings.GoogleTimelineKmlFile))
             {
                 Console.WriteLine("Adding Google Timeline points");
@@ -99,7 +103,7 @@ namespace PicturesToGpx
             points = mapper.GetPixels(points).ToList();
             points = points.SkipTooClose(15).ToList();
             points = points.SmoothLineChaikin(settings.SofteningSettings);
-            
+
             mapper.Save(Path.Combine(settings.OutputDirectory, "empty-map.png"));
 
             var writer = new AviWriter(Path.Combine(settings.OutputDirectory, "map.avi"))
@@ -131,7 +135,7 @@ namespace PicturesToGpx
                 var currentPoint = mapper.FromPixelsToMercator(points[i]);
                 totalDistanceMeters += previousPoint.DistanceMeters(currentPoint);
 
-                if(mapper.IsStashed)
+                if (mapper.IsStashed)
                 {
                     mapper.StashPop();
                 }
@@ -141,11 +145,12 @@ namespace PicturesToGpx
                 {
                     mapper.Stash();
                 }
-                if(settings.DisplayDistance) { 
+                if (settings.DisplayDistance)
+                {
                     mapper.WriteText(string.Format("{0:0}km", totalDistanceMeters / 1000));
                 }
 
-                if(settings.DisplayDateTime)
+                if (settings.DisplayDateTime)
                 {
                     // mapper.WriteText(points[i].Time.ToString(), settings.VideoConfig.Height - 200);
                     Position positionWgs84 = currentPoint.GetWgs84();
@@ -163,7 +168,7 @@ namespace PicturesToGpx
                     nextFrame += yieldFrame;
                 }
             }
-            if(mapper.IsStashed)
+            if (mapper.IsStashed)
             {
                 mapper.StashPop();
             }
@@ -171,8 +176,9 @@ namespace PicturesToGpx
             stream.WriteFrame(true, lastFrameData, 0, lastFrameData.Length);
             writer.Close();
             // DrawBoundingBox(boundingBox, mapper);
-            mapper.Save(Path.Combine(settings.OutputDirectory, "complete-map.png"));
-            Console.WriteLine("Wrote frames: {0}, points.Count={1}, yieldFrame={2}", wroteFrames, points.Count, yieldFrame);
+            string path = Path.Combine(settings.OutputDirectory, "complete-map.png");
+            mapper.Save(path);
+            Console.WriteLine("Wrote frames: {0}, points.Count={1}, yieldFrame={2}, path={3}", wroteFrames, points.Count, yieldFrame, path);
         }
 
         private static List<Position> CacheOrExecute(string cacheFile, Func<List<Position>> extractPositions)
