@@ -64,6 +64,12 @@ namespace PicturesToGpx
                 var googleTimelinePoints = new GoogleTimelineKmlReader().Read(settings.GoogleTimelineKmlFile);
                 allPoints = EnumerableUtils.Merge(allPoints, googleTimelinePoints, (x, y) => x.Time < y.Time).ToList();
             }
+            if (!string.IsNullOrEmpty(settings.GoogleTimelineJsonFile))
+            {
+                Console.WriteLine("Adding Google Timeline points from JSON");
+                var googleTimelinePoints = new GoogleTimelineJsonReader(50).Read(settings.GoogleTimelineJsonFile);
+                allPoints = EnumerableUtils.Merge(allPoints, googleTimelinePoints, (x, y) => x.Time < y.Time).ToList();
+            }
             allPoints = allPoints.Where(p => (settings.StartTime == null || p.Time > settings.StartTime) && (settings.EndTime == null || p.Time < settings.EndTime)).ToList();
             WritePointsAsGpx(settings.OutputDirectory, allPoints);
             CreateMapFromPoints(allPoints, settings);

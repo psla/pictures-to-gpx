@@ -1,0 +1,33 @@
+﻿{
+  "locations": [
+    {
+      "timestampMs": "1482021986813",
+      "latitudeE7": 457081880,
+      "longitudeE7": -112042061,
+      "accuracy": 19,
+      "activity": [
+        {
+          "timestampMs": "1482021993773",
+          "activity": [
+            {
+              "type": "IN_VEHICLE",
+              "confidence": 52
+            },
+            {
+              "type": "UNKNOWN",
+              "confidence": 36
+            },
+            {
+              "type": "STILL",
+              "confidence": 8
+            },
+            {
+              "type": "ON_BICYCLE",
+              "confidence": 4
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

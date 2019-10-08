@@ -116,6 +116,7 @@
     <Compile Include="Geometry\LocationUtils.cs" />
     <Compile Include="Geometry\Position.cs" />
     <Compile Include="Gps\EndomondoJsonReader.cs" />
+    <Compile Include="Gps\GoogleTimelineJsonReader.cs" />
     <Compile Include="Gps\GoogleTimelineKmlReader.cs" />
     <Compile Include="Gps\IGpsReader.cs" />
     <Compile Include="ImageUtility.cs" />

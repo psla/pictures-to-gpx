@@ -7,6 +7,17 @@ namespace PicturesToGpx
 {
     public class Settings
     {
+
+        public static Settings Example()
+        {
+            return new Settings()
+            {
+                GoogleTimelineKmlFile = @"C:\somepath\to\Location History.kml",
+                GoogleTimelineJsonFile = @"C:\somepath\to\Location History.json"
+
+            };
+        }
+
         public class VideoSettings
         {
             public bool ProduceVideo { get; set; } = true;
@@ -66,7 +77,12 @@ namespace PicturesToGpx
         /// <summary>
         /// A KML file from Google timeline.
         /// </summary>
-        public string GoogleTimelineKmlFile { get; set; } = @"C:\somepath\to\file.kml";
+        public string GoogleTimelineKmlFile { get; set; }
+
+        /// <summary>
+        /// A JSON file from Google timeline. Use this if you want to exclude low-accuracy points.
+        /// </summary>
+        public string GoogleTimelineJsonFile { get; set; }
 
         /// <summary>
         ///  Where to store images & videos.
