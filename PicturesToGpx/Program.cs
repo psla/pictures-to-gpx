@@ -107,7 +107,7 @@ namespace PicturesToGpx
             var mapper = Tiler.RenderMap(boundingBox, settings.VideoConfig.Width, settings.VideoConfig.Height);
 
             points = mapper.GetPixels(points).ToList();
-            points = points.SkipTooClose(15).ToList();
+            points = points.SkipTooClose(8).ToList();
             points = points.SmoothLineChaikin(settings.SofteningSettings);
 
             mapper.Save(Path.Combine(settings.OutputDirectory, "empty-map.png"));
