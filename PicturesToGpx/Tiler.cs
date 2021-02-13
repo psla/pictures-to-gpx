@@ -29,8 +29,8 @@ namespace PicturesToGpx
             var midY = LocationUtils.GetY(zoomLevel, boundingBox.MiddleLatitude);
 
             var unitsPerPixel = LocationUtils.GetUnitsPerPixel(zoomLevel);
-            var noOfTilesPerWidth = (widthPx - 1) / TileWidthHeight + 1;
-            var noOfTilesPerHeight = (heightPx - 1) / TileWidthHeight + 1;
+            var noOfTilesPerWidth = (widthPx - 1) / TileWidthHeight + 2; // + 1 for rounding error, +2 because the tile may lie outside of the screen, we need at least 1 full tile on each side.
+            var noOfTilesPerHeight = (heightPx - 1) / TileWidthHeight + 2;
 
             var mapper = new Mapper(widthPx, heightPx,
                 new BoundingBox(
