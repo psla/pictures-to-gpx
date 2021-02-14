@@ -67,7 +67,7 @@ namespace PicturesToGpx
             if (!string.IsNullOrEmpty(settings.GoogleTimelineJsonFile))
             {
                 Console.WriteLine("Adding Google Timeline points from JSON");
-                var googleTimelinePoints = new GoogleTimelineJsonReader(500).Read(settings.GoogleTimelineJsonFile);
+                var googleTimelinePoints = new GoogleTimelineJsonReader(settings.GoogleTimelineMinimumAccuracyMeters).Read(settings.GoogleTimelineJsonFile);
                 allPoints = EnumerableUtils.Merge(allPoints, googleTimelinePoints, (x, y) => x.Time < y.Time).ToList();
             }
             allPoints = allPoints.Where(p => (settings.StartTime == null || p.Time > settings.StartTime) && (settings.EndTime == null || p.Time < settings.EndTime)).ToList();

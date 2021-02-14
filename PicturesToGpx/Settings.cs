@@ -14,7 +14,6 @@ namespace PicturesToGpx
             {
                 GoogleTimelineKmlFile = @"C:\somepath\to\Location History.kml",
                 GoogleTimelineJsonFile = @"C:\somepath\to\Location History.json"
-
             };
         }
 
@@ -83,6 +82,16 @@ namespace PicturesToGpx
         /// A JSON file from Google timeline. Use this if you want to exclude low-accuracy points.
         /// </summary>
         public string GoogleTimelineJsonFile { get; set; }
+
+        /// <summary>
+        /// A minimum accurracy in meters which is considered as a valid location from Google Timeline log.
+        /// Google timeline can include accuraccy based on wifi networks and/or BTS, and those can be grossly inaccurate.
+        /// 
+        /// In one corner case, the position was 1000 miles away (with an accuracy of around 250meters). If you are getting a lot of wrong locations, tweak this number.
+        /// e.g. a 50m accuracy should still have high recall (lots of points), but filter out a lot of noise.
+        /// </summary>
+        public int GoogleTimelineMinimumAccuracyMeters { get; set; } = 500;
+
 
         /// <summary>
         ///  Where to store images & videos.
