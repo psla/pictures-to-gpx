@@ -17,6 +17,8 @@ namespace PicturesToGpx.Test
             Assert.IsNotNull(position);
             Assertions.AreApproximatelyEqual(47.6044703, position.Latitude);
             Assertions.AreApproximatelyEqual(-122.1496161, position.Longitude);
+            // Unknown dilution of precision.
+            Assertions.AreApproximatelyEqual(0, position.DilutionOfPrecision);
         }
     }
 }

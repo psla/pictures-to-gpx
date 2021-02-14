@@ -51,6 +51,7 @@ namespace PicturesToGpx
                 }
             }
             var allPoints = CacheOrExecute(Path.Combine(settings.WorkingDirectory, "cached-positions.json"), () => ImageUtility.FindLatLongsWithTime(folder));
+            allPoints = allPoints.Where(p => p.DilutionOfPrecision < 10 && p.DilutionOfPrecision > 0.01).ToList();
             if (!string.IsNullOrEmpty(settings.GpsInputDirectory))
             {
                 Console.WriteLine("Adding points from Endomondo");

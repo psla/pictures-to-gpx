@@ -111,6 +111,7 @@
     <Compile Include="Geometry\BoundingBox.cs" />
     <Compile Include="DirectoryUtilities.cs" />
     <Compile Include="Fetcher.cs" />
+    <Compile Include="Geometry\ExifParser.cs" />
     <Compile Include="Geometry\GeometryUtils.cs" />
     <Compile Include="Geometry\LatLongParser.cs" />
     <Compile Include="Geometry\LocationUtils.cs" />

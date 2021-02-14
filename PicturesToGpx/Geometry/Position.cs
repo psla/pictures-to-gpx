@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -26,13 +27,20 @@ namespace PicturesToGpx
         /// </summary>
         private readonly Position derivedFrom;
 
-        public Position(DateTimeOffset time, double latitude, double longitude, PositionUnit unit = PositionUnit.WGS84, Position derivedFrom = null)
+        [JsonConstructor]
+        public Position(DateTimeOffset time, double latitude, double longitude, double dilutionOfPrecision, PositionUnit unit = PositionUnit.WGS84, Position derivedFrom = null)
         {
             Time = time;
             Latitude = latitude;
             Longitude = longitude;
+            DilutionOfPrecision = dilutionOfPrecision;
             Unit = unit;
             this.derivedFrom = derivedFrom;
+        }
+
+        public Position(DateTimeOffset time, double latitude, double longitude, PositionUnit unit = PositionUnit.WGS84, Position derivedFrom = null)
+            : this(time, latitude, longitude, 0, unit, derivedFrom)
+        {
         }
 
         public DateTimeOffset Time { get; private set; }
@@ -40,6 +48,25 @@ namespace PicturesToGpx
         public double Latitude { get; private set; }
 
         public double Longitude { get; private set; }
+
+        /// <summary>
+        /// An interpreted value of dilution of precision from GPS, or 0 if not available.
+        /// This value may not be persisted when units change.
+        /// 
+        /// "we were trained to watch our PDOP values with the rough idea that values below 6 were good enough and values below 4 were great.  Values at 9 or higher meant that the user shouldn’t rely on the accuracy of that data and should wait until a better PDOP value could be attained by the satellites moving into preferable positioning in the sky (or spreading out)."
+        /// 
+        /// Delta output location / delta measured data
+        /// 
+        /// 1	Ideal	Highest possible confidence level to be used for applications demanding the highest possible precision at all times.
+        /// 1-2	Excellent At this confidence level, positional measurements are considered accurate enough to meet all but the most sensitive applications.
+        /// 2-5	Good Represents a level that marks the minimum appropriate for making accurate decisions.Positional measurements could be used to make reliable in-route navigation suggestions to the user.
+        /// 5-10	Moderate Positional measurements could be used for calculations, but the fix quality could still be improved. A more open view of the sky is recommended.
+        /// 10-20	Fair Represents a low confidence level. Positional measurements should be discarded or used only to indicate a very rough estimate of the current location.
+        /// >20	Poor At this level, measurements are inaccurate by as much as 300 meters with a 6-meter accurate device (50 DOP × 6 meters) and should be discarded.
+        /// 
+        /// TODO: consider making it nullable or optional instead of overloading the meaning of 0.
+        /// </summary>
+        public double DilutionOfPrecision { get; private set; }
 
         public PositionUnit Unit { get; } = PositionUnit.WGS84;
 

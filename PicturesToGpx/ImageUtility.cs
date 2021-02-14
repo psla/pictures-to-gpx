@@ -1,4 +1,5 @@
 ﻿using MetadataExtractor;
+using PicturesToGpx.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -35,6 +36,9 @@ namespace PicturesToGpx
             var longitude = directories.SelectMany(x => x.Tags).FirstOrDefault(t => t.Name == "GPS Longitude");
             var date = directories.SelectMany(x => x.Tags).FirstOrDefault(t => t.Name == "GPS Date Stamp");
             var time = directories.SelectMany(x => x.Tags).FirstOrDefault(t => t.Name == "GPS Time-Stamp");
+            var dilutionOfPrecision = directories.SelectMany(x => x.Tags).Where(t => t.Name.StartsWith("GPS DOP")).FirstOrDefault();
+
+            // sometimes DOP is represented as rational value (numerator, denominator), sometimes as double.
 
             if (latitude != null && longitude != null && date != null && time != null)
             {
@@ -44,13 +48,16 @@ namespace PicturesToGpx
                 var dateTimeUtc = DateTimeOffset.ParseExact(dateTime, gpsFormat, null, System.Globalization.DateTimeStyles.AssumeUniversal);
 
                 Console.WriteLine("[{0}]: {1}, {2}", dateTimeUtc, latitude.Description, longitude.Description);
-                return new Position(dateTimeUtc, LatLongParser.ParseString(latitude.Description), LatLongParser.ParseString(longitude.Description));
+                return new Position(dateTimeUtc,
+                    LatLongParser.ParseString(latitude.Description),
+                    LatLongParser.ParseString(longitude.Description),
+                    dilutionOfPrecision == null ? 0.0 : ExifParser.ParseRationalOrDouble(dilutionOfPrecision.Description));
             }
 
             if (latitude != null && longitude != null)
             {
                 var filesystemTime = directories.SelectMany(x => x.Tags).FirstOrDefault(t => t.Name == "File Modified Date");
-                if(filesystemTime != null)
+                if (filesystemTime != null)
                 {
                     var dateTime = DateTimeOffset.ParseExact(filesystemTime.Description, fileModifiedDateFormat, CultureInfo.InvariantCulture);
                     Console.WriteLine("[{0}]: {1}, {2}", dateTime, latitude.Description, longitude.Description);
