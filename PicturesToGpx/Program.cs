@@ -38,6 +38,13 @@ namespace PicturesToGpx
                 DateParseHandling = DateParseHandling.DateTimeOffset,
                 DateFormatHandling = DateFormatHandling.IsoDateFormat,
             });
+
+            if(settings.StartTime > settings.EndTime)
+            {
+                Console.Error.WriteLine("Start time is later than end time");
+                return;
+            }
+
             CreateDirectoryIfNotExists(settings.WorkingDirectory);
             CreateDirectoryIfNotExists(settings.OutputDirectory);
 
