@@ -58,7 +58,9 @@ namespace PicturesToGpx
                 }
             }
             var allPoints = CacheOrExecute(Path.Combine(settings.WorkingDirectory, "cached-positions.json"), () => ImageUtility.FindLatLongsWithTime(folder));
-            allPoints = allPoints.Where(p => p.DilutionOfPrecision < 10 && p.DilutionOfPrecision > 0.01).ToList();
+            Console.WriteLine("Loaded {0} positions from pictures", allPoints.Count);
+            allPoints = allPoints.Where(p => p.DilutionOfPrecision < 10 && p.DilutionOfPrecision > -0.01).ToList();
+            Console.WriteLine("After filtering, remaining {0} positions from pictures", allPoints.Count);
             if (!string.IsNullOrEmpty(settings.GpsInputDirectory))
             {
                 Console.WriteLine("Loading points from Endomondo");
@@ -129,6 +131,7 @@ namespace PicturesToGpx
             points = points.SmoothLineChaikin(settings.SofteningSettings);
 
             mapper.Save(Path.Combine(settings.OutputDirectory, "empty-map.png"));
+            Console.WriteLine("Empty map saved");
 
             var writer = new AviWriter(Path.Combine(settings.OutputDirectory, "map.avi"))
             {
@@ -140,6 +143,7 @@ namespace PicturesToGpx
 
             if (settings.VideoConfig.ProduceVideo)
             {
+                Console.WriteLine("Generating video");
                 var encoder = new MotionJpegVideoEncoderWpf(settings.VideoConfig.Width, settings.VideoConfig.Height, 70);
                 stream = writer.AddEncodingVideoStream(encoder, true, settings.VideoConfig.Width, settings.VideoConfig.Height);
                 stream.Width = settings.VideoConfig.Width;

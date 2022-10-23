@@ -50,7 +50,7 @@ namespace PicturesToGpx
                     }
                     else
                     {
-                        Console.WriteLine(GoogleMapsUrl, x, y, zoomLevel);
+                        // Console.WriteLine(GoogleMapsUrl, x, y, zoomLevel);
                         using (Bitmap b = fetcher.Fetch(string.Format(CultureInfo.InvariantCulture, GoogleMapsUrl, x, y, zoomLevel)))
                         {
                             mapper.DrawTile(LocationUtils.GetBoundingBox(x, y, zoomLevel), b);
