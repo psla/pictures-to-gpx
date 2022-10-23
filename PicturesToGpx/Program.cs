@@ -144,7 +144,7 @@ namespace PicturesToGpx
             if (settings.VideoConfig.ProduceVideo)
             {
                 Console.WriteLine("Generating video");
-                var encoder = new MotionJpegVideoEncoderWpf(settings.VideoConfig.Width, settings.VideoConfig.Height, 70);
+                var encoder = new MJpegWpfVideoEncoder(settings.VideoConfig.Width, settings.VideoConfig.Height, 70);
                 stream = writer.AddEncodingVideoStream(encoder, true, settings.VideoConfig.Width, settings.VideoConfig.Height);
                 stream.Width = settings.VideoConfig.Width;
                 stream.Height = settings.VideoConfig.Height;
