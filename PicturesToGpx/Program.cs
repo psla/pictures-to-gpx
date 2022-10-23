@@ -7,6 +7,8 @@ using SharpAvi.Codecs;
 using SharpAvi.Output;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -39,7 +41,7 @@ namespace PicturesToGpx
                 DateFormatHandling = DateFormatHandling.IsoDateFormat,
             });
 
-            if(settings.StartTime > settings.EndTime)
+            if (settings.StartTime > settings.EndTime)
             {
                 Console.Error.WriteLine("Start time is later than end time");
                 return;
@@ -84,7 +86,7 @@ namespace PicturesToGpx
                 allPoints = EnumerableUtils.Merge(allPoints, googleTimelinePoints, (x, y) => x.Time < y.Time).ToList();
             }
             var pointsWithinTimerframe = allPoints.Where(p => (settings.StartTime == null || p.Time > settings.StartTime) && (settings.EndTime == null || p.Time < settings.EndTime)).ToList();
-            if(!pointsWithinTimerframe.Any())
+            if (!pointsWithinTimerframe.Any())
             {
                 Console.Error.WriteLine("Did not fine any points within timeframe: [ {0}, {1} )", settings.StartTime, settings.EndTime);
                 Console.Error.WriteLine("Oldest point: {0}", allPoints.Min(p => p.Time));
@@ -155,7 +157,11 @@ namespace PicturesToGpx
 
             double yieldFrame = Math.Max(1, (points.Count / (lengthSeconds * settings.VideoConfig.Framerate)));
 
+            DateTimeOffset lastDay = GetTimeInGpsCoordinatesZone(mapper.FromPixelsToMercator(points[0]).GetWgs84(), points[0].Time);
             double nextFrame = 1;
+            var colors = settings.DayColors.Select(c => ColorTranslator.FromHtml(c)).ToList();
+            Trace.Assert(colors.Count > 0);
+            int colorIndex = 0;
             int wroteFrames = 0;
             for (int i = 1; i < points.Count; i++)
             {
@@ -163,12 +169,20 @@ namespace PicturesToGpx
                 var currentPoint = mapper.FromPixelsToMercator(points[i]);
                 totalDistanceMeters += previousPoint.DistanceMeters(currentPoint);
 
+                var currentDay = GetTimeInGpsCoordinatesZone(currentPoint.GetWgs84(), points[i].Time);
+                Color currentColor = colors[colorIndex];
+                if (lastDay.DayOfYear != currentDay.DayOfYear)
+                {
+                    lastDay = currentDay;
+                    colorIndex = (colorIndex + 1) % colors.Count;
+                }
+                
                 if (mapper.IsStashed)
                 {
                     mapper.StashPop();
                 }
-
-                mapper.DrawLine(points[i - 1], points[i]);
+                
+                mapper.DrawLine(points[i - 1], points[i], currentColor);
                 if (settings.DisplayDistance || settings.DisplayDateTime)
                 {
                     mapper.Stash();
@@ -181,10 +195,8 @@ namespace PicturesToGpx
                 if (settings.DisplayDateTime)
                 {
                     // mapper.WriteText(points[i].Time.ToString(), settings.VideoConfig.Height - 200);
-                    Position positionWgs84 = currentPoint.GetWgs84();
-                    var ianaTz = TimeZoneLookup.GetTimeZone(positionWgs84.Latitude, positionWgs84.Longitude).Result;
-                    TimeSpan offset = TimeZoneConverter.TZConvert.GetTimeZoneInfo(ianaTz).GetUtcOffset(points[i].Time);
-                    mapper.WriteText(points[i].Time.ToUniversalTime().Add(offset).ToString("MM/dd hh tt"), settings.VideoConfig.Height - 100);
+                    var localTime = GetTimeInGpsCoordinatesZone(currentPoint.GetWgs84(), points[i].Time);
+                    mapper.WriteText(currentDay.ToString("MM/dd hh tt"), settings.VideoConfig.Height - 100);
                 }
 
                 if (i >= nextFrame)
@@ -207,6 +219,13 @@ namespace PicturesToGpx
             string path = Path.Combine(settings.OutputDirectory, "complete-map.png");
             mapper.Save(path);
             Console.WriteLine("Wrote frames: {0}, points.Count={1}, yieldFrame={2}, path={3}", wroteFrames, points.Count, yieldFrame, path);
+        }
+
+        private static DateTimeOffset GetTimeInGpsCoordinatesZone(Position positionWgs84, DateTimeOffset dateTime)
+        {
+            var ianaTz = TimeZoneLookup.GetTimeZone(positionWgs84.Latitude, positionWgs84.Longitude).Result;
+            TimeSpan offset = TimeZoneConverter.TZConvert.GetTimeZoneInfo(ianaTz).GetUtcOffset(dateTime);
+            return dateTime.ToUniversalTime().Add(offset);
         }
 
         private static List<Position> CacheOrExecute(string cacheFile, Func<List<Position>> extractPositions)

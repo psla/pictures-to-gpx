@@ -128,6 +128,13 @@ namespace PicturesToGpx
         public bool DisplayDistance { get; set; } = true;
 
         /// <summary>
+        /// List of colors for each day separately. This are hex colors in `#ffffff` format.
+        /// If the list is shorter than number of days, they will work like a cyclic buffer. 
+        /// If you want two alternating colors, simply put two into the collection.
+        /// </summary>
+        public string[] DayColors { get; set; } = new[] { "#ff0000" };
+
+        /// <summary>
         /// Whether or not the date & time should be displayed.
         /// </summary>
         public bool DisplayDateTime { get; set; } = true;

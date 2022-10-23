@@ -121,7 +121,7 @@ namespace PicturesToGpx
             var result = TryGetWgs84();
             if (result == null)
             {
-                throw new InvalidOperationException("Can't derive WGS84 position");
+                throw new InvalidOperationException(string.Format("Can't derive WGS84 position, this={0}", this));
             }
 
             return result;

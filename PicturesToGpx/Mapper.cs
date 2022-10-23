@@ -18,7 +18,7 @@ namespace PicturesToGpx
         private readonly double unitsPerPixelWidth;
         private readonly double unitsPerPixelHeight;
         private readonly Graphics graphics;
-        private readonly Pen pen = new Pen(Color.Red, 5);
+        private readonly Dictionary<Color, Pen> pens = new Dictionary<Color, Pen>();
         private bool disposed;
         private Font drawFont;
         private SolidBrush drawBrush;
@@ -88,19 +88,33 @@ namespace PicturesToGpx
             bitmap.Save(path);
         }
 
-        internal void DrawLine(Position position1, Position position2)
+        internal void DrawLine(Position position1, Position position2, Color color)
         {
+            var pen = GetPen(color);
             graphics.DrawLine(pen,
                 new Point(GetX(position1), GetY(position1)),
                 new Point(GetX(position2), GetY(position2)));
         }
 
+        private Pen GetPen(Color color)
+        {
+            Pen pen;
+            if(pens.TryGetValue(color, out pen))
+            {
+                return pen;
+            }
+
+            pen = new Pen(color, 5);
+            pens[color] = pen;
+            return pen;
+    }
+
         private void DrawBoundingBox(BoundingBox boundingBox)
         {
-            DrawLine(boundingBox.LowerLeft, boundingBox.UpperLeft);
-            DrawLine(boundingBox.UpperLeft, boundingBox.UpperRight);
-            DrawLine(boundingBox.UpperRight, boundingBox.LowerRight);
-            DrawLine(boundingBox.LowerRight, boundingBox.LowerLeft);
+            DrawLine(boundingBox.LowerLeft, boundingBox.UpperLeft, Color.Red);
+            DrawLine(boundingBox.UpperLeft, boundingBox.UpperRight, Color.Red);
+            DrawLine(boundingBox.UpperRight, boundingBox.LowerRight, Color.Red);
+            DrawLine(boundingBox.LowerRight, boundingBox.LowerLeft, Color.Red);
         }
 
         // Public implementation of Dispose pattern callable by consumers.
@@ -120,7 +134,11 @@ namespace PicturesToGpx
 
             if (disposing)
             {
-                pen.Dispose();
+                foreach (var pen in pens)
+                {
+                    pen.Value.Dispose();
+                }
+                pens.Clear();
                 drawFont.Dispose();
                 drawBrush.Dispose();
             }
