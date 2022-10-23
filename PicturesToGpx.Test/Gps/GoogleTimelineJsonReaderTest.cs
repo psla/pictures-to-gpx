@@ -37,5 +37,22 @@ namespace PicturesToGpx.Test.Gps
 
             Assert.AreEqual(0, positions.Count);
         }
+
+
+        [TestMethod]
+        public void TestReadingFileFrom2022()
+        {
+            var reader = new GoogleTimelineJsonReader(40);
+            var positions = reader.Read(@"Gps\GoogleTimeline2022.json").ToList();
+
+            Assert.AreEqual(1, positions.Count);
+            Assert.AreEqual(
+                new DateTimeOffset(2016, 12, 18, 07, 21, 21, 0, TimeSpan.Zero),
+                positions[0].Time);
+
+            Assert.AreEqual(47.70544, positions[0].Latitude, 0.000001);
+            Assert.AreEqual(-122.2042971, positions[0].Longitude, 0.000001);
+        }
+
     }
 }

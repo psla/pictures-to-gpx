@@ -61,26 +61,36 @@ namespace PicturesToGpx
             allPoints = allPoints.Where(p => p.DilutionOfPrecision < 10 && p.DilutionOfPrecision > 0.01).ToList();
             if (!string.IsNullOrEmpty(settings.GpsInputDirectory))
             {
-                Console.WriteLine("Adding points from Endomondo");
-                var gpsPoints = CacheOrExecute(Path.Combine(settings.WorkingDirectory, "endomondo-positions.json"), () => FindAllPointsFromGpx(settings.GpsInputDirectory));
+                Console.WriteLine("Loading points from Endomondo");
+                var gpsPoints = CacheOrExecute(Path.Combine(settings.WorkingDirectory, "endomondo-positions.json"), () => FindAllPointsFromGpx(settings.GpsInputDirectory)).ToList();
+                Console.WriteLine("Found {0} points from Endomondo", gpsPoints.Count);
                 allPoints = EnumerableUtils.Merge(allPoints, gpsPoints, (x, y) => x.Time < y.Time).ToList();
             }
 
             if (!string.IsNullOrEmpty(settings.GoogleTimelineKmlFile))
             {
-                Console.WriteLine("Adding Google Timeline points");
-                var googleTimelinePoints = new GoogleTimelineKmlReader().Read(settings.GoogleTimelineKmlFile);
+                Console.WriteLine("Loading Google Timeline points from KML");
+                var googleTimelinePoints = new GoogleTimelineKmlReader().Read(settings.GoogleTimelineKmlFile).ToList();
+                Console.WriteLine("Found {0} Google Timeline points", googleTimelinePoints.Count);
                 allPoints = EnumerableUtils.Merge(allPoints, googleTimelinePoints, (x, y) => x.Time < y.Time).ToList();
             }
             if (!string.IsNullOrEmpty(settings.GoogleTimelineJsonFile))
             {
-                Console.WriteLine("Adding Google Timeline points from JSON");
-                var googleTimelinePoints = new GoogleTimelineJsonReader(settings.GoogleTimelineMinimumAccuracyMeters).Read(settings.GoogleTimelineJsonFile);
+                Console.WriteLine("Loading Google Timeline points from JSON");
+                var googleTimelinePoints = new GoogleTimelineJsonReader(settings.GoogleTimelineMinimumAccuracyMeters).Read(settings.GoogleTimelineJsonFile).ToList();
+                Console.WriteLine("Found {0} Google Timeline points", googleTimelinePoints.Count);
                 allPoints = EnumerableUtils.Merge(allPoints, googleTimelinePoints, (x, y) => x.Time < y.Time).ToList();
             }
-            allPoints = allPoints.Where(p => (settings.StartTime == null || p.Time > settings.StartTime) && (settings.EndTime == null || p.Time < settings.EndTime)).ToList();
-            WritePointsAsGpx(settings.OutputDirectory, allPoints);
-            CreateMapFromPoints(allPoints, settings);
+            var pointsWithinTimerframe = allPoints.Where(p => (settings.StartTime == null || p.Time > settings.StartTime) && (settings.EndTime == null || p.Time < settings.EndTime)).ToList();
+            if(!pointsWithinTimerframe.Any())
+            {
+                Console.Error.WriteLine("Did not fine any points within timeframe: [ {0}, {1} )", settings.StartTime, settings.EndTime);
+                Console.Error.WriteLine("Oldest point: {0}", allPoints.Min(p => p.Time));
+                Console.Error.WriteLine("Newest point: {0}", allPoints.Max(p => p.Time));
+                return;
+            }
+            WritePointsAsGpx(settings.OutputDirectory, pointsWithinTimerframe);
+            CreateMapFromPoints(pointsWithinTimerframe, settings);
         }
 
         private static List<Position> FindAllPointsFromGpx(string folder)

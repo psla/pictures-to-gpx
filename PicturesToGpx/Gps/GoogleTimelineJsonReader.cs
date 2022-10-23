@@ -32,6 +32,10 @@ namespace PicturesToGpx.Gps
             [JsonProperty("timestampMs")]
             public long TimestampMs { get; set; }
 
+
+            [JsonProperty("timestamp")]
+            public DateTimeOffset Timestamp { get; set; }
+
             [JsonProperty("latitudeE7")]
             public long LatitudeE7 { get; set; }
 
@@ -40,7 +44,12 @@ namespace PicturesToGpx.Gps
 
             internal Position ToPosition()
             {
-                return new Position(DateTimeOffset.FromUnixTimeMilliseconds(TimestampMs), LatitudeE7 * 1e-7, LongitudeE7 * 1e-7);
+                DateTimeOffset offset = DateTimeOffset.FromUnixTimeMilliseconds(TimestampMs);
+                if(TimestampMs == 0)
+                {
+                    offset = Timestamp;
+                }
+                return new Position(offset, LatitudeE7 * 1e-7, LongitudeE7 * 1e-7);
             }
         }
         private class GoogleTimelineJson
