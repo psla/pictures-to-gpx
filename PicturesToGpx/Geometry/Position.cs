@@ -81,20 +81,33 @@ namespace PicturesToGpx
                 Math.Pow(Longitude - other.Longitude, 2));
         }
 
+        private static double Radians(double x)
+        {
+            return x * Math.PI / 180;
+        }
+
         public double DistanceMeters(Position other)
         {
-            var p1 = this.GetMercator();
-            var p2 = other.GetMercator();
+            const double a = 6378.137; // equitorial radius in km
+            const double b = 6356.752; // polar radius in km
+            // from https://stackoverflow.com/questions/27928/calculate-distance-between-two-latitude-longitude-points-haversine-formula 
+            double x1, y1, z1;
+            double x2, y2, z2;
+            CalculateX1Y1Z1(a, b, Radians(this.GetWgs84().Latitude), Radians(this.GetWgs84().Longitude), out x1, out y1, out z1);
+            CalculateX1Y1Z1(a, b, Radians(other.GetWgs84().Latitude), Radians(other.GetWgs84().Longitude), out x2, out y2, out z2);
 
-            var p1wgs = p1.GetWgs84();
-            var p2wgs = p2.GetWgs84();
+            return Math.Sqrt(Math.Pow(x1 - x2 , 2) + Math.Pow(y1 - y2, 2) + Math.Pow(z1 - z2 ,2));
+        }
 
-            var simpsonRule =
-                (1 / Math.Cos(LocationUtils.ToRadians(p1wgs.Latitude))
-                + 1 / Math.Cos(LocationUtils.ToRadians(p2wgs.Latitude))
-                + 4 / Math.Cos(LocationUtils.ToRadians(p1wgs.Latitude + p2wgs.Latitude / 2.0))) / 6.0;
-
-            return Math.Sqrt(p1.DistanceSquare(p2)) / simpsonRule;
+        private static void CalculateX1Y1Z1(double a, double b, double lat1, double lons1, out double x1, out double y1, out double z1)
+        {
+            var R1 = Math.Sqrt((Math.Pow(Math.Pow(a, 2) * Math.Cos(lat1), 2) +
+                                    Math.Pow((Math.Pow(b, 2) * Math.Sin(lat1)), 2)) /
+                                    (Math.Pow(a * Math.Cos(lat1), 2) +
+                                    Math.Pow(b * Math.Sin(lat1), 2))); // #radius of earth at lat1
+            x1 = R1 * Math.Cos(lat1) * Math.Cos(lons1);
+            y1 = R1 * Math.Cos(lat1) * Math.Sin(lons1);
+            z1 = R1 * Math.Sin(lat1);
         }
 
         public Position GetMercator()

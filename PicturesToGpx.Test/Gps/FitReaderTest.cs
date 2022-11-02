@@ -29,6 +29,8 @@ namespace PicturesToGpx.Test.Gps
                 Assert.AreEqual(-122.149795263621, points[0].Longitude, 0.00001);
                 // UTC
                 Assert.AreEqual(new DateTimeOffset(2015, 11, 22, 18, 57, 04, TimeSpan.Zero), points[0].Time);
+                // Should be at least 35.64 according to ride with gps.
+                Assert.AreEqual(35.59, points.TotalDistanceMeters(), 0.01);
             }
         }
     }
