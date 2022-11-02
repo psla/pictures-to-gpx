@@ -176,21 +176,18 @@ namespace PicturesToGpx
                     lastDay = currentDay;
                     colorIndex = (colorIndex + 1) % colors.Count;
                 }
-                
+
                 if (mapper.IsStashed)
                 {
                     mapper.StashPop();
                 }
-                
+
                 mapper.DrawLine(points[i - 1], points[i], currentColor);
                 if (settings.DisplayDistance || settings.DisplayDateTime)
                 {
                     mapper.Stash();
                 }
-                if (settings.DisplayDistance)
-                {
-                    mapper.WriteText(string.Format("{0:0}km", totalDistanceMeters / 1000));
-                }
+                PrintDistance(settings, mapper, totalDistanceMeters);
 
                 if (settings.DisplayDateTime)
                 {
@@ -214,11 +211,20 @@ namespace PicturesToGpx
             }
             byte[] lastFrameData = mapper.GetBitmap();
             stream.WriteFrame(true, lastFrameData, 0, lastFrameData.Length);
+            PrintDistance();
             writer.Close();
             // DrawBoundingBox(boundingBox, mapper);
             string path = Path.Combine(settings.OutputDirectory, "complete-map.png");
             mapper.Save(path);
             Console.WriteLine("Wrote frames: {0}, points.Count={1}, yieldFrame={2}, path={3}", wroteFrames, points.Count, yieldFrame, path);
+        }
+
+        private static void PrintDistance(Settings settings, Mapper mapper, double totalDistanceMeters)
+        {
+            if (settings.DisplayDistance)
+            {
+                mapper.WriteText(string.Format("{0:0}km", totalDistanceMeters / 1000));
+            }
         }
 
         private static DateTimeOffset GetTimeInGpsCoordinatesZone(Position positionWgs84, DateTimeOffset dateTime)
