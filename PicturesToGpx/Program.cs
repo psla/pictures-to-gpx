@@ -211,7 +211,7 @@ namespace PicturesToGpx
             }
             byte[] lastFrameData = mapper.GetBitmap();
             stream.WriteFrame(true, lastFrameData, 0, lastFrameData.Length);
-            PrintDistance();
+            PrintDistance(settings, mapper, totalDistanceMeters);
             writer.Close();
             // DrawBoundingBox(boundingBox, mapper);
             string path = Path.Combine(settings.OutputDirectory, "complete-map.png");
