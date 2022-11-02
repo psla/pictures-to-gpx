@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Text.RegularExpressions;
 using System.Xml;
 
@@ -10,13 +11,13 @@ namespace PicturesToGpx.Gps
     public class GoogleTimelineKmlReader : IGpsReader
     {
         Regex parseCoords = new Regex(@"^(-?\d+\.?\d*) (-?\d+\.?\d*) -?\d+$", RegexOptions.Compiled | RegexOptions.CultureInvariant);
-        public IEnumerable<Position> Read(string filename)
+        public IEnumerable<Position> Read(Stream stream)
         {
             var doc = new XmlDocument();
             var nm = new XmlNamespaceManager(doc.NameTable);
             nm.AddNamespace("kml", "http://www.opengis.net/kml/2.2");
             nm.AddNamespace("gx", "http://www.google.com/kml/ext/2.2");
-            doc.Load(filename);
+            doc.Load(stream);
             var whenNodes = doc.SelectNodes("//kml:when", nm);
             var coordNodes = doc.SelectNodes("//gx:coord", nm);
             if (whenNodes.Count != coordNodes.Count)

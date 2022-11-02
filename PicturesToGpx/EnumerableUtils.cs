@@ -38,5 +38,22 @@ namespace PicturesToGpx
                 hasValue2 = enumerator2.MoveNext();
             }
         }
+
+        /// <summary>
+        ///    Returns the index of the first element matching a predicate.
+        /// </summary>
+        public static int? IndexOf<T>(this IEnumerable<T> enumerable, Func<T,bool> predicate)
+        {
+            int counter = 0;
+            foreach (var item in enumerable)
+            {
+                if(predicate(item))
+                {
+                    return counter;
+                }
+                counter++;
+            }
+            return null;
+        }
     }
 }

@@ -119,19 +119,22 @@ namespace PicturesToGpx.Gps
             public List<Point> Points { get; private set; }
         }
 
-        public IEnumerable<Position> Read(string filename)
+        public IEnumerable<Position> Read(Stream stream)
         {
             //var entries = JsonConvert.DeserializeObject<List<JsonEntry>>(File.ReadAllText(filename));
             //Trace.Assert(entries.Count == 1);
-            var file = JArray.Parse(File.ReadAllText(filename));
-            var entry = file.FirstOrDefault(f => f["points"] != null);
-            if(entry == null)
+            using (StreamReader streamReader = new StreamReader(stream))
             {
-                return Enumerable.Empty<Position>();
-            }
-            var entries = entry.ToObject<JsonEntry>(); // JsonConvert.DeserializeObject<List<JsonEntry>>();
+                var file = JArray.Parse(streamReader.ReadToEnd());
+                var entry = file.FirstOrDefault(f => f["points"] != null);
+                if (entry == null)
+                {
+                    return Enumerable.Empty<Position>();
+                }
+                var entries = entry.ToObject<JsonEntry>(); // JsonConvert.DeserializeObject<List<JsonEntry>>();
 
-            return entries.Points.Where(p => p != null).Select(p => p.ToPosition());
+                return entries.Points.Where(p => p != null).Select(p => p.ToPosition());
+            }
         }
     }
 }

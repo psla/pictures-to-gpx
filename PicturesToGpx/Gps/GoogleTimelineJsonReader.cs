@@ -17,11 +17,16 @@ namespace PicturesToGpx.Gps
 
         }
 
-        public IEnumerable<Position> Read(string filename)
+        public IEnumerable<Position> Read(Stream stream)
         {
             // Unfortunately reads the text into memory
-            var timeline = JsonConvert.DeserializeObject<GoogleTimelineJson>(File.ReadAllText(filename));
-            return timeline.Locations.Where(x => x.Accuracy <= this.minimumAccuracy).Select(p => p.ToPosition());
+            using (StreamReader reader = new StreamReader(stream))
+            using (JsonTextReader jsonReader = new JsonTextReader(reader))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                var timeline = serializer.Deserialize<GoogleTimelineJson>(jsonReader);
+                return timeline.Locations.Where(x => x.Accuracy <= this.minimumAccuracy).Select(p => p.ToPosition()).ToList();
+            }
         }
 
         private class Location
