@@ -11,17 +11,12 @@ namespace PicturesToGpx.Gps
     {
         public IEnumerable<Position> Read(Stream stream)
         {
-            System.Console.WriteLine(stream.Length);
             PositionsCollector positionsCollector = new PositionsCollector();
 
             var decoder = new Decode();
             MesgBroadcaster mesgBroadcaster = new MesgBroadcaster();
             decoder.MesgEvent += mesgBroadcaster.OnMesg;
             mesgBroadcaster.MesgEvent += positionsCollector.OnMesg;
-            decoder.MesgEvent += (sender, e) =>
-            {
-                Console.WriteLine("MesgEvent: {0}", e.mesg);
-            };
             decoder.MesgDefinitionEvent += mesgBroadcaster.OnMesgDefinition;
 
             Trace.Assert(decoder.Read(stream));
@@ -41,8 +36,6 @@ namespace PicturesToGpx.Gps
 
             internal void OnMesg(object sender, MesgEventArgs e)
             {
-                Console.WriteLine("OnMesg: Received Mesg with global ID#{0}, its name is {1}", e.mesg.Num, e.mesg.Name);
-
                 int? latFieldIndex = e.mesg.Fields.IndexOf(f => f.Name == "PositionLat");
                 int? longFieldIndex = e.mesg.Fields.IndexOf(f => f.Name == "PositionLong");
                 int? timestampFieldIndex = e.mesg.Fields.IndexOf(f => f.Name == "Timestamp");
