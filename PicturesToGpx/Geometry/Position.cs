@@ -96,7 +96,7 @@ namespace PicturesToGpx
             CalculateX1Y1Z1(a, b, Radians(this.GetWgs84().Latitude), Radians(this.GetWgs84().Longitude), out x1, out y1, out z1);
             CalculateX1Y1Z1(a, b, Radians(other.GetWgs84().Latitude), Radians(other.GetWgs84().Longitude), out x2, out y2, out z2);
 
-            return Math.Sqrt(Math.Pow(x1 - x2 , 2) + Math.Pow(y1 - y2, 2) + Math.Pow(z1 - z2 ,2));
+            return Math.Sqrt(Math.Pow(x1 - x2 , 2) + Math.Pow(y1 - y2, 2) + Math.Pow(z1 - z2 ,2)) * 1000.0;
         }
 
         private static void CalculateX1Y1Z1(double a, double b, double lat1, double lons1, out double x1, out double y1, out double z1)
