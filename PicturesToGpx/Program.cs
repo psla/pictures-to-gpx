@@ -197,7 +197,7 @@ namespace PicturesToGpx
 
                 stream = new NullVideoStream(settings.VideoConfig.Width, settings.VideoConfig.Height);
 
-                var encoder = new MJpegWpfVideoEncoder(settings.VideoConfig.Width, settings.VideoConfig.Height, 70);
+                var encoder = new MJpegWpfVideoEncoder(settings.VideoConfig.Width, settings.VideoConfig.Height, 80);
                 stream = writer.AddEncodingVideoStream(encoder, true, settings.VideoConfig.Width, settings.VideoConfig.Height);
                 stream.Width = settings.VideoConfig.Width;
                 stream.Height = settings.VideoConfig.Height;
@@ -264,8 +264,8 @@ namespace PicturesToGpx
                 mapper.StashPop();
             }
             byte[] lastFrameData = mapper.GetBitmap();
-            stream?.WriteFrame(true, lastFrameData, 0, lastFrameData.Length);
             PrintDistance(settings, mapper, totalDistanceMeters);
+            stream?.WriteFrame(true, lastFrameData, 0, lastFrameData.Length);
             writer?.Close();
 
             if (!string.IsNullOrEmpty(settings.StillConfig?.PopulatedMapPath))
