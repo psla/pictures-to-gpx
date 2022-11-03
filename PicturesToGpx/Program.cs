@@ -11,7 +11,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -79,6 +78,13 @@ namespace PicturesToGpx
                 var startTime = filePoints.Positions.Min(p => p.Time);
                 string filename = Path.GetFileNameWithoutExtension(filePoints.Filename);
                 string outputImagePath = Path.Combine(settings.OutputDirectory, filename + ".png");
+
+                if(File.Exists(outputImagePath))
+                {
+                    Console.WriteLine("Skipping {0} -- already exists", outputImagePath);
+                    continue;
+                }
+
                 settings.StillConfig = new Settings.StillSettings { PopulatedMapPath = outputImagePath };
                 Console.WriteLine("Outputting to {0}", outputImagePath);
                 CreateMapFromPoints(filePoints.Positions, settings);
