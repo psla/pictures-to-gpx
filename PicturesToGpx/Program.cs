@@ -83,6 +83,7 @@ namespace PicturesToGpx
                 Console.WriteLine("Outputting to {0}", outputImagePath);
                 CreateMapFromPoints(filePoints.Positions, settings);
                 File.SetCreationTimeUtc(outputImagePath, startTime.UtcDateTime);
+                File.SetLastWriteTime(outputImagePath, startTime.UtcDateTime);
             }
         }
 
