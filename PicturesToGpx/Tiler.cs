@@ -8,6 +8,7 @@ namespace PicturesToGpx
     internal class Tiler
     {
         private const int TileWidthHeight = 256;
+        private const int MaxZoomLevel = 19;
 
         // lyrs=h/m/
         //h = roads only
@@ -39,6 +40,7 @@ namespace PicturesToGpx
         internal static Mapper RenderMapInternal(BoundingBox boundingBox, int widthPx, int heightPx)
         {
             var zoomLevel = LocationUtils.GetZoomLevel(boundingBox, widthPx, heightPx);
+            zoomLevel = Math.Min(zoomLevel, MaxZoomLevel);
             Console.WriteLine("Desired zoomlevel: {0}", zoomLevel);
 
             var midX = LocationUtils.GetX(zoomLevel, boundingBox.MiddleLongitude);
