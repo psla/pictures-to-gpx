@@ -70,16 +70,16 @@ namespace PicturesToGpx
         {
             foreach (var filePoints in DirectoryUtilities.FindPointsForFiles(settings.GpsInputDirectory))
             {
-                if (!filePoints.Positions.Any())
+                if (filePoints.Positions.Count <= 3)
                 {
-                    Console.WriteLine("No points found for file {0}", filePoints.Filename);
+                    Console.WriteLine("Not enough points found for file={0}, points_count={1}", filePoints.Filename, filePoints.Positions.Count);
                     continue;
                 }
                 var startTime = filePoints.Positions.Min(p => p.Time);
                 string filename = Path.GetFileNameWithoutExtension(filePoints.Filename);
                 string outputImagePath = Path.Combine(settings.OutputDirectory, filename + ".png");
 
-                if(File.Exists(outputImagePath))
+                if (File.Exists(outputImagePath))
                 {
                     Console.WriteLine("Skipping {0} -- already exists", outputImagePath);
                     continue;
@@ -166,6 +166,22 @@ namespace PicturesToGpx
 
         private static void CreateMapFromPoints(List<Position> points, Settings settings)
         {
+            if (points.Count < 2)
+            {
+                Console.Error.WriteLine("Not enough points to draw a map");
+                return;
+            }
+            try
+            {
+                CreateMapFromPointsInternal(points, settings);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Unable to create map. points_count={0}, points[0]={1}", points.Count, points[0]);
+            }
+        }
+        private static void CreateMapFromPointsInternal(List<Position> points, Settings settings)
+        {
             points = points.Select(LocationUtils.ToMercator).ToList();
             var boundingBox = LocationUtils.GetBoundingBox(points);
 
@@ -183,7 +199,7 @@ namespace PicturesToGpx
 
             AviWriter writer = null;
 
-            IAviVideoStream stream = null; 
+            IAviVideoStream stream = null;
 
             if (settings.VideoConfig.ProduceVideo)
             {
