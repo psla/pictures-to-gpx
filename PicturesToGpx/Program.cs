@@ -19,7 +19,7 @@ namespace PicturesToGpx
 {
     internal static class Program
     {
-        enum Operation {  GenerateSingleOutput, GeneratePreviews };
+        enum Operation { GenerateSingleOutput, GeneratePreviews };
 
         /// <summary>
         /// First argument: project file path to generate a single output OR "generatePreviews" to generate previews for images.
@@ -60,7 +60,8 @@ namespace PicturesToGpx
                 DateFormatHandling = DateFormatHandling.IsoDateFormat,
             });
 
-            switch (operation) {
+            switch (operation)
+            {
                 case Operation.GenerateSingleOutput: GenerateMap(settings); break;
                 case Operation.GeneratePreviews: GeneratePreviews(settings); break;
             }
@@ -68,9 +69,9 @@ namespace PicturesToGpx
 
         private static void GeneratePreviews(Settings settings)
         {
-            foreach(var filePoints in DirectoryUtilities.FindPointsForFiles(settings.GpsInputDirectory))
+            foreach (var filePoints in DirectoryUtilities.FindPointsForFiles(settings.GpsInputDirectory))
             {
-                if(!filePoints.Positions.Any())
+                if (!filePoints.Positions.Any())
                 {
                     Console.WriteLine("No points found for file {0}", filePoints.Filename);
                     continue;
@@ -221,26 +222,29 @@ namespace PicturesToGpx
                 }
 
                 mapper.DrawLine(points[i - 1], points[i], currentColor);
-                if (settings.DisplayDistance || settings.DisplayDateTime)
+                if (settings.VideoConfig.ProduceVideo)
                 {
-                    mapper.Stash();
-                }
-                PrintDistance(settings, mapper, totalDistanceMeters);
+                    if (settings.DisplayDistance || settings.DisplayDateTime)
+                    {
+                        mapper.Stash();
+                    }
+                    PrintDistance(settings, mapper, totalDistanceMeters);
 
-                if (settings.DisplayDateTime)
-                {
-                    // mapper.WriteText(points[i].Time.ToString(), settings.VideoConfig.Height - 200);
-                    var localTime = GetTimeInGpsCoordinatesZone(currentPoint.GetWgs84(), points[i].Time);
-                    mapper.WriteText(currentDay.ToString("MM/dd hh tt"), settings.VideoConfig.Height - 100);
-                }
+                    if (settings.DisplayDateTime)
+                    {
+                        // mapper.WriteText(points[i].Time.ToString(), settings.VideoConfig.Height - 200);
+                        var localTime = GetTimeInGpsCoordinatesZone(currentPoint.GetWgs84(), points[i].Time);
+                        mapper.WriteText(currentDay.ToString("MM/dd hh tt"), settings.VideoConfig.Height - 100);
+                    }
 
-                if (i >= nextFrame)
-                {
-                    byte[] frameData = mapper.GetBitmap();
-                    stream.WriteFrame(true, frameData, 0, frameData.Length);
-                    wroteFrames++;
+                    if (i >= nextFrame)
+                    {
+                        byte[] frameData = mapper.GetBitmap();
+                        stream.WriteFrame(true, frameData, 0, frameData.Length);
+                        wroteFrames++;
 
-                    nextFrame += yieldFrame;
+                        nextFrame += yieldFrame;
+                    }
                 }
             }
             if (mapper.IsStashed)
@@ -251,12 +255,12 @@ namespace PicturesToGpx
             stream.WriteFrame(true, lastFrameData, 0, lastFrameData.Length);
             PrintDistance(settings, mapper, totalDistanceMeters);
             writer.Close();
-            
+
             if (!string.IsNullOrEmpty(settings.StillConfig?.PopulatedMapPath))
             {
                 mapper.Save(settings.StillConfig?.PopulatedMapPath);
             }
-            
+
             Console.WriteLine("Wrote frames: {0}, points.Count={1}, yieldFrame={2}, path={3}", wroteFrames, points.Count, yieldFrame, settings.StillConfig?.PopulatedMapPath);
         }
 

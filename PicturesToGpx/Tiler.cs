@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 
@@ -21,6 +22,21 @@ namespace PicturesToGpx
         private static readonly Fetcher fetcher = new Fetcher();
 
         internal static Mapper RenderMap(BoundingBox boundingBox, int widthPx, int heightPx)
+        {
+            var sw = new Stopwatch();
+            sw.Start();
+            try
+            {
+                return RenderMapInternal(boundingBox, widthPx, heightPx);
+            }
+            finally
+            {
+                sw.Stop();
+                Console.WriteLine("Fetched tiles: {0}ms", sw.ElapsedMilliseconds);
+            }
+        }
+
+        internal static Mapper RenderMapInternal(BoundingBox boundingBox, int widthPx, int heightPx)
         {
             var zoomLevel = LocationUtils.GetZoomLevel(boundingBox, widthPx, heightPx);
             Console.WriteLine("Desired zoomlevel: {0}", zoomLevel);
