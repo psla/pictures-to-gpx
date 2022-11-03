@@ -55,9 +55,10 @@ namespace PicturesToGpx.Gps
                     return;
                 }
 
-                double latitude = ((int)e.mesg.GetFieldValue((byte)latFieldIndex)) / (double)((1L << 32) / 360);
-                double longitude = ((int)e.mesg.GetFieldValue((byte)longFieldIndex)) / (double)((1L << 32) / 360);
-                object timestampOffset = e.mesg.Fields.ToList()[timestampFieldIndex.Value].GetValue();
+                List<Field> fields = e.mesg.Fields.ToList();
+                double latitude = ((int)fields[latFieldIndex.Value].GetValue()) / (double)((1L << 32) / 360);
+                double longitude = ((int)fields[longFieldIndex.Value].GetValue()) / (double)((1L << 32) / 360);
+                object timestampOffset = fields[timestampFieldIndex.Value].GetValue();
                 DateTimeOffset time = SecondsFrom1989((uint)timestampOffset);
                 var position = new Position(time,
                     latitude,

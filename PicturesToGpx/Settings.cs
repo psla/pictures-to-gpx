@@ -33,6 +33,19 @@ namespace PicturesToGpx
             public int Framerate { get; set; } = 30;
         }
 
+        public class StillSettings
+        {
+            /// <summary>
+            /// Where to store an empty map.
+            /// </summary>
+            public string EmptyMapPath { get; set; }
+
+            /// <summary>
+            /// Where to store a populated map
+            /// </summary>
+            public string PopulatedMapPath { get; set; }
+        }
+
         public class GpsSoftenerSettings
         {
             /// <summary>
@@ -102,12 +115,12 @@ namespace PicturesToGpx
         /// <summary>
         /// If provided, this is a minimum date time for all points -- points found before this date will be ignored.
         /// </summary>
-        public DateTimeOffset? StartTime { get; set; } = new DateTime(2019, 07, 07);
+        public DateTimeOffset? StartTime { get; set; } = new DateTime();
 
         /// <summary>
         /// If provided, this is a maximum date time for all points -- points found after this date (and time) will be ignored.
         /// </summary>
-        public DateTimeOffset? EndTime { get; set; } = new DateTime(2019, 07, 14, 14, 00, 00);
+        public DateTimeOffset? EndTime { get; set; } = new DateTime(2400, 1, 1);
 
         /// <summary>
         ///  A directory in which intermediate files will be stored. E.g. cached location points.
@@ -122,6 +135,11 @@ namespace PicturesToGpx
         public TilerConfig TilerConfig { get; set; } = new TilerConfig();
 
         public VideoSettings VideoConfig { get; set; } = new VideoSettings();
+
+        /// <summary>
+        /// Configuration for output files for still images. null config => no output files.
+        /// </summary>
+        public StillSettings StillConfig { get; set; } = new StillSettings();
 
         public ChaikinSettings SofteningSettings { get; set; } = new ChaikinSettings();
 

@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,6 +19,12 @@ namespace PicturesToGpx
 {
     internal static class Program
     {
+        enum Operation {  GenerateSingleOutput, GeneratePreviews };
+
+        /// <summary>
+        /// First argument: project file path to generate a single output OR "generatePreviews" to generate previews for images.
+        /// </summary>
+        /// <param name="args"></param>
         private static void Main(string[] args)
         {
             if (args.Length == 0)
@@ -28,19 +35,58 @@ namespace PicturesToGpx
                 return;
             }
 
-            if (!File.Exists(args[0]))
+            string configFile = "";
+            Operation operation = Operation.GenerateSingleOutput;
+            if (args[0] == "generatePreviews")
             {
-                Console.WriteLine("Project file {0} does not exist", args[0]);
+                configFile = args[1];
+                operation = Operation.GeneratePreviews;
+            }
+            else
+            {
+                configFile = args[0];
+            }
+
+            if (!File.Exists(configFile))
+            {
+                Console.WriteLine("Project file {0} does not exist", configFile);
                 return;
             }
 
-            Settings settings = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(args[0]), new JsonSerializerSettings
+            Settings settings = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(configFile), new JsonSerializerSettings
             {
                 Culture = CultureInfo.InvariantCulture,
                 DateParseHandling = DateParseHandling.DateTimeOffset,
                 DateFormatHandling = DateFormatHandling.IsoDateFormat,
             });
 
+            switch (operation) {
+                case Operation.GenerateSingleOutput: GenerateMap(settings); break;
+                case Operation.GeneratePreviews: GeneratePreviews(settings); break;
+            }
+        }
+
+        private static void GeneratePreviews(Settings settings)
+        {
+            foreach(var filePoints in DirectoryUtilities.FindPointsForFiles(settings.GpsInputDirectory))
+            {
+                if(!filePoints.Positions.Any())
+                {
+                    Console.WriteLine("No points found for file {0}", filePoints.Filename);
+                    continue;
+                }
+                var startTime = filePoints.Positions.Min(p => p.Time);
+                string filename = Path.GetFileNameWithoutExtension(filePoints.Filename);
+                string outputImagePath = Path.Combine(settings.OutputDirectory, filename + ".png");
+                settings.StillConfig = new Settings.StillSettings { PopulatedMapPath = outputImagePath };
+                Console.WriteLine("Outputting to {0}", outputImagePath);
+                CreateMapFromPoints(filePoints.Positions, settings);
+                File.SetCreationTimeUtc(outputImagePath, startTime.UtcDateTime);
+            }
+        }
+
+        private static void GenerateMap(Settings settings)
+        {
             if (settings.StartTime > settings.EndTime)
             {
                 Console.Error.WriteLine("Start time is later than end time");
@@ -99,18 +145,7 @@ namespace PicturesToGpx
 
         private static List<Position> FindAllPointsFromGpx(string folder)
         {
-            var points = new List<Position>();
-            var endomondoReader = new EndomondoJsonReader();
-            foreach (var file in DirectoryUtilities.FindAllFiles(folder))
-            {
-                if (file.EndsWith(".json", System.StringComparison.InvariantCultureIgnoreCase))
-                {
-                    Console.WriteLine("Parsing {0}", file);
-                    points.AddRange(endomondoReader.Read(file));
-                }
-            }
-
-            return points;
+            return DirectoryUtilities.FindPointsForFiles(folder).SelectMany(element => element.Positions).ToList();
         }
 
         private static void CreateDirectoryIfNotExists(string path)
@@ -132,8 +167,11 @@ namespace PicturesToGpx
             points = points.SkipTooClose(8).ToList();
             points = points.SmoothLineChaikin(settings.SofteningSettings);
 
-            mapper.Save(Path.Combine(settings.OutputDirectory, "empty-map.png"));
-            Console.WriteLine("Empty map saved");
+            if (!string.IsNullOrEmpty(settings.StillConfig?.EmptyMapPath))
+            {
+                mapper.Save(settings.StillConfig?.EmptyMapPath);
+                Console.WriteLine("Empty map saved");
+            }
 
             var writer = new AviWriter(Path.Combine(settings.OutputDirectory, "map.avi"))
             {
@@ -213,10 +251,13 @@ namespace PicturesToGpx
             stream.WriteFrame(true, lastFrameData, 0, lastFrameData.Length);
             PrintDistance(settings, mapper, totalDistanceMeters);
             writer.Close();
-            // DrawBoundingBox(boundingBox, mapper);
-            string path = Path.Combine(settings.OutputDirectory, "complete-map.png");
-            mapper.Save(path);
-            Console.WriteLine("Wrote frames: {0}, points.Count={1}, yieldFrame={2}, path={3}", wroteFrames, points.Count, yieldFrame, path);
+            
+            if (!string.IsNullOrEmpty(settings.StillConfig?.PopulatedMapPath))
+            {
+                mapper.Save(settings.StillConfig?.PopulatedMapPath);
+            }
+            
+            Console.WriteLine("Wrote frames: {0}, points.Count={1}, yieldFrame={2}, path={3}", wroteFrames, points.Count, yieldFrame, settings.StillConfig?.PopulatedMapPath);
         }
 
         private static void PrintDistance(Settings settings, Mapper mapper, double totalDistanceMeters)

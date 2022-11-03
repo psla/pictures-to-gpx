@@ -1,0 +1,15 @@
+﻿{
+  "ProjectName": "gps-previews-2022",
+  "GpsInputDirectory": "U:\\wspolne\\GPS\\2022-10-23_Piotr_Strava_export_12270567\\activities",
+  "OutputDirectory": "U:\\wspolne\\GPS\\2022-10-23_Piotr_Strava_export_12270567\\activities\\previews",
+  "WorkingDirectory": "G:\\tmp\\WorkDir",
+  "TileCacheDirectory": "G:\\tmp\\tile-cache",
+  "VideoConfig": {
+    "ProduceVideo": false,
+    "Width": 1920,
+    "Height": 1080
+  },
+  "SofteningSettings": {
+    "WhereToRound": 0.9
+  }
+}
