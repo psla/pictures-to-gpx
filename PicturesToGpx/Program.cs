@@ -175,17 +175,22 @@ namespace PicturesToGpx
                 Console.WriteLine("Empty map saved");
             }
 
-            var writer = new AviWriter(Path.Combine(settings.OutputDirectory, "map.avi"))
-            {
-                FramesPerSecond = settings.VideoConfig.Framerate,
-                EmitIndex1 = true
-            };
+            AviWriter writer = null;
 
-            IAviVideoStream stream = new NullVideoStream(settings.VideoConfig.Width, settings.VideoConfig.Height);
+            IAviVideoStream stream = null; 
 
             if (settings.VideoConfig.ProduceVideo)
             {
                 Console.WriteLine("Generating video");
+
+                writer = new AviWriter(Path.Combine(settings.OutputDirectory, "map.avi"))
+                {
+                    FramesPerSecond = settings.VideoConfig.Framerate,
+                    EmitIndex1 = true
+                };
+
+                stream = new NullVideoStream(settings.VideoConfig.Width, settings.VideoConfig.Height);
+
                 var encoder = new MJpegWpfVideoEncoder(settings.VideoConfig.Width, settings.VideoConfig.Height, 70);
                 stream = writer.AddEncodingVideoStream(encoder, true, settings.VideoConfig.Width, settings.VideoConfig.Height);
                 stream.Width = settings.VideoConfig.Width;
@@ -253,9 +258,9 @@ namespace PicturesToGpx
                 mapper.StashPop();
             }
             byte[] lastFrameData = mapper.GetBitmap();
-            stream.WriteFrame(true, lastFrameData, 0, lastFrameData.Length);
+            stream?.WriteFrame(true, lastFrameData, 0, lastFrameData.Length);
             PrintDistance(settings, mapper, totalDistanceMeters);
-            writer.Close();
+            writer?.Close();
 
             if (!string.IsNullOrEmpty(settings.StillConfig?.PopulatedMapPath))
             {
