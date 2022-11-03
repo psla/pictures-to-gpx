@@ -263,8 +263,8 @@ namespace PicturesToGpx
             {
                 mapper.StashPop();
             }
-            byte[] lastFrameData = mapper.GetBitmap();
             PrintDistance(settings, mapper, totalDistanceMeters);
+            byte[] lastFrameData = mapper.GetBitmap();
             stream?.WriteFrame(true, lastFrameData, 0, lastFrameData.Length);
             writer?.Close();
 
