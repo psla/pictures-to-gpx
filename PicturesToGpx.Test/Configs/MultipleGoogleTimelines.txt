@@ -1,0 +1,30 @@
+﻿{
+  "ProjectName": "texas-2022",
+  "PicturesInputDirectory": "U:\\wspolne\\Fotografie\\2022\\2022-12-18_to_31__Utah__New_Mexico__Texas__Road_Trip",
+  "GpsInputDirectory": "U:\\wspolne\\Projekty\\2022-2023\\2022-12_Roadtrip_Texas\\WorkDir", // todo strava
+  "OutputDirectory": "U:\\wspolne\\Projekty\\2022-2023\\2022-12_Roadtrip_Texas",
+  "StartTime": "2022-12-18 00:00:00",
+  "EndTime": "2023-01-01",
+  "WorkingDirectory": "U:\\wspolne\\Projekty\\2021-2022\\2022-12_Roadtrip_Texas\\WorkDir",
+  "GoogleTimelineJsonFiles": [
+	"U:\\wspolne\\GPS\\2022-12\\piotr-takeout-20230123T032835Z-001\\Takeout\\Location History\\Records.json",
+	"U:\\wspolne\\GPS\\2022-12\\ola-takeout-20230123T032033Z-001\\Takeout\\Location History\\Records.json",
+  ],
+  "GoogleTimelineMinimumAccuracyMeters": 50,
+  "TileCacheDirectory": "G:\\tmp\\tile-cache",
+  "TilerConfig": {
+    "DrawTilesBoundingBox": false
+  },
+  "VideoConfig": {
+    "ProduceVideo": true,
+    "VideoDuration": "00:00:15.000000",
+    "Width": 1920,
+    "Height": 1080,
+	"Framerate": 30
+  },
+  "SofteningSettings": {
+	"WhereToRound": 0.9
+  },
+  // "DayColors": [ "#ff0000", "#ff00ff", "#00ffff", "#0000ff", "#257452", "#ff7e00" ]
+  "DayColors": [ "#ff0000", "#0000ff", "#00ffff", "#ff00ff", "#257452", "#ff7e00" ]
+}

@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace PicturesToGpx
@@ -97,6 +98,11 @@ namespace PicturesToGpx
         public string GoogleTimelineJsonFile { get; set; }
 
         /// <summary>
+        /// A JSON files from google timeline. This is a collection of more than one (e.g. more than one account).
+        /// </summary>
+        public string[] GoogleTimelineJsonFiles { get; set; } = new string[0];
+
+        /// <summary>
         /// A minimum accurracy in meters which is considered as a valid location from Google Timeline log.
         /// Google timeline can include accuraccy based on wifi networks and/or BTS, and those can be grossly inaccurate.
         /// 
@@ -168,6 +174,16 @@ namespace PicturesToGpx
             {
                 throw new ArgumentException($"Invalid project name {ProjectName}");
             }
+        }
+
+        public string[] GetGoogleTimelineFiles()
+        {
+            if(GoogleTimelineJsonFile == null)
+            {
+                return GoogleTimelineJsonFiles;
+            }
+
+            return Enumerable.Concat(GoogleTimelineJsonFiles, new[] { GoogleTimelineJsonFile }).ToArray();
         }
     }
 }

@@ -52,12 +52,7 @@ namespace PicturesToGpx
                 return;
             }
 
-            Settings settings = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(configFile), new JsonSerializerSettings
-            {
-                Culture = CultureInfo.InvariantCulture,
-                DateParseHandling = DateParseHandling.DateTimeOffset,
-                DateFormatHandling = DateFormatHandling.IsoDateFormat,
-            });
+            Settings settings = ConfigReader.ReadConfig(configFile);
 
             switch (operation)
             {
@@ -132,11 +127,11 @@ namespace PicturesToGpx
                 Console.WriteLine("Found {0} Google Timeline points", googleTimelinePoints.Count);
                 allPoints = EnumerableUtils.Merge(allPoints, googleTimelinePoints, (x, y) => x.Time < y.Time).ToList();
             }
-            if (!string.IsNullOrEmpty(settings.GoogleTimelineJsonFile))
+            foreach(var googleTimeline in settings.GetGoogleTimelineFiles()) 
             {
-                Console.WriteLine("Loading Google Timeline points from JSON");
-                var googleTimelinePoints = new GoogleTimelineJsonReader(settings.GoogleTimelineMinimumAccuracyMeters).Read(settings.GoogleTimelineJsonFile).ToList();
-                Console.WriteLine("Found {0} Google Timeline points", googleTimelinePoints.Count);
+                Console.WriteLine("Loading Google Timeline points from JSON: {0}", googleTimeline);
+                var googleTimelinePoints = new GoogleTimelineJsonReader(settings.GoogleTimelineMinimumAccuracyMeters).Read(googleTimeline).ToList();
+                Console.WriteLine("Found {0} Google Timeline points in {1}", googleTimelinePoints.Count, googleTimeline);
                 allPoints = EnumerableUtils.Merge(allPoints, googleTimelinePoints, (x, y) => x.Time < y.Time).ToList();
             }
             var pointsWithinTimerframe = allPoints.Where(p => (settings.StartTime == null || p.Time > settings.StartTime) && (settings.EndTime == null || p.Time < settings.EndTime)).ToList();
