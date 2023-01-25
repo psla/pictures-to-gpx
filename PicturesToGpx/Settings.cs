@@ -32,6 +32,15 @@ namespace PicturesToGpx
             public int Height { get; set; } = 1080;
 
             public int Framerate { get; set; } = 30;
+
+
+            /// <summary>
+            /// How many times should the last frame be repeated. >= 0
+            /// </summary>
+            /// <remarks>
+            /// Any repetition here comes after the VideoDuration.
+            /// </remarks>
+            public int RepeatLastFrameCount { get; set; } = 1;
         }
 
         public class StillSettings
@@ -163,6 +172,9 @@ namespace PicturesToGpx
         /// </summary>
         public bool DisplayDateTime { get; set; } = true;
         
+        /// <summary>
+        /// How close should two pixels be to be rendered on the map.
+        /// </summary>
         public int MinPixelProximity { get; set; } = 8;
 
         public Settings()

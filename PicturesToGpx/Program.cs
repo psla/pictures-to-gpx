@@ -288,7 +288,10 @@ namespace PicturesToGpx
             }
             PrintDistance(settings, mapper, totalDistanceMeters);
             byte[] lastFrameData = mapper.GetBitmap();
-            stream?.WriteFrame(true, lastFrameData, 0, lastFrameData.Length);
+            for (int i = 0; i < settings.VideoConfig.RepeatLastFrameCount; i++)
+            {
+                stream?.WriteFrame(true, lastFrameData, 0, lastFrameData.Length);
+            }
             writer?.Close();
 
             if (!string.IsNullOrEmpty(settings.StillConfig?.PopulatedMapPath))
