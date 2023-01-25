@@ -162,6 +162,8 @@ namespace PicturesToGpx
         /// Whether or not the date & time should be displayed.
         /// </summary>
         public bool DisplayDateTime { get; set; } = true;
+        
+        public int MinPixelProximity { get; set; } = 8;
 
         public Settings()
         {

@@ -9,22 +9,33 @@ namespace PicturesToGpx
         public static IEnumerable<Position> SkipTooClose(this IEnumerable<Position> input, int distanceToSkip = 10)
         {
             long distanceToSkipSquared = distanceToSkip * distanceToSkip;
-            Position lastPoint = null;
+            Position lastDrawnPoint = null;
+            Position lastProcessedPoint = null;
             foreach (var element in input)
             {
-                if (lastPoint == null)
+                if (lastDrawnPoint == null)
                 {
                     yield return element;
-                    lastPoint = element;
+                    lastDrawnPoint = element;
                 }
                 else
                 {
-                    if (lastPoint.DistanceSquare(element) > distanceToSkipSquared)
+                    if (lastDrawnPoint.DistanceSquare(element) > distanceToSkipSquared)
                     {
                         yield return element;
-                        lastPoint = element;
+                        lastDrawnPoint = element;
+                    }
+                    else if (lastProcessedPoint.DistanceSquare(element) > distanceToSkipSquared)
+                    {
+                        // the idea is that if the previous point is further away than minimum distance,
+                        // even if it was close to the former point, we are still going to draw it for the best approximation.
+                        // 
+                        // it would be even better to draw all points every X pixels, but only draw a FRAME every X distance. But that some other time :)
+                        yield return lastProcessedPoint;
                     }
                 }
+
+                lastProcessedPoint = element;
             }
         }
 

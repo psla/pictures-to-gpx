@@ -53,6 +53,7 @@ namespace PicturesToGpx
             }
 
             Settings settings = ConfigReader.ReadConfig(configFile);
+            Console.WriteLine("Pixel proximity: {0}", settings.MinPixelProximity);
             if (settings.TileCacheDirectory != null)
             {
                 if (!Directory.Exists(settings.TileCacheDirectory))
@@ -194,7 +195,7 @@ namespace PicturesToGpx
             var mapper = Tiler.RenderMap(boundingBox, settings.VideoConfig.Width, settings.VideoConfig.Height);
 
             points = mapper.GetPixels(points).ToList();
-            points = points.SkipTooClose(8).ToList();
+            points = points.SkipTooClose(settings.MinPixelProximity).ToList();
             points = points.SmoothLineChaikin(settings.SofteningSettings);
 
             if (!string.IsNullOrEmpty(settings.StillConfig?.EmptyMapPath))
