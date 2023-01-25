@@ -53,6 +53,15 @@ namespace PicturesToGpx
             }
 
             Settings settings = ConfigReader.ReadConfig(configFile);
+            if (settings.TileCacheDirectory != null)
+            {
+                if (!Directory.Exists(settings.TileCacheDirectory))
+                {
+                    Console.Error.WriteLine("Tile cache directory '{0}' does not exist", settings.TileCacheDirectory);
+                    return;
+                }
+                Tiler.SetFetcherPath(settings.TileCacheDirectory);
+            }
 
             switch (operation)
             {
@@ -170,9 +179,11 @@ namespace PicturesToGpx
             {
                 CreateMapFromPointsInternal(points, settings);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 Console.WriteLine("Unable to create map. points_count={0}, points[0]={1}", points.Count, points[0]);
+                Console.Error.WriteLine(e.Message);
+                Console.Error.WriteLine(e.ToString());
             }
         }
         private static void CreateMapFromPointsInternal(List<Position> points, Settings settings)

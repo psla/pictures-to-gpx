@@ -2,6 +2,9 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
+using System.Runtime;
+using System.Threading;
 
 namespace PicturesToGpx
 {
@@ -20,7 +23,17 @@ namespace PicturesToGpx
         //y = hybrid
         private static readonly string GoogleMapsUrl = "http://mt1.google.com/vt/lyrs=m&x={0}&y={1}&z={2}";
 
-        private static readonly Fetcher fetcher = new Fetcher();
+        private static volatile Fetcher fetcher = new Fetcher();
+
+        public static void SetFetcherPath(string path)
+        {
+            if (!Directory.Exists(path))
+            {
+                throw new DirectoryNotFoundException(path);
+            }
+
+            fetcher = new Fetcher(path);
+        }
 
         internal static Mapper RenderMap(BoundingBox boundingBox, int widthPx, int heightPx)
         {
