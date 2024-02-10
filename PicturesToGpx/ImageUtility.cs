@@ -45,7 +45,12 @@ namespace PicturesToGpx
                 var dateTime = $"{date.Description} {time.Description}";
                 Console.WriteLine(dateTime);
                 Console.WriteLine(gpsFormat);
-                var dateTimeUtc = DateTimeOffset.ParseExact(dateTime, gpsFormat, null, System.Globalization.DateTimeStyles.AssumeUniversal);
+                DateTimeOffset dateTimeUtc;
+                if (!DateTimeOffset.TryParseExact(dateTime, gpsFormat, null, System.Globalization.DateTimeStyles.AssumeUniversal, out dateTimeUtc))
+                {
+                    Console.Error.WriteLine("Unable to parse GPS date: {0}", dateTime);
+                    return null;
+                }
 
                 Console.WriteLine("[{0}]: {1}, {2}", dateTimeUtc, latitude.Description, longitude.Description);
                 return new Position(dateTimeUtc,
