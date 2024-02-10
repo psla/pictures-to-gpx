@@ -30,6 +30,8 @@ namespace PicturesToGpx
         [JsonConstructor]
         public Position(DateTimeOffset time, double latitude, double longitude, double dilutionOfPrecision, PositionUnit unit = PositionUnit.WGS84, Position derivedFrom = null)
         {
+            if (latitude == 0.0) { throw new ArgumentException("0.0 is most likely not a correct latitude"); }
+            if (longitude == 0.0) { throw new ArgumentException("0.0 is most likely not a correct longitude"); }
             Time = time;
             Latitude = latitude;
             Longitude = longitude;
@@ -96,7 +98,7 @@ namespace PicturesToGpx
             CalculateX1Y1Z1(a, b, Radians(this.GetWgs84().Latitude), Radians(this.GetWgs84().Longitude), out x1, out y1, out z1);
             CalculateX1Y1Z1(a, b, Radians(other.GetWgs84().Latitude), Radians(other.GetWgs84().Longitude), out x2, out y2, out z2);
 
-            return Math.Sqrt(Math.Pow(x1 - x2 , 2) + Math.Pow(y1 - y2, 2) + Math.Pow(z1 - z2 ,2)) * 1000.0;
+            return Math.Sqrt(Math.Pow(x1 - x2, 2) + Math.Pow(y1 - y2, 2) + Math.Pow(z1 - z2, 2)) * 1000.0;
         }
 
         private static void CalculateX1Y1Z1(double a, double b, double lat1, double lons1, out double x1, out double y1, out double z1)

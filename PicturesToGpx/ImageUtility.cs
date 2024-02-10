@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace PicturesToGpx
 {
@@ -59,7 +60,10 @@ namespace PicturesToGpx
                     dilutionOfPrecision == null ? 0.0 : ExifParser.ParseRationalOrDouble(dilutionOfPrecision.Description));
             }
 
-            if (latitude != null && longitude != null && !string.IsNullOrWhiteSpace(latitude.Description) && !string.IsNullOrWhiteSpace(longitude.Description))
+            if (latitude != null && longitude != null 
+                && !string.IsNullOrWhiteSpace(latitude.Description) && !string.IsNullOrWhiteSpace(longitude.Description)
+                && latitude.Description != "0° 0' 0\""
+                && longitude.Description != "0° 0' 0\"")
             {
                 var filesystemTime = directories.SelectMany(x => x.Tags).FirstOrDefault(t => t.Name == "File Modified Date");
                 if (filesystemTime != null)
