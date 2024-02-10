@@ -25,7 +25,7 @@ namespace PicturesToGpx.Gps
             {
                 JsonSerializer serializer = new JsonSerializer();
                 var timeline = serializer.Deserialize<GoogleTimelineJson>(jsonReader);
-                return timeline.Locations.Where(x => x.Accuracy <= this.minimumAccuracy).Select(p => p.ToPosition()).ToList();
+                return timeline.Locations.Where(x => x.Accuracy <= this.minimumAccuracy && x.LatitudeE7 != 0).Select(p => p.ToPosition()).ToList();
             }
         }
 
