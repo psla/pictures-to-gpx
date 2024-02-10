@@ -54,7 +54,7 @@ namespace PicturesToGpx
                     dilutionOfPrecision == null ? 0.0 : ExifParser.ParseRationalOrDouble(dilutionOfPrecision.Description));
             }
 
-            if (latitude != null && longitude != null)
+            if (latitude != null && longitude != null && !string.IsNullOrWhiteSpace(latitude.Description) && !string.IsNullOrWhiteSpace(longitude.Description))
             {
                 var filesystemTime = directories.SelectMany(x => x.Tags).FirstOrDefault(t => t.Name == "File Modified Date");
                 if (filesystemTime != null)
