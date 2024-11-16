@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -89,7 +90,12 @@ namespace PicturesToGpx
         /// <summary>
         /// A directory in which pictures will be searched for.
         /// </summary>
-        public string PicturesInputDirectory { get; set; } = @"F:\Fotografie\2019\2019-07_Maroko_Morocco";
+        public string PicturesInputDirectory { get; set; } = null;
+
+        /// <summary>
+        /// A list of directories in which pictures will be searched for, if more than one. Also fine to use if only one.
+        /// </summary>
+        public List<string> PicturesInputDirectories { get; set; } = new List<string>();
 
         /// <summary>
         /// GPS files (GPX, TCX) will be searched on in here.

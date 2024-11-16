@@ -5,13 +5,16 @@ using PicturesToGpx.Gps;
 using SharpAvi;
 using SharpAvi.Codecs;
 using SharpAvi.Output;
+using SharpKml.Dom;
 using System;
+using System.Buffers.Text;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace PicturesToGpx
@@ -109,16 +112,25 @@ namespace PicturesToGpx
             CreateDirectoryIfNotExists(settings.WorkingDirectory);
             CreateDirectoryIfNotExists(settings.OutputDirectory);
 
-            var folder = settings.PicturesInputDirectory;
-            if (!Directory.Exists(folder))
+            var folders = new List<string>(settings.PicturesInputDirectories)
             {
-                using (var se = new StreamWriter(System.Console.OpenStandardError()))
+                settings.PicturesInputDirectory
+            };
+            folders = folders.Where(f => !string.IsNullOrEmpty(f)).ToList();
+            foreach (var folder in folders)
+            {
+                if (!Directory.Exists(folder))
                 {
-                    se.WriteLine("Provided directory doesn't exist, Pictures directory: {0}", folder);
-                    return;
+                    using (var se = new StreamWriter(System.Console.OpenStandardError()))
+                    {
+                        se.WriteLine("Provided directory doesn't exist, Pictures directory: {0}", folder);
+                        return;
+                    }
                 }
             }
-            var allPoints = CacheOrExecute(Path.Combine(settings.WorkingDirectory, "cached-positions.json"), () => ImageUtility.FindLatLongsWithTime(folder));
+            var allPoints =
+                folders.SelectMany(f => CacheOrExecute(Path.Combine(settings.WorkingDirectory, Regex.Replace(f, @"[:/\\ ]+", "-") + "cached-positions.json"), () => ImageUtility.FindLatLongsWithTime(f)))
+                .ToList();
             Console.WriteLine("Loaded {0} positions from pictures", allPoints.Count);
             allPoints = allPoints.Where(p => p.DilutionOfPrecision < 10 && p.DilutionOfPrecision > -0.01).ToList();
             Console.WriteLine("After filtering, remaining {0} positions from pictures", allPoints.Count);
@@ -137,7 +149,7 @@ namespace PicturesToGpx
                 Console.WriteLine("Found {0} Google Timeline points", googleTimelinePoints.Count);
                 allPoints = EnumerableUtils.Merge(allPoints, googleTimelinePoints, (x, y) => x.Time < y.Time).ToList();
             }
-            foreach(var googleTimeline in settings.GetGoogleTimelineFiles()) 
+            foreach (var googleTimeline in settings.GetGoogleTimelineFiles())
             {
                 Console.WriteLine("Loading Google Timeline points from JSON: {0}", googleTimeline);
                 var googleTimelinePoints = new GoogleTimelineJsonReader(settings.GoogleTimelineMinimumAccuracyMeters).Read(googleTimeline).ToList();
@@ -313,7 +325,7 @@ namespace PicturesToGpx
         private static DateTimeOffset GetTimeInGpsCoordinatesZone(Position positionWgs84, DateTimeOffset dateTime)
         {
             var ianaTz = TimeZoneLookup.GetTimeZone(positionWgs84.Latitude, positionWgs84.Longitude).Result;
-            TimeSpan offset = TimeZoneConverter.TZConvert.GetTimeZoneInfo(ianaTz).GetUtcOffset(dateTime);
+            System.TimeSpan offset = TimeZoneConverter.TZConvert.GetTimeZoneInfo(ianaTz).GetUtcOffset(dateTime);
             return dateTime.ToUniversalTime().Add(offset);
         }
 
