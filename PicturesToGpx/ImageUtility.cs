@@ -3,6 +3,7 @@ using PicturesToGpx.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
@@ -13,17 +14,45 @@ namespace PicturesToGpx
         private const string gpsFormat = "yyyy:MM:dd HH:mm:ss.fff UTC";
         // Thu Dec 11 16:42:12 -08:00 2014
         private const string fileModifiedDateFormat = "ddd MMM dd H:mm:ss zzz yyyy";
+        public static bool IsFileReadable(string filePath)
+        {
+            try
+            {
+                using (FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                {
+                    return true;
+                }
+            }
+            catch (IOException)
+            {
+                return false;
+            }
+        }
 
         public static Position TryExtractPositionFromFile(string file)
         {
             Console.WriteLine(file);
 
-            IReadOnlyList<Directory> directories;
+            if(!System.IO.File.Exists(file))
+            {
+                throw new InvalidOperationException("File not found " + file);
+            }
+            if(!IsFileReadable(file))
+            {
+                throw new InvalidOperationException("File not readable " + file);
+            }
+            
+            IReadOnlyList<MetadataExtractor.Directory> directories;
             try
             {
                 directories = ImageMetadataReader.ReadMetadata(file);
             }
             catch (ImageProcessingException)
+            {
+                Console.WriteLine("Unable to process {0}", file);
+                return null;
+            }
+            catch(System.IO.IOException)
             {
                 Console.WriteLine("Unable to process {0}", file);
                 return null;
