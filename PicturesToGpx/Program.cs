@@ -130,6 +130,7 @@ namespace PicturesToGpx
             }
             var allPoints =
                 folders.SelectMany(f => CacheOrExecute(Path.Combine(settings.WorkingDirectory, Regex.Replace(f, @"[:/\\ ]+", "-") + "cached-positions.json"), () => ImageUtility.FindLatLongsWithTime(f)))
+                .OrderBy(f => f.Time)
                 .ToList();
             Console.WriteLine("Loaded {0} positions from pictures", allPoints.Count);
             allPoints = allPoints.Where(p => p.DilutionOfPrecision < 10 && p.DilutionOfPrecision > -0.01).ToList();
