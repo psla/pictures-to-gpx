@@ -211,7 +211,7 @@ namespace PicturesToGpx
             var mercatorPoints = rawPoints.Select(LocationUtils.ToMercator).ToList();
             var boundingBox = LocationUtils.GetBoundingBox(mercatorPoints);
 
-            var mapper = Tiler.RenderMap(boundingBox, settings.VideoConfig.Width, settings.VideoConfig.Height);
+            var mapper = Tiler.RenderMap(boundingBox, settings.VideoConfig.Width, settings.VideoConfig.Height, settings.RouteStyle);
 
             var points = mapper.GetPixels(mercatorPoints).ToList();
             points = points.SkipTooClose(settings.MinPixelProximity).ToList();
@@ -288,17 +288,27 @@ namespace PicturesToGpx
                 mapper.DrawLine(points[i - 1], points[i], currentColor);
                 if (settings.VideoConfig.ProduceVideo)
                 {
-                    if (settings.DisplayDistance || settings.DisplayDateTime)
+                    bool hasOverlay = settings.DisplayDistance || settings.DisplayDateTime;
+                    bool hasLeadingDot = settings.RouteStyle != null && settings.RouteStyle.EnableLeadingDot;
+
+                    if (hasOverlay || hasLeadingDot)
                     {
                         mapper.Stash();
-                        TelemetryOverlayRenderer.DrawBottomBar(
-                            mapper.Graphics,
-                            settings.VideoConfig.Width,
-                            settings.VideoConfig.Height,
-                            settings.DisplayDateTime ? currentDay : (DateTimeOffset?)null,
-                            settings.DisplayDistance ? (double?)totalDistanceMeters : null,
-                            currentColor,
-                            $"Day {dayNumber}");
+                        if (hasLeadingDot)
+                        {
+                            mapper.DrawLeadingDot(points[i], currentColor);
+                        }
+                        if (hasOverlay)
+                        {
+                            TelemetryOverlayRenderer.DrawBottomBar(
+                                mapper.Graphics,
+                                settings.VideoConfig.Width,
+                                settings.VideoConfig.Height,
+                                settings.DisplayDateTime ? currentDay : (DateTimeOffset?)null,
+                                settings.DisplayDistance ? (double?)totalDistanceMeters : null,
+                                currentColor,
+                                $"Day {dayNumber}");
+                        }
                     }
 
                     if (i >= nextFrame)
@@ -322,6 +332,10 @@ namespace PicturesToGpx
             if (mapper.IsStashed)
             {
                 mapper.StashPop();
+            }
+            if (settings.RouteStyle != null && settings.RouteStyle.EnableLeadingDot)
+            {
+                mapper.DrawLeadingDot(points[points.Count - 1], colors[colorIndex]);
             }
             if (settings.DisplayDistance || settings.DisplayDateTime)
             {

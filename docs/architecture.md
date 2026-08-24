@@ -28,12 +28,13 @@ flowchart LR
 ### 3. Geometry & Map Projection Layer
 * Converts WGS84 geographic coordinates (latitude, longitude in degrees) to Spherical Mercator projection coordinates in meters ([`LocationUtils.ToMercator`](../PicturesToGpx/Geometry/LocationUtils.cs#L20-L24)).
 * Calculates optimal zoom level and bounding box enclosing all points for the target resolution.
-* Maps Mercator coordinates into pixel space on the canvas ([`Mapper.GetPixels`](../PicturesToGpx/Mapper.cs#L150-L153)).
-* Reduces redundant points via distance decimation ([`GeometryUtils.SkipTooClose`](../PicturesToGpx/Geometry/GeometryUtils.cs#L9-L40)) and smooths curves using Chaikin's subdivision algorithm ([`GeometryUtils.SmoothLineChaikin`](../PicturesToGpx/Geometry/GeometryUtils.cs#L42-L75)).
+* Maps Mercator coordinates into subpixel space on the canvas ([`Mapper.GetPixels`](../PicturesToGpx/Mapper.cs#L150-L153), [`Mapper.GetPointF`](../PicturesToGpx/Mapper.cs)).
+* Reduces redundant points via distance decimation ([`GeometryUtils.SkipTooClose`](../PicturesToGpx/Geometry/GeometryUtils.cs#L9-L40)) and smooths curves using symmetric Chaikin subdivision ([`GeometryUtils.SmoothLineChaikin`](../PicturesToGpx/Geometry/GeometryUtils.cs#L42-L75)).
 
 ### 4. Output Generation Layer
 * **GPX / JSON Track Export**: Emits [`track.gpx`](../PicturesToGpx/Program.cs#L371) (segmented into tracks when gaps exceed 5 hours) and [`track.json`](../PicturesToGpx/Program.cs#L372).
 * **Map Tile Fetching & Compositing**: Retrieves raster Google Maps roadmap tiles via [`Fetcher`](../PicturesToGpx/Fetcher.cs) with local disk caching in `TileCacheDirectory`, rendering them on GDI+ bitmap.
+* **High-Quality Multi-Layer Route Rendering**: Renders route lines with ambient shadow, contrasting casing border, vibrant daily color cores, and round caps/joins (`Mapper.DrawLine`), plus an animated glowing pulse head marker (`Mapper.DrawLeadingDot`).
 * **Video Encoding**: Generates an MJPEG `.avi` video ([`map.avi`](../PicturesToGpx/Program.cs#L228)) via `SharpAvi`, drawing the route progressively with daily color switching, distance traveled (in km), and local time based on IANA timezone lookup (`GeoTimeZone` / `TimeZoneConverter`).
 * **Still Images**: Saves empty or populated map images (`.png`) when configured.
 

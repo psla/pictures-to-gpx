@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -30,8 +30,8 @@ namespace PicturesToGpx
         [JsonConstructor]
         public Position(DateTimeOffset time, double latitude, double longitude, double dilutionOfPrecision, PositionUnit unit = PositionUnit.WGS84, Position derivedFrom = null)
         {
-            if (latitude == 0.0) { throw new ArgumentException("0.0 is most likely not a correct latitude"); }
-            if (longitude == 0.0) { throw new ArgumentException("0.0 is most likely not a correct longitude"); }
+            if (unit == PositionUnit.WGS84 && latitude == 0.0) { throw new ArgumentException("0.0 is most likely not a correct latitude"); }
+            if (unit == PositionUnit.WGS84 && longitude == 0.0) { throw new ArgumentException("0.0 is most likely not a correct longitude"); }
             Time = time;
             Latitude = latitude;
             Longitude = longitude;

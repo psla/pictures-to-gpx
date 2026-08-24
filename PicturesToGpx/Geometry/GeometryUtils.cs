@@ -16,7 +16,6 @@ namespace PicturesToGpx
                 if (lastDrawnPoint == null)
                 {
                     yield return element;
-                    lastDrawnPoint = element;
                 }
                 else
                 {
@@ -25,52 +24,68 @@ namespace PicturesToGpx
                         yield return element;
                         lastDrawnPoint = element;
                     }
-                    else if (lastProcessedPoint.DistanceSquare(element) > distanceToSkipSquared)
+                    else if (lastProcessedPoint != null && lastProcessedPoint.DistanceSquare(element) > distanceToSkipSquared)
                     {
-                        // the idea is that if the previous point is further away than minimum distance,
-                        // even if it was close to the former point, we are still going to draw it for the best approximation.
-                        // 
-                        // it would be even better to draw all points every X pixels, but only draw a FRAME every X distance. But that some other time :)
                         yield return lastProcessedPoint;
+                        lastDrawnPoint = lastProcessedPoint;
                     }
                 }
 
+                if (lastDrawnPoint == null)
+                {
+                    lastDrawnPoint = element;
+                }
                 lastProcessedPoint = element;
             }
         }
 
         public static List<Position> SmoothLineChaikin(this List<Position> input, Settings.ChaikinSettings settings)
         {
-            if (input.Count < 2)
+            if (input == null || input.Count < 2 || settings == null || settings.MaxIterationCount <= 0)
             {
                 return input;
             }
 
+            double ratioA = 1.0 - settings.WhereToRound;
+            double ratioB = settings.WhereToRound;
+
             var output = input;
             int iterationCount = 0;
-            do
+            while (iterationCount < settings.MaxIterationCount)
             {
-                input = output;
-                output = new List<Position>();
-                output.Add(input[0]);
-                for (int i = 0; i < input.Count - 2; i++)
-                {
-                    Debug.Assert(input[i].Unit == input[i + 1].Unit);
-                    output.Add(
-                        new Position(
-                        input[i].Time.AddSeconds((input[i + 1].Time - input[i].Time).TotalSeconds * settings.WhereToRound),
-                        (input[i + 1].Latitude - input[i].Latitude) * settings.WhereToRound + input[i].Latitude,
-                        (input[i + 1].Longitude - input[i].Longitude) * settings.WhereToRound + input[i].Longitude, input[i].Unit));
+                var currentInput = output;
+                output = new List<Position>(currentInput.Count * 2);
+                output.Add(currentInput[0]);
 
-                    double whereToRoundSecond = (1 - settings.WhereToRound);
+                for (int i = 0; i < currentInput.Count - 1; i++)
+                {
+                    var p0 = currentInput[i];
+                    var p1 = currentInput[i + 1];
+                    Debug.Assert(p0.Unit == p1.Unit);
+
+                    double totalSec = (p1.Time - p0.Time).TotalSeconds;
+
+                    // Q_i = (1 - u)*P0 + u*P1
                     output.Add(new Position(
-                        input[i + 1].Time.AddSeconds((input[i + 2].Time - input[i + 1].Time).TotalSeconds * (1 - settings.WhereToRound)),
-                        (input[i + 2].Latitude - input[i + 1].Latitude) * (1 - settings.WhereToRound) + input[i + 1].Latitude,
-                        (input[i + 2].Longitude - input[i + 1].Longitude) * whereToRoundSecond + input[i + 1].Longitude, input[i].Unit));
+                        p0.Time.AddSeconds(totalSec * ratioA),
+                        (p1.Latitude - p0.Latitude) * ratioA + p0.Latitude,
+                        (p1.Longitude - p0.Longitude) * ratioA + p0.Longitude,
+                        p0.Unit,
+                        p0));
+
+                    // R_i = u*P0 + (1 - u)*P1
+                    output.Add(new Position(
+                        p0.Time.AddSeconds(totalSec * ratioB),
+                        (p1.Latitude - p0.Latitude) * ratioB + p0.Latitude,
+                        (p1.Longitude - p0.Longitude) * ratioB + p0.Longitude,
+                        p0.Unit,
+                        p1));
                 }
-                output.Add(input[input.Count - 1]);
+
+                output.Add(currentInput[currentInput.Count - 1]);
                 iterationCount++;
-            } while (output.Count != input.Count && iterationCount < settings.MaxIterationCount);
+            }
+
             return output;
         }
 

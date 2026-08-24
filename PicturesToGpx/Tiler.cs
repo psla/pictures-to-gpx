@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
@@ -35,13 +35,13 @@ namespace PicturesToGpx
             fetcher = new Fetcher(path);
         }
 
-        internal static Mapper RenderMap(BoundingBox boundingBox, int widthPx, int heightPx)
+        internal static Mapper RenderMap(BoundingBox boundingBox, int widthPx, int heightPx, Settings.RouteStyleSettings routeStyle = null)
         {
             var sw = new Stopwatch();
             sw.Start();
             try
             {
-                return RenderMapInternal(boundingBox, widthPx, heightPx);
+                return RenderMapInternal(boundingBox, widthPx, heightPx, routeStyle);
             }
             finally
             {
@@ -50,7 +50,7 @@ namespace PicturesToGpx
             }
         }
 
-        internal static Mapper RenderMapInternal(BoundingBox boundingBox, int widthPx, int heightPx)
+        internal static Mapper RenderMapInternal(BoundingBox boundingBox, int widthPx, int heightPx, Settings.RouteStyleSettings routeStyle = null)
         {
             var zoomLevel = LocationUtils.GetZoomLevel(boundingBox, widthPx, heightPx);
             zoomLevel = Math.Min(zoomLevel, MaxZoomLevel);
@@ -69,7 +69,7 @@ namespace PicturesToGpx
                     boundingBox.MiddleLongitude - unitsPerPixel * widthPx / 2,
                     boundingBox.MiddleLatitude + unitsPerPixel * heightPx / 2,
                     boundingBox.MiddleLongitude + unitsPerPixel * widthPx / 2
-                ), new TilerConfig());
+                ), new TilerConfig(), routeStyle);
             for (int y = midY - noOfTilesPerHeight / 2; y <= midY + noOfTilesPerHeight / 2; y++)
             {
                 for (int x = midX - noOfTilesPerWidth / 2; x <= midX + noOfTilesPerWidth / 2; x++)

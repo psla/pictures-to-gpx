@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -83,6 +83,54 @@ namespace PicturesToGpx
             public int MaxIterationCount { get; set; } = 3;
         }
 
+        public class RouteStyleSettings
+        {
+            /// <summary>
+            /// Primary route line stroke width in pixels.
+            /// </summary>
+            public float LineWidth { get; set; } = 5.0f;
+
+            /// <summary>
+            /// Whether to draw a contrasting casing / border around the route.
+            /// </summary>
+            public bool EnableCasing { get; set; } = true;
+
+            /// <summary>
+            /// Outer casing width in pixels.
+            /// </summary>
+            public float CasingWidth { get; set; } = 8.0f;
+
+            /// <summary>
+            /// Hex color (RGB or ARGB, e.g. #B014181C) of the casing border.
+            /// </summary>
+            public string CasingColor { get; set; } = "#B014181C";
+
+            /// <summary>
+            /// Whether to draw a soft ambient drop shadow beneath the route.
+            /// </summary>
+            public bool EnableShadow { get; set; } = true;
+
+            /// <summary>
+            /// Ambient shadow stroke width in pixels.
+            /// </summary>
+            public float ShadowWidth { get; set; } = 11.0f;
+
+            /// <summary>
+            /// Hex color of the soft shadow (e.g. #30000000).
+            /// </summary>
+            public string ShadowColor { get; set; } = "#30000000";
+
+            /// <summary>
+            /// Whether to render a pulsing/glowing head marker at the moving tip in video animations.
+            /// </summary>
+            public bool EnableLeadingDot { get; set; } = true;
+
+            /// <summary>
+            /// Radius of the leading dot in pixels.
+            /// </summary>
+            public float LeadingDotRadius { get; set; } = 6.0f;
+        }
+
         // Alphanumeric project name
         [JsonProperty(Required = Required.Always)]
         public string ProjectName { get; set; } = "project_name";
@@ -163,6 +211,7 @@ namespace PicturesToGpx
         public StillSettings StillConfig { get; set; } = new StillSettings();
 
         public ChaikinSettings SofteningSettings { get; set; } = new ChaikinSettings();
+        public RouteStyleSettings RouteStyle { get; set; } = new RouteStyleSettings();
 
         public bool DisplayDistance { get; set; } = true;
 

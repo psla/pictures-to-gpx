@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -14,29 +15,49 @@ namespace PicturesToGpx
         private readonly int height;
         private readonly BoundingBox boundingBox;
         private readonly TilerConfig config;
+        private readonly Settings.RouteStyleSettings style;
         private readonly Bitmap bitmap;
         private readonly double unitsPerPixelWidth;
         private readonly double unitsPerPixelHeight;
         private readonly Graphics graphics;
         private readonly Dictionary<Color, Pen> pens = new Dictionary<Color, Pen>();
+        private Pen shadowPen;
+        private Pen casingPen;
         private bool disposed;
         private byte[] stash = null;
 
         public Graphics Graphics => graphics;
         public int Width => width;
         public int Height => height;
+        public Settings.RouteStyleSettings Style => style;
 
-        public Mapper(int width, int height, BoundingBox boundingBox, TilerConfig config)
+        public Mapper(int width, int height, BoundingBox boundingBox, TilerConfig config, Settings.RouteStyleSettings style = null)
         {
             this.width = width;
             this.height = height;
             this.boundingBox = boundingBox;
-            this.config = config;
+            this.config = config ?? new TilerConfig();
+            this.style = style ?? new Settings.RouteStyleSettings();
             bitmap = new Bitmap(width, height);
             unitsPerPixelWidth = (boundingBox.MaxLongitude - boundingBox.MinLongitude) / width;
             unitsPerPixelHeight = (boundingBox.MaxLatitude - boundingBox.MinLatitude) / height;
             graphics = Graphics.FromImage(bitmap);
-            graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            graphics.SmoothingMode = SmoothingMode.HighQuality;
+            graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+            graphics.CompositingQuality = CompositingQuality.HighQuality;
+        }
+
+        public PointF GetPointF(Position position)
+        {
+            if (position.Unit == PositionUnit.Pixel)
+            {
+                return new PointF((float)position.Longitude, (float)position.Latitude);
+            }
+
+            float x = (float)((position.Longitude - boundingBox.MinLongitude) / unitsPerPixelWidth);
+            float y = (float)(height - ((position.Latitude - boundingBox.MinLatitude) / unitsPerPixelHeight));
+            return new PointF(x, y);
         }
 
         private int GetX(double longitude)
@@ -64,7 +85,6 @@ namespace PicturesToGpx
             return GetY(position.Latitude);
         }
 
-
         private int GetY(double latitude)
         {
             return height - (int)((latitude - boundingBox.MinLatitude) / unitsPerPixelHeight);
@@ -90,24 +110,146 @@ namespace PicturesToGpx
 
         internal void DrawLine(Position position1, Position position2, Color color)
         {
-            var pen = GetPen(color);
-            graphics.DrawLine(pen,
-                new Point(GetX(position1), GetY(position1)),
-                new Point(GetX(position2), GetY(position2)));
+            var pt1 = GetPointF(position1);
+            var pt2 = GetPointF(position2);
+
+            // Layer 1: Ambient Drop Shadow
+            if (style.EnableShadow)
+            {
+                var shadow = GetShadowPen();
+                if (shadow != null)
+                {
+                    graphics.DrawLine(shadow, pt1, pt2);
+                }
+            }
+
+            // Layer 2: Contrast Casing / Border
+            if (style.EnableCasing)
+            {
+                var casing = GetCasingPen();
+                if (casing != null)
+                {
+                    graphics.DrawLine(casing, pt1, pt2);
+                }
+            }
+
+            // Layer 3: Vibrant Core Route
+            var corePen = GetCorePen(color);
+            graphics.DrawLine(corePen, pt1, pt2);
         }
 
-        private Pen GetPen(Color color)
+        internal void DrawLeadingDot(Position position, Color coreColor)
+        {
+            if (!style.EnableLeadingDot)
+            {
+                return;
+            }
+
+            var pt = GetPointF(position);
+            float r = style.LeadingDotRadius;
+
+            // 1. Soft outer shadow halo
+            using (var haloBrush = new SolidBrush(Color.FromArgb(70, 0, 0, 0)))
+            {
+                graphics.FillEllipse(haloBrush, pt.X - (r + 3.0f), pt.Y - (r + 3.0f), (r + 3.0f) * 2.0f, (r + 3.0f) * 2.0f);
+            }
+
+            // 2. Crisp outer casing / white ring
+            using (var whiteBrush = new SolidBrush(Color.White))
+            {
+                graphics.FillEllipse(whiteBrush, pt.X - (r + 1.0f), pt.Y - (r + 1.0f), (r + 1.0f) * 2.0f, (r + 1.0f) * 2.0f);
+            }
+
+            // 3. Vibrant inner day color core
+            using (var coreBrush = new SolidBrush(coreColor))
+            {
+                graphics.FillEllipse(coreBrush, pt.X - (r - 1.5f), pt.Y - (r - 1.5f), (r - 1.5f) * 2.0f, (r - 1.5f) * 2.0f);
+            }
+
+            // 4. Specular center highlight
+            using (var centerHighlight = new SolidBrush(Color.FromArgb(220, 255, 255, 255)))
+            {
+                graphics.FillEllipse(centerHighlight, pt.X - 1.5f, pt.Y - 1.5f, 3.0f, 3.0f);
+            }
+        }
+
+        private Pen GetShadowPen()
+        {
+            if (shadowPen != null)
+            {
+                return shadowPen;
+            }
+
+            try
+            {
+                Color color = ColorTranslator.FromHtml(style.ShadowColor);
+                shadowPen = new Pen(color, style.ShadowWidth)
+                {
+                    StartCap = LineCap.Round,
+                    EndCap = LineCap.Round,
+                    LineJoin = LineJoin.Round
+                };
+            }
+            catch
+            {
+                shadowPen = new Pen(Color.FromArgb(48, 0, 0, 0), style.ShadowWidth)
+                {
+                    StartCap = LineCap.Round,
+                    EndCap = LineCap.Round,
+                    LineJoin = LineJoin.Round
+                };
+            }
+
+            return shadowPen;
+        }
+
+        private Pen GetCasingPen()
+        {
+            if (casingPen != null)
+            {
+                return casingPen;
+            }
+
+            try
+            {
+                Color color = ColorTranslator.FromHtml(style.CasingColor);
+                casingPen = new Pen(color, style.CasingWidth)
+                {
+                    StartCap = LineCap.Round,
+                    EndCap = LineCap.Round,
+                    LineJoin = LineJoin.Round
+                };
+            }
+            catch
+            {
+                casingPen = new Pen(Color.FromArgb(176, 20, 24, 28), style.CasingWidth)
+                {
+                    StartCap = LineCap.Round,
+                    EndCap = LineCap.Round,
+                    LineJoin = LineJoin.Round
+                };
+            }
+
+            return casingPen;
+        }
+
+        private Pen GetCorePen(Color color)
         {
             Pen pen;
-            if(pens.TryGetValue(color, out pen))
+            if (pens.TryGetValue(color, out pen))
             {
                 return pen;
             }
 
-            pen = new Pen(color, 5);
+            pen = new Pen(color, style.LineWidth)
+            {
+                StartCap = LineCap.Round,
+                EndCap = LineCap.Round,
+                LineJoin = LineJoin.Round
+            };
             pens[color] = pen;
             return pen;
-    }
+        }
 
         private void DrawBoundingBox(BoundingBox boundingBox)
         {
@@ -134,20 +276,37 @@ namespace PicturesToGpx
 
             if (disposing)
             {
+                if (shadowPen != null)
+                {
+                    shadowPen.Dispose();
+                    shadowPen = null;
+                }
+                if (casingPen != null)
+                {
+                    casingPen.Dispose();
+                    casingPen = null;
+                }
                 foreach (var pen in pens)
                 {
                     pen.Value.Dispose();
                 }
                 pens.Clear();
+                graphics.Dispose();
+                bitmap.Dispose();
             }
 
             disposed = true;
         }
 
-        // Converts positions from mercator to pixels in the map
+        // Converts positions from mercator to subpixel positions on the canvas
         internal IEnumerable<Position> GetPixels(List<Position> points)
         {
-            return points.Select(p => new Position(p.Time, GetY(p.Latitude), GetX(p.Longitude), PositionUnit.Pixel, p));
+            return points.Select(p =>
+            {
+                double x = (p.Longitude - boundingBox.MinLongitude) / unitsPerPixelWidth;
+                double y = height - ((p.Latitude - boundingBox.MinLatitude) / unitsPerPixelHeight);
+                return new Position(p.Time, y, x, PositionUnit.Pixel, p);
+            });
         }
 
         internal byte[] GetBitmap()
@@ -159,7 +318,6 @@ namespace PicturesToGpx
                 bitmapData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadOnly, bitmap.PixelFormat);
                 int numbytes = bitmapData.Stride * bitmap.Height;
                 var buffer = new byte[numbytes];
-                // byte[] bytedata = new byte[numbytes];
 
                 Marshal.Copy(bitmapData.Scan0, buffer, 0, buffer.Length);
 
@@ -207,15 +365,16 @@ namespace PicturesToGpx
                 }
             }
         }
+
         /// <summary>
         ///  Once the point is converted to pixels, and then interpolated based on pixels (instead of interpolated based on mercator),
-        ///  we need to be able to get real lat longs back. This is far from ideal, but an approx measurement like that will have to do.
+        ///  we need to be able to get real lat longs back.
         /// </summary>
         internal Position FromPixelsToMercator(Position position)
         {
             Trace.Assert(position.Unit == PositionUnit.Pixel);
             return new Position(position.Time,
-                unitsPerPixelHeight * position.Latitude + this.boundingBox.MinLatitude,
+                boundingBox.MinLatitude + (height - position.Latitude) * unitsPerPixelHeight,
                 unitsPerPixelWidth * position.Longitude + this.boundingBox.MinLongitude,
                 PositionUnit.Mercator,
                 position);

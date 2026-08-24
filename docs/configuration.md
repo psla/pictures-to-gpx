@@ -29,6 +29,7 @@ Configurations are strongly typed and modeled by the [`Settings`](../PicturesToG
 | `DisplayDistance` | `bool` | `true` | When `true`, displays cumulative distance traveled (km) on the video / still frame. |
 | `DisplayDateTime` | `bool` | `true` | When `true`, displays the current local date & time on the video frame. |
 | `DayColors` | `string[]` | `["#ff0000"]` | Array of hex color strings (e.g. `"#ff0000"`) cycled per day of the trip. |
+| `RouteStyle` | `object` | `{}` | Route line styling and multi-layer rendering parameters. |
 | `TilerConfig` | `object` | `{}` | Tile rendering settings. |
 | `VideoConfig` | `object` | `{}` | Video generation parameters. |
 | `StillConfig` | `object` | `{}` | Paths for saving static map images. |
@@ -37,6 +38,17 @@ Configurations are strongly typed and modeled by the [`Settings`](../PicturesToG
 ---
 
 ### Nested Configuration Objects
+
+#### `RouteStyle` (Multi-Layer Route Styling)
+* `LineWidth` (`float`, default: `5.0`): Stroke width of the primary route line in pixels.
+* `EnableCasing` (`bool`, default: `true`): When `true`, renders a contrasting casing / border around the route.
+* `CasingWidth` (`float`, default: `8.0`): Outer casing border width in pixels.
+* `CasingColor` (`string`, default: `"#B014181C"`): Hex color (RGB or ARGB) of the outer casing border.
+* `EnableShadow` (`bool`, default: `true`): When `true`, renders a soft ambient drop shadow beneath the route for depth.
+* `ShadowWidth` (`float`, default: `11.0`): Ambient drop shadow stroke width in pixels.
+* `ShadowColor` (`string`, default: `"#30000000"`): Hex color of the soft drop shadow.
+* `EnableLeadingDot` (`bool`, default: `true`): When `true`, renders an animated glowing concentric head marker at the tip of the moving route in video animations.
+* `LeadingDotRadius` (`float`, default: `6.0`): Radius of the animated head marker in pixels.
 
 #### `TilerConfig`
 * `DrawTilesBoundingBox` (`bool`, default: `false`): When `true`, draws red bounding boxes around individual map tiles for debugging.
