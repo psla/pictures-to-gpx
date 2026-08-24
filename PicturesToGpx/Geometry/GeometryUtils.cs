@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace PicturesToGpx
@@ -74,5 +74,25 @@ namespace PicturesToGpx
             return output;
         }
 
+        /// <summary>
+        /// Calculates the total distance in meters across a sequence of positions, skipping time gaps greater than <paramref name="maxGapHours"/>.
+        /// </summary>
+        public static double CalculateTotalDistance(this IEnumerable<Position> positions, double maxGapHours = 5.0)
+        {
+            Position previous = null;
+            double total = 0.0;
+            foreach (var position in positions)
+            {
+                if (previous != null)
+                {
+                    if ((position.Time - previous.Time).TotalHours < maxGapHours)
+                    {
+                        total += position.DistanceMeters(previous);
+                    }
+                }
+                previous = position;
+            }
+            return total;
+        }
     }
 }

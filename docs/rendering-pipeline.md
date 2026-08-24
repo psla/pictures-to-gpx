@@ -44,7 +44,7 @@ flowchart LR
   * Draws route segments progressively across frames based on the target video duration.
 * **Dynamic Overlays & Stashing** ([`Mapper.cs`](../PicturesToGpx/Mapper.cs)):
   * **Daily Color Switching**: Cycles through configured `DayColors` as the local calendar day changes, resolving time zones via `GeoTimeZone` / `TimeZoneConverter`.
-  * **Distance Counter**: Displays cumulative ellipsoidal distance in kilometers.
+  * **Distance Counter**: Displays cumulative ellipsoidal distance in kilometers, calculated directly from the high-resolution raw GPS stream synchronized to each frame's timestamp (rather than decimated canvas points).
   * **Timestamp Overlay**: Displays the local formatted date and time.
   * **Bitmap Stashing**: Preserves underlying path drawings across transient frame overlays via `Stash()` and `StashPop()`.
 * **Still Images**: Saves empty base maps and populated route images as PNG files when configured.

@@ -206,14 +206,14 @@ namespace PicturesToGpx
                 Console.Error.WriteLine(e.ToString());
             }
         }
-        private static void CreateMapFromPointsInternal(List<Position> points, Settings settings)
+        private static void CreateMapFromPointsInternal(List<Position> rawPoints, Settings settings)
         {
-            points = points.Select(LocationUtils.ToMercator).ToList();
-            var boundingBox = LocationUtils.GetBoundingBox(points);
+            var mercatorPoints = rawPoints.Select(LocationUtils.ToMercator).ToList();
+            var boundingBox = LocationUtils.GetBoundingBox(mercatorPoints);
 
             var mapper = Tiler.RenderMap(boundingBox, settings.VideoConfig.Width, settings.VideoConfig.Height);
 
-            points = mapper.GetPixels(points).ToList();
+            var points = mapper.GetPixels(mercatorPoints).ToList();
             points = points.SkipTooClose(settings.MinPixelProximity).ToList();
             points = points.SmoothLineChaikin(settings.SofteningSettings);
 
@@ -247,6 +247,7 @@ namespace PicturesToGpx
 
             double lengthSeconds = settings.VideoConfig.VideoDuration.TotalSeconds;
             double totalDistanceMeters = 0;
+            int rawIndex = 1;
 
             double yieldFrame = Math.Max(1, (points.Count / (lengthSeconds * settings.VideoConfig.Framerate)));
 
@@ -258,10 +259,17 @@ namespace PicturesToGpx
             int wroteFrames = 0;
             for (int i = 1; i < points.Count; i++)
             {
-                var previousPoint = mapper.FromPixelsToMercator(points[i - 1]);
-                var currentPoint = mapper.FromPixelsToMercator(points[i]);
-                totalDistanceMeters += previousPoint.DistanceMeters(currentPoint);
+                DateTimeOffset targetTime = points[i].Time;
+                while (rawIndex < rawPoints.Count && rawPoints[rawIndex].Time <= targetTime)
+                {
+                    if ((rawPoints[rawIndex].Time - rawPoints[rawIndex - 1].Time).TotalHours < 5)
+                    {
+                        totalDistanceMeters += rawPoints[rawIndex - 1].DistanceMeters(rawPoints[rawIndex]);
+                    }
+                    rawIndex++;
+                }
 
+                var currentPoint = mapper.FromPixelsToMercator(points[i]);
                 var currentDay = GetTimeInGpsCoordinatesZone(currentPoint.GetWgs84(), points[i].Time);
                 Color currentColor = colors[colorIndex];
                 if (lastDay.DayOfYear != currentDay.DayOfYear)
@@ -286,7 +294,6 @@ namespace PicturesToGpx
 
                     if (settings.DisplayDateTime)
                     {
-                        // mapper.WriteText(points[i].Time.ToString(), settings.VideoConfig.Height - 200);
                         var localTime = GetTimeInGpsCoordinatesZone(currentPoint.GetWgs84(), points[i].Time);
                         mapper.WriteText(currentDay.ToString("MM/dd hh tt"), settings.VideoConfig.Height - 100);
                     }
@@ -300,6 +307,14 @@ namespace PicturesToGpx
                         nextFrame += yieldFrame;
                     }
                 }
+            }
+            while (rawIndex < rawPoints.Count)
+            {
+                if ((rawPoints[rawIndex].Time - rawPoints[rawIndex - 1].Time).TotalHours < 5)
+                {
+                    totalDistanceMeters += rawPoints[rawIndex - 1].DistanceMeters(rawPoints[rawIndex]);
+                }
+                rawIndex++;
             }
             if (mapper.IsStashed)
             {

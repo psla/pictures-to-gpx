@@ -75,6 +75,7 @@ PicturesToGpx/
     ├── DirectoryUtilitiesTest.cs
     ├── EnumerableUtilsTest.cs
     ├── ExifParserTest.cs
+    ├── GeometryUtilsTest.cs
     ├── LatLongParserTest.cs
     ├── MetadataReaderTest.cs
     └── TempDirectory.cs

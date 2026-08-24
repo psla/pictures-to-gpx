@@ -51,7 +51,7 @@ namespace PicturesToGpx
                     Console.WriteLine("Parsing {0}", file);
                     yield return new FilePoints { Filename = file, Positions = endomondoReader.Read(file).ToList() };
                 }
-                else if (file.EndsWith("fit.gz", StringComparison.InvariantCultureIgnoreCase))
+                else if (file.EndsWith(".fit.gz", StringComparison.InvariantCultureIgnoreCase))
                 {
                     Console.WriteLine("Parsing fit.gz {0}", file);
                     using (var stream = File.OpenRead(file))
