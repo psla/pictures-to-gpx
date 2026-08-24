@@ -80,6 +80,25 @@ namespace PicturesToGpx.Test
         }
 
         [TestMethod]
+        public void Mapper_DrawLeadingDot_RepeatedCallsWithMultipleColors_ExecutesSuccessfully()
+        {
+            var bbox = new BoundingBox(0, 0, 100, 100);
+            using (var mapper = new Mapper(200, 200, bbox, new TilerConfig()))
+            {
+                var colors = new[] { Color.Red, Color.Blue, Color.Green, Color.Orange, Color.Purple };
+                for (int i = 0; i < 50; i++)
+                {
+                    var p = new Position(DateTimeOffset.UtcNow.AddSeconds(i), 10.0 + i, 10.0 + i, PositionUnit.Pixel);
+                    mapper.DrawLeadingDot(p, colors[i % colors.Length]);
+                }
+
+                byte[] bmpData = mapper.GetBitmap();
+                Assert.IsNotNull(bmpData);
+                Assert.IsTrue(bmpData.Length > 0);
+            }
+        }
+
+        [TestMethod]
         public void Mapper_GetPixels_PreservesSubpixelPrecision()
         {
             var bbox = new BoundingBox(0, 0, 100, 100);

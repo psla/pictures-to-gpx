@@ -21,6 +21,10 @@ namespace PicturesToGpx
         private readonly double unitsPerPixelHeight;
         private readonly Graphics graphics;
         private readonly Dictionary<Color, Pen> pens = new Dictionary<Color, Pen>();
+        private readonly Dictionary<Color, Brush> coreBrushes = new Dictionary<Color, Brush>();
+        private readonly Brush haloBrush = new SolidBrush(Color.FromArgb(70, 0, 0, 0));
+        private readonly Brush centerHighlightBrush = new SolidBrush(Color.FromArgb(220, 255, 255, 255));
+        private readonly Brush whiteBrush = new SolidBrush(Color.White);
         private Pen shadowPen;
         private Pen casingPen;
         private bool disposed;
@@ -63,26 +67,6 @@ namespace PicturesToGpx
         private int GetX(double longitude)
         {
             return (int)((longitude - boundingBox.MinLongitude) / unitsPerPixelWidth);
-        }
-
-        private int GetX(Position position)
-        {
-            if (position.Unit == PositionUnit.Pixel)
-            {
-                return (int)position.Longitude;
-            }
-
-            return GetX(position.Longitude);
-        }
-
-        private int GetY(Position position)
-        {
-            if (position.Unit == PositionUnit.Pixel)
-            {
-                return (int)position.Latitude;
-            }
-
-            return GetY(position.Latitude);
         }
 
         private int GetY(double latitude)
@@ -149,28 +133,29 @@ namespace PicturesToGpx
             float r = style.LeadingDotRadius;
 
             // 1. Soft outer shadow halo
-            using (var haloBrush = new SolidBrush(Color.FromArgb(70, 0, 0, 0)))
-            {
-                graphics.FillEllipse(haloBrush, pt.X - (r + 3.0f), pt.Y - (r + 3.0f), (r + 3.0f) * 2.0f, (r + 3.0f) * 2.0f);
-            }
+            graphics.FillEllipse(haloBrush, pt.X - (r + 3.0f), pt.Y - (r + 3.0f), (r + 3.0f) * 2.0f, (r + 3.0f) * 2.0f);
 
             // 2. Crisp outer casing / white ring
-            using (var whiteBrush = new SolidBrush(Color.White))
-            {
-                graphics.FillEllipse(whiteBrush, pt.X - (r + 1.0f), pt.Y - (r + 1.0f), (r + 1.0f) * 2.0f, (r + 1.0f) * 2.0f);
-            }
+            graphics.FillEllipse(whiteBrush, pt.X - (r + 1.0f), pt.Y - (r + 1.0f), (r + 1.0f) * 2.0f, (r + 1.0f) * 2.0f);
 
             // 3. Vibrant inner day color core
-            using (var coreBrush = new SolidBrush(coreColor))
-            {
-                graphics.FillEllipse(coreBrush, pt.X - (r - 1.5f), pt.Y - (r - 1.5f), (r - 1.5f) * 2.0f, (r - 1.5f) * 2.0f);
-            }
+            var coreBrush = GetCoreBrush(coreColor);
+            graphics.FillEllipse(coreBrush, pt.X - (r - 1.5f), pt.Y - (r - 1.5f), (r - 1.5f) * 2.0f, (r - 1.5f) * 2.0f);
 
             // 4. Specular center highlight
-            using (var centerHighlight = new SolidBrush(Color.FromArgb(220, 255, 255, 255)))
+            graphics.FillEllipse(centerHighlightBrush, pt.X - 1.5f, pt.Y - 1.5f, 3.0f, 3.0f);
+        }
+
+        private Brush GetCoreBrush(Color color)
+        {
+            if (coreBrushes.TryGetValue(color, out var brush))
             {
-                graphics.FillEllipse(centerHighlight, pt.X - 1.5f, pt.Y - 1.5f, 3.0f, 3.0f);
+                return brush;
             }
+
+            brush = new SolidBrush(color);
+            coreBrushes[color] = brush;
+            return brush;
         }
 
         private Pen GetShadowPen()
@@ -291,6 +276,14 @@ namespace PicturesToGpx
                     pen.Value.Dispose();
                 }
                 pens.Clear();
+                haloBrush.Dispose();
+                centerHighlightBrush.Dispose();
+                whiteBrush.Dispose();
+                foreach (var brush in coreBrushes)
+                {
+                    brush.Value.Dispose();
+                }
+                coreBrushes.Clear();
                 graphics.Dispose();
                 bitmap.Dispose();
             }
