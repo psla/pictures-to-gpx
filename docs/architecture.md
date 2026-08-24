@@ -63,13 +63,15 @@ PicturesToGpx/
 │   ├── EnumerableUtils.cs     # Sorted stream merging & linq utilities
 │   ├── Fetcher.cs             # HTTP tile fetcher with disk cache
 │   ├── ImageUtility.cs        # Photo EXIF metadata parser
-│   ├── Mapper.cs              # Canvas drawing, line rendering, text overlays, bitmap stashing
+│   ├── Mapper.cs              # Canvas drawing, line rendering, bitmap stashing
 │   ├── Program.cs             # CLI entry point and pipeline orchestration
 │   ├── Settings.cs            # Strongly-typed configuration schema
+│   ├── TelemetryOverlayRenderer.cs # Sleek bottom telemetry bar / HUD rendering
 │   ├── Tiler.cs               # Tile bounding box calculation and tile grid stitching
 │   └── TilerConfig.cs         # Tile drawing options
 └── PicturesToGpx.Test/        # MSTest unit test suite
     ├── Configs/               # Test configuration files
+    ├── Golden/                # Baseline screenshot reference images for regression testing
     ├── Gps/                   # Test GPS files (FIT, JSON, KML)
     ├── ConfigReaderTest.cs
     ├── DirectoryUtilitiesTest.cs
@@ -78,6 +80,7 @@ PicturesToGpx/
     ├── GeometryUtilsTest.cs
     ├── LatLongParserTest.cs
     ├── MetadataReaderTest.cs
+    ├── TelemetryOverlayRendererTest.cs
     └── TempDirectory.cs
 ```
 

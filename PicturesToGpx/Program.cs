@@ -256,6 +256,7 @@ namespace PicturesToGpx
             var colors = settings.DayColors.Select(c => ColorTranslator.FromHtml(c)).ToList();
             Trace.Assert(colors.Count > 0);
             int colorIndex = 0;
+            int dayNumber = 1;
             int wroteFrames = 0;
             for (int i = 1; i < points.Count; i++)
             {
@@ -271,12 +272,13 @@ namespace PicturesToGpx
 
                 var currentPoint = mapper.FromPixelsToMercator(points[i]);
                 var currentDay = GetTimeInGpsCoordinatesZone(currentPoint.GetWgs84(), points[i].Time);
-                Color currentColor = colors[colorIndex];
                 if (lastDay.DayOfYear != currentDay.DayOfYear)
                 {
                     lastDay = currentDay;
                     colorIndex = (colorIndex + 1) % colors.Count;
+                    dayNumber++;
                 }
+                Color currentColor = colors[colorIndex];
 
                 if (mapper.IsStashed)
                 {
@@ -289,13 +291,14 @@ namespace PicturesToGpx
                     if (settings.DisplayDistance || settings.DisplayDateTime)
                     {
                         mapper.Stash();
-                    }
-                    PrintDistance(settings, mapper, totalDistanceMeters);
-
-                    if (settings.DisplayDateTime)
-                    {
-                        var localTime = GetTimeInGpsCoordinatesZone(currentPoint.GetWgs84(), points[i].Time);
-                        mapper.WriteText(currentDay.ToString("MM/dd hh tt"), settings.VideoConfig.Height - 100);
+                        TelemetryOverlayRenderer.DrawBottomBar(
+                            mapper.Graphics,
+                            settings.VideoConfig.Width,
+                            settings.VideoConfig.Height,
+                            settings.DisplayDateTime ? currentDay : (DateTimeOffset?)null,
+                            settings.DisplayDistance ? (double?)totalDistanceMeters : null,
+                            currentColor,
+                            $"Day {dayNumber}");
                     }
 
                     if (i >= nextFrame)
@@ -320,7 +323,19 @@ namespace PicturesToGpx
             {
                 mapper.StashPop();
             }
-            PrintDistance(settings, mapper, totalDistanceMeters);
+            if (settings.DisplayDistance || settings.DisplayDateTime)
+            {
+                var finalPoint = mapper.FromPixelsToMercator(points[points.Count - 1]);
+                var finalDay = GetTimeInGpsCoordinatesZone(finalPoint.GetWgs84(), points[points.Count - 1].Time);
+                TelemetryOverlayRenderer.DrawBottomBar(
+                    mapper.Graphics,
+                    settings.VideoConfig.Width,
+                    settings.VideoConfig.Height,
+                    settings.DisplayDateTime ? finalDay : (DateTimeOffset?)null,
+                    settings.DisplayDistance ? (double?)totalDistanceMeters : null,
+                    colors[colorIndex],
+                    $"Day {dayNumber}");
+            }
             byte[] lastFrameData = mapper.GetBitmap();
             for (int i = 0; i < settings.VideoConfig.RepeatLastFrameCount; i++)
             {
@@ -334,14 +349,6 @@ namespace PicturesToGpx
             }
 
             Console.WriteLine("Wrote frames: {0}, points.Count={1}, yieldFrame={2}, path={3}", wroteFrames, points.Count, yieldFrame, settings.StillConfig?.PopulatedMapPath);
-        }
-
-        private static void PrintDistance(Settings settings, Mapper mapper, double totalDistanceMeters)
-        {
-            if (settings.DisplayDistance)
-            {
-                mapper.WriteText(string.Format("{0:0}km", totalDistanceMeters / 1000));
-            }
         }
 
         private static DateTimeOffset GetTimeInGpsCoordinatesZone(Position positionWgs84, DateTimeOffset dateTime)

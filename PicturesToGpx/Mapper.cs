@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -20,9 +20,11 @@ namespace PicturesToGpx
         private readonly Graphics graphics;
         private readonly Dictionary<Color, Pen> pens = new Dictionary<Color, Pen>();
         private bool disposed;
-        private Font drawFont;
-        private SolidBrush drawBrush;
         private byte[] stash = null;
+
+        public Graphics Graphics => graphics;
+        public int Width => width;
+        public int Height => height;
 
         public Mapper(int width, int height, BoundingBox boundingBox, TilerConfig config)
         {
@@ -35,8 +37,6 @@ namespace PicturesToGpx
             unitsPerPixelHeight = (boundingBox.MaxLatitude - boundingBox.MinLatitude) / height;
             graphics = Graphics.FromImage(bitmap);
             graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-            drawFont = new Font("Arial", height / 70);
-            drawBrush = new SolidBrush(Color.Black);
         }
 
         private int GetX(double longitude)
@@ -139,8 +139,6 @@ namespace PicturesToGpx
                     pen.Value.Dispose();
                 }
                 pens.Clear();
-                drawFont.Dispose();
-                drawBrush.Dispose();
             }
 
             disposed = true;
@@ -174,11 +172,6 @@ namespace PicturesToGpx
                     bitmap.UnlockBits(bitmapData);
                 }
             }
-        }
-
-        internal void WriteText(string text, int y = 0)
-        {
-            graphics.DrawString(text, drawFont, drawBrush, 0, y);
         }
 
         /// <summary>

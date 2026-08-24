@@ -42,9 +42,11 @@ flowchart LR
 * **Video Encoding** ([`Program.cs`](../PicturesToGpx/Program.cs)):
   * Uses `SharpAvi` with an MJPEG video encoder (`MJpegWpfVideoEncoder`) at the configured resolution and framerate.
   * Draws route segments progressively across frames based on the target video duration.
-* **Dynamic Overlays & Stashing** ([`Mapper.cs`](../PicturesToGpx/Mapper.cs)):
+* **Dynamic Overlays & Stashing** ([`TelemetryOverlayRenderer.cs`](../PicturesToGpx/TelemetryOverlayRenderer.cs), [`Mapper.cs`](../PicturesToGpx/Mapper.cs)):
   * **Daily Color Switching**: Cycles through configured `DayColors` as the local calendar day changes, resolving time zones via `GeoTimeZone` / `TimeZoneConverter`.
-  * **Distance Counter**: Displays cumulative ellipsoidal distance in kilometers, calculated directly from the high-resolution raw GPS stream synchronized to each frame's timestamp (rather than decimated canvas points).
-  * **Timestamp Overlay**: Displays the local formatted date and time.
+  * **Telemetry Bottom Bar**: Renders a sleek translucent dark HUD bar across the bottom of the frame:
+    * **Left**: Formatted local date & time including minutes (`ddd, d MMM • HH:mm`).
+    * **Center**: Active day indicator with a colored accent circle matching the current day's route line color (`● Day X`).
+    * **Right**: Cumulative distance in integer kilometers (e.g. `673 km`), calculated directly from high-resolution raw GPS points.
   * **Bitmap Stashing**: Preserves underlying path drawings across transient frame overlays via `Stash()` and `StashPop()`.
 * **Still Images**: Saves empty base maps and populated route images as PNG files when configured.
