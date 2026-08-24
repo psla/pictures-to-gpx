@@ -41,6 +41,7 @@ namespace PicturesToGpx
             var points = new List<Position>();
             var endomondoReader = new EndomondoJsonReader();
             var fitReader = new FitReader();
+            Console.WriteLine("Enumerating {0}", gpsInputDirectory);
             foreach (var file in FindAllFiles(gpsInputDirectory))
             {
                 // not ideal, better if we iterated through all readers.
@@ -50,8 +51,9 @@ namespace PicturesToGpx
                     Console.WriteLine("Parsing {0}", file);
                     yield return new FilePoints { Filename = file, Positions = endomondoReader.Read(file).ToList() };
                 }
-                else if (file.EndsWith(".fit.gz", StringComparison.InvariantCultureIgnoreCase) || file.EndsWith("fit.gz", StringComparison.InvariantCultureIgnoreCase))
+                else if (file.EndsWith("fit.gz", StringComparison.InvariantCultureIgnoreCase))
                 {
+                    Console.WriteLine("Parsing fit.gz {0}", file);
                     using (var stream = File.OpenRead(file))
                     using (var gzipStream = new GZipStream(stream, CompressionMode.Decompress))
                     using (var memoryStream = new MemoryStream())
@@ -63,10 +65,14 @@ namespace PicturesToGpx
                 }
                 else if (file.EndsWith(".fit", StringComparison.InvariantCultureIgnoreCase))
                 {
+                    Console.WriteLine("Parsing fit {0}", file);
                     using (var stream = File.OpenRead(file))
                     {
                         yield return new FilePoints { Filename = file, Positions = fitReader.Read(stream).ToList() };
                     }
+                } else
+                {
+                    Console.WriteLine("Skipping {0}", file);
                 }
             }
         }
