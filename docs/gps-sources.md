@@ -25,6 +25,9 @@
 ### 5. Endomondo JSON Files ([`EndomondoJsonReader.cs`](../PicturesToGpx/Gps/EndomondoJsonReader.cs))
 * Parses workout logs exported from Endomondo in JSON format.
 
+### 6. Directory Scanning & Discovery ([`DirectoryUtilities.cs`](../PicturesToGpx/DirectoryUtilities.cs))
+* Recursively searches configured GPS input folders (`GpsInputDirectory`) for Endomondo `.json`, uncompressed Garmin `.fit`, and compressed `.fit.gz` track files.
+
 ---
 
 ## Position Caching

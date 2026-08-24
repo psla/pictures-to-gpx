@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PicturesToGpx.Gps;
 using System;
 using System.Collections.Generic;
@@ -30,6 +30,22 @@ namespace PicturesToGpx.Test.Gps
                 // UTC
                 Assert.AreEqual(new DateTimeOffset(2015, 11, 22, 18, 57, 04, TimeSpan.Zero), points[0].Time);
                 // Should be at least 35.64 according to ride with gps.
+                Assert.AreEqual(35589.0, points.TotalDistanceMeters(), 0.1);
+            }
+        }
+
+        [TestMethod]
+        public void TestReadingUncompressedFitFile()
+        {
+            var reader = new FitReader();
+            using (var stream = File.OpenRead(@"gps\490518450.fit"))
+            {
+                var points = reader.Read(stream).ToList();
+                Assert.AreEqual(2523, points.Count);
+                Assert.AreEqual(47.6047248455718, points[0].Latitude, 0.00001);
+                Assert.AreEqual(-122.149795263621, points[0].Longitude, 0.00001);
+                // UTC
+                Assert.AreEqual(new DateTimeOffset(2015, 11, 22, 18, 57, 04, TimeSpan.Zero), points[0].Time);
                 Assert.AreEqual(35589.0, points.TotalDistanceMeters(), 0.1);
             }
         }

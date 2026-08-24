@@ -72,10 +72,12 @@ PicturesToGpx/
     ├── Configs/               # Test configuration files
     ├── Gps/                   # Test GPS files (FIT, JSON, KML)
     ├── ConfigReaderTest.cs
+    ├── DirectoryUtilitiesTest.cs
     ├── EnumerableUtilsTest.cs
     ├── ExifParserTest.cs
     ├── LatLongParserTest.cs
-    └── MetadataReaderTest.cs
+    ├── MetadataReaderTest.cs
+    └── TempDirectory.cs
 ```
 
 ---
