@@ -157,13 +157,19 @@ namespace PicturesToGpx
                 Console.WriteLine("Found {0} Google Timeline points in {1}", googleTimelinePoints.Count, googleTimeline);
                 allPoints = EnumerableUtils.Merge(allPoints, googleTimelinePoints, (x, y) => x.Time < y.Time).ToList();
             }
+            if (!allPoints.Any())
+            {
+                Console.Error.WriteLine("No GPS or picture points were loaded from any configured source.");
+                throw new InvalidOperationException("No GPS or picture points were found from any configured source.");
+            }
+
             var pointsWithinTimerframe = allPoints.Where(p => (settings.StartTime == null || p.Time > settings.StartTime) && (settings.EndTime == null || p.Time < settings.EndTime)).ToList();
             if (!pointsWithinTimerframe.Any())
             {
-                Console.Error.WriteLine("Did not fine any points within timeframe: [ {0}, {1} )", settings.StartTime, settings.EndTime);
+                Console.Error.WriteLine("Did not find any points within timeframe: [ {0}, {1} )", settings.StartTime, settings.EndTime);
                 Console.Error.WriteLine("Oldest point: {0}", allPoints.Min(p => p.Time));
                 Console.Error.WriteLine("Newest point: {0}", allPoints.Max(p => p.Time));
-                return;
+                throw new InvalidOperationException(string.Format("Did not find any points within timeframe: [ {0}, {1} ). Oldest point: {2}, newest point: {3}", settings.StartTime, settings.EndTime, allPoints.Min(p => p.Time), allPoints.Max(p => p.Time)));
             }
             WritePointsAsGpx(settings.OutputDirectory, pointsWithinTimerframe);
             CreateMapFromPoints(pointsWithinTimerframe, settings);
@@ -332,13 +338,26 @@ namespace PicturesToGpx
 
         private static List<Position> CacheOrExecute(string cacheFile, Func<List<Position>> extractPositions)
         {
-            List<Position> sortedPoints = File.Exists(cacheFile)
-                ? JsonConvert.DeserializeObject<List<Position>>(File.ReadAllText(cacheFile))
-                : extractPositions().OrderBy(x => x.Time).ToList();
-
-            if (!File.Exists(cacheFile))
+            List<Position> sortedPoints = null;
+            if (File.Exists(cacheFile))
             {
-                File.WriteAllText(cacheFile, JsonConvert.SerializeObject(sortedPoints));
+                try
+                {
+                    sortedPoints = JsonConvert.DeserializeObject<List<Position>>(File.ReadAllText(cacheFile));
+                }
+                catch (Exception ex)
+                {
+                    Console.Error.WriteLine("Failed to read cache file {0}: {1}", cacheFile, ex.Message);
+                }
+            }
+
+            if (sortedPoints == null || sortedPoints.Count == 0)
+            {
+                sortedPoints = extractPositions().OrderBy(x => x.Time).ToList();
+                if (sortedPoints.Count > 0)
+                {
+                    File.WriteAllText(cacheFile, JsonConvert.SerializeObject(sortedPoints));
+                }
             }
 
             return sortedPoints;

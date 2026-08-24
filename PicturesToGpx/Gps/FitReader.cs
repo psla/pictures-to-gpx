@@ -1,4 +1,4 @@
-﻿using Dynastream.Fit;
+using Dynastream.Fit;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -56,10 +56,33 @@ namespace PicturesToGpx.Gps
                 }
 
                 List<Field> fields = e.mesg.Fields.ToList();
-                double latitude = ((int)fields[latFieldIndex.Value].GetValue()) / (double)((1L << 32) / 360);
-                double longitude = ((int)fields[longFieldIndex.Value].GetValue()) / (double)((1L << 32) / 360);
+                object latObj = fields[latFieldIndex.Value].GetValue();
+                object longObj = fields[longFieldIndex.Value].GetValue();
                 object timestampOffset = fields[timestampFieldIndex.Value].GetValue();
-                DateTimeOffset time = SecondsFrom1989((uint)timestampOffset);
+
+                if (latObj == null || longObj == null || timestampOffset == null)
+                {
+                    return;
+                }
+
+                int rawLat = Convert.ToInt32(latObj);
+                int rawLong = Convert.ToInt32(longObj);
+
+                if (rawLat == int.MaxValue || rawLong == int.MaxValue || rawLat == 0x7FFFFFFF || rawLong == 0x7FFFFFFF)
+                {
+                    return;
+                }
+
+                double latitude = rawLat / (double)((1L << 32) / 360);
+                double longitude = rawLong / (double)((1L << 32) / 360);
+
+                if (latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180)
+                {
+                    return;
+                }
+
+                uint rawTimestamp = Convert.ToUInt32(timestampOffset);
+                DateTimeOffset time = SecondsFrom1989(rawTimestamp);
                 var position = new Position(time,
                     latitude,
                     longitude,
